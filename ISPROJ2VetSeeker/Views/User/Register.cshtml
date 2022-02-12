@@ -1,0 +1,41 @@
+﻿@model ISPROJ2VetSeeker.Models.UserModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@Styles.Render("~/Style/StyleSheetCreate.css")
+<link href="~/Style/StyleSheetCreate.css" rel="stylesheet" type="text/css" />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <br />
+        <br />
+        <br />
+        <h4 style="text-align:center">Create Account</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="Create">
+            <div class="col-lg-1"></div>
+            Hello wORLD
+
+            <div class="col-lg-1"></div>
+
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
