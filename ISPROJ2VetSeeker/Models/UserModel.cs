@@ -11,7 +11,14 @@ namespace ISPROJ2VetSeeker.Models
         [Key]
         public long UserID { get; set; }
 
+        //Foreign Keys
         public long TypeID { get; set; }
+
+        public List<UserTypeModel> Types { get; set; }
+
+        public string Type { get; set; }
+
+        //Details
 
         [Display(Name = "First Name")]
         [Required]

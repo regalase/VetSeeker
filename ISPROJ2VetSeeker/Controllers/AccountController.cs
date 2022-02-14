@@ -75,8 +75,8 @@ namespace ISPROJ2VetSeeker.Controllers
 
                 var record = new UserModel();
                 sqlCon.Open();
-                string query = @"SELECT u.userID, t.userType, u.FirstName, u.MiddleName, u.LastName, u.Email, u.Address, u.Username, u.Password, u.DateJoined FROM Users u 
-                                INNER JOIN UserTypes t ON u.userTypeID = t.userTypeID WHERE UserID=@UserID";
+                string query = @"SELECT userID, typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, 
+                unitHouseNo, street, barangay, profilePicture, dateAdded, dateModified from User u INNER JOIN UserType ut ON u.typeID = ut.typeId; ";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@UserID", Session["userid"].ToString());
@@ -86,15 +86,22 @@ namespace ISPROJ2VetSeeker.Controllers
                         {
                             while (sqlDr.Read())
                             {
-                                record.UserType = sqlDr["usertype"].ToString();
-                                record.FN = sqlDr["FirstName"].ToString();
-                                record.MN = sqlDr["MiddleName"].ToString();
-                                record.LN = sqlDr["LastName"].ToString();
-                                record.Email = sqlDr["Email"].ToString();
-                                record.Address = sqlDr["Address"].ToString();
-                                record.Username = sqlDr["Username"].ToString();
-                                record.Password = sqlDr["Password"].ToString();
-                                record.DateJoined = DateTime.Parse(sqlDr["dateJoined"].ToString());
+                                record.Type = sqlDr["type"].ToString();
+                                record.FirstName = sqlDr["firstName"].ToString();
+                                record.LastName = sqlDr["middleName"].ToString();
+                                record.MobileNo = sqlDr["lastName"].ToString();
+                                record.Email = sqlDr["email"].ToString();
+                                record.UserName = sqlDr["username"].ToString();
+                                record.Password = sqlDr["password"].ToString();
+                                record.Gender = sqlDr["gender"].ToString();
+                                record.Birthday = DateTime.Parse(sqlDr["birthday"].ToString());
+                                record.City = sqlDr["city"].ToString();
+                                record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
+                                record.Street = sqlDr["street"].ToString();
+                                record.Baranggay = sqlDr["baranggay"].ToString();
+                                //record.ProfilePicture = byte[].parse(sqlDr["profilePicture"].ToString());
+                                record.DateAdded = DateTime.Parse(sqlDr["dateJoined"].ToString());
+                                record.DateModified = DateTime.Parse(sqlDr["dateJoined"].ToString());
                             }
                             return View(record);
                         }
@@ -120,8 +127,8 @@ namespace ISPROJ2VetSeeker.Controllers
 
                 var record = new UserModel();
                 sqlCon.Open();
-                string query = @"SELECT u.userID, t.userType, u.FirstName, u.MiddleName, u.LastName, u.Email, u.Address, u.Username, u.Password, u.DateJoined FROM Users u 
-                                INNER JOIN UserTypes t ON u.userTypeID = t.userTypeID WHERE UserID=@UserID";
+                string query = @"SELECT userID, typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, 
+                unitHouseNo, street, barangay, profilePicture, dateAdded, dateModified from User u INNER JOIN UserType ut ON u.typeID = ut.typeId; ";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@UserID", Session["userid"].ToString());
@@ -131,15 +138,22 @@ namespace ISPROJ2VetSeeker.Controllers
                         {
                             while (sqlDr.Read())
                             {
-                                record.UserType = sqlDr["usertype"].ToString();
-                                record.FN = sqlDr["FirstName"].ToString();
-                                record.MN = sqlDr["MiddleName"].ToString();
-                                record.LN = sqlDr["LastName"].ToString();
-                                record.Email = sqlDr["Email"].ToString();
-                                record.Address = sqlDr["Address"].ToString();
-                                record.Username = sqlDr["Username"].ToString();
-                                record.Password = sqlDr["Password"].ToString();
-                                record.DateJoined = DateTime.Parse(sqlDr["dateJoined"].ToString());
+                                record.Type = sqlDr["type"].ToString();
+                                record.FirstName = sqlDr["firstName"].ToString();
+                                record.LastName = sqlDr["middleName"].ToString();
+                                record.MobileNo = sqlDr["lastName"].ToString();
+                                record.Email = sqlDr["email"].ToString();
+                                record.UserName = sqlDr["username"].ToString();
+                                record.Password = sqlDr["password"].ToString();
+                                record.Gender = sqlDr["gender"].ToString();
+                                record.Birthday = DateTime.Parse(sqlDr["birthday"].ToString());
+                                record.City = sqlDr["city"].ToString();
+                                record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
+                                record.Street = sqlDr["street"].ToString();
+                                record.Baranggay = sqlDr["baranggay"].ToString();
+                                //record.ProfilePicture = byte[].parse(sqlDr["profilePicture"].ToString());
+                                record.DateAdded = DateTime.Parse(sqlDr["dateJoined"].ToString());
+                                record.DateModified = DateTime.Parse(sqlDr["dateJoined"].ToString());
                             }
                             return View(record);
                         }
