@@ -12,9 +12,9 @@ namespace ISPROJ2VetSeeker.Models
         public long UserID { get; set; }
 
         //Foreign Keys
-        public long TypeID { get; set; }
+        public int TypeID { get; set; }
 
-        public List<UserTypeModel> Types { get; set; }
+        public List<UserTypeModel> Types { get; set; } //UI Rendering
 
         public string Type { get; set; }
 
@@ -49,6 +49,7 @@ namespace ISPROJ2VetSeeker.Models
         [Required]
         public string Gender { get; set; }
 
+        [Required]
         [Display(Name = "Birthday")]
         public DateTime Birthday { get; set; }
 

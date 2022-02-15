@@ -9,7 +9,7 @@ namespace ISPROJ2VetSeeker.Models
     public class UserTypeModel
     {
         [Key]
-        public long TypeID { get; set; }
+        public int TypeID { get; set; }
 
         public string Type { get; set; }
 

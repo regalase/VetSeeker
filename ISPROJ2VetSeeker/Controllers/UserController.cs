@@ -2,10 +2,12 @@
 using ISPROJ2VetSeeker.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
@@ -18,7 +20,7 @@ namespace ISPROJ2VetSeeker.Controllers
             {
                 sqlCon.Open();
                 string query = @"SELECT userID, typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, 
-                unitHouseNo, street,barangay, profilePicture, dateAdded, dateModified from User WHERE typeID = @type";
+                unitHouseNo, street,barangay, profilePicture, dateAdded, dateModified  from User WHERE typeID = @type"; 
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
@@ -30,7 +32,7 @@ namespace ISPROJ2VetSeeker.Controllers
                             list.Add(new UserModel
                             {
                                 UserID = long.Parse(sqlDr["userID"].ToString()),
-                                TypeID = long.Parse(sqlDr["typeID"].ToString()),
+                                TypeID = int.Parse(sqlDr["typeID"].ToString()),
                                 FirstName = sqlDr["firstName"].ToString(),
                                 LastName = sqlDr["lastName"].ToString(),
                                 MobileNo = sqlDr["mobileNo"].ToString(),
@@ -42,7 +44,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString()),
                                 Street = sqlDr["street"].ToString(),
                                 Baranggay = sqlDr["baranggay"].ToString(),
-                                //ProfilePicture = byte[].Parse(sqlDr["profilePicture"].ToString()),
+                                ProfilePicture = new byte[8],
                                 DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString()),
                                 DateModified = DateTime.Parse(sqlDr["dateModified"].ToString())
                             });
@@ -53,6 +55,38 @@ namespace ISPROJ2VetSeeker.Controllers
             }
         }
 
+        public List<UserTypeModel> GetUserTypeModels()
+        {
+            var list = new List<UserTypeModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT type, typeId FROM UserType WHERE typeID != 0";
+
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        while (sqlDr.Read())
+                        {
+                            list.Add(new UserTypeModel {
+                                TypeID = int.Parse(sqlDr["typeId"].ToString()),
+                                Type = sqlDr["type"].ToString()
+                            });
+                        }
+                        return list;
+                    }
+                }
+            }
+        }
+
+        public ActionResult Register()
+        {
+            var record = new UserModel();
+            List<UserTypeModel> userTypeModel = GetUserTypeModels();
+            record.Types = userTypeModel;
+            return View(record);
+        }
 
         [HttpPost]
         public ActionResult Register(UserModel record)
@@ -60,9 +94,10 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"INSERT INTO Users VALUES(@userId, @typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified);";
+                string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified);"; 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
+                    
                     sqlCmd.Parameters.AddWithValue("@typeID", record.TypeID);
                     sqlCmd.Parameters.AddWithValue("@firstName", record.FirstName);
                     sqlCmd.Parameters.AddWithValue("@lastName", record.LastName);
@@ -76,9 +111,12 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@unitHouseNo", record.UnitHouseNo);
                     sqlCmd.Parameters.AddWithValue("@street", record.Street);
                     sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
-                    sqlCmd.Parameters.AddWithValue("@profilePicture", record.ProfilePicture);
+
+                    //TODO: Fix profile picture logic
+                    byte[] profilePicture = new byte[32];
+                    sqlCmd.Parameters.AddWithValue("@profilePicture", profilePicture);
                     sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
-                    sqlCmd.Parameters.AddWithValue("@dateModified", DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
                     sqlCmd.ExecuteNonQuery();
 
                     return RedirectToAction("Login", "Accounts");
@@ -111,14 +149,14 @@ namespace ISPROJ2VetSeeker.Controllers
                             list.Add(new UserModel
                             {
                                 UserID = long.Parse(sqlDr["userID"].ToString()),
-                                TypeID = long.Parse(sqlDr["typeID"].ToString()),
+                                TypeID = int.Parse(sqlDr["typeID"].ToString()),
                                 FirstName = sqlDr["firstName"].ToString(),
                                 LastName = sqlDr["lastName"].ToString(),
                                 MobileNo = sqlDr["mobileNo"].ToString(),
                                 Email = sqlDr["email"].ToString(),
                                 UserName = sqlDr["username"].ToString(),
                                 Gender = sqlDr["gender"].ToString(),
-                                Birthday = DateTime.Parse(sqlDr["Birthday"].ToString()),
+                                Birthday = DateTime.Parse(sqlDr["birthday"].ToString()),
                                 City = sqlDr["city"].ToString(),
                                 UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString()),
                                 Street = sqlDr["street"].ToString(),

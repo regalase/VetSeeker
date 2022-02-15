@@ -1,0 +1,58 @@
+﻿@model ISPROJ2VetSeeker.Models.UserModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@{
+    Layout = "";
+}
+@Styles.Render("~/Style/StyleSheet.css")
+<link href="~/Style/StyleSheet.css" rel="stylesheet" type="text/css" />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="container" onclick="onclick">
+            <div class="top">
+                <div class="bottom">
+                    <div class="center">
+
+                        @Html.Raw(ViewBag.Error)
+                        <h2>Sign In</h2>
+
+
+                        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+
+
+
+                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            <div class="Logins">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Login" class="btn btn-default" />
+                                </div>
+                                <div class="col-md-offset-2 col-md-10">
+                                    @Html.ActionLink("Create Account", "Register", "User")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
