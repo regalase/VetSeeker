@@ -73,5 +73,36 @@ namespace ISPROJ2VetSeeker.Controllers
                 }
             }
         }
+
+        public ActionResult ViewSchedules()
+        {
+            var record = new List<ViewScheduleUIModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                string query = @"SELECT scheduleID, s.userID, date, status, s.clinicID, clinicName FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.userId = @userId";
+
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon)) {
+                    sqlCmd.Parameters.AddWithValue("@userId", 13);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if(sqlDr.HasRows)
+                        {
+                            while(sqlDr.Read())
+                            {
+                                var viewScheduleUIModel = new ViewScheduleUIModel();
+                                viewScheduleUIModel.ScheduleId = int.Parse(sqlDr["scheduleID"].ToString());
+                                viewScheduleUIModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                viewScheduleUIModel.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                viewScheduleUIModel.ClinicId = int.Parse(sqlDr["clinicID"].ToString());
+                                viewScheduleUIModel.ClinicName = sqlDr["clinicName"].ToString();
+                                record.Add(viewScheduleUIModel);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return View(record);
+        }
     }
 }

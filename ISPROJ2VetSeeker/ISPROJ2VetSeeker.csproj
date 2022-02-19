@@ -150,6 +150,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClinicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MyAppointmentController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -165,6 +166,7 @@
     <Compile Include="Models\ServiceTypeModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
+    <Compile Include="Models\ViewScheduleUIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +212,12 @@
     <Content Include="Views\Accounts\MyProfile.cshtml" />
     <Content Include="Views\Clinic\RegisterClinic.cshtml" />
     <Content Include="Views\Schedule\CreateSchedule.cshtml" />
+    <Content Include="Views\Schedule\ViewSchedules.cshtml" />
+    <Content Include="Views\Schedule\ClinicSchedules.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\MyAppointment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
