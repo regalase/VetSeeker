@@ -32,14 +32,14 @@ namespace ISPROJ2VetSeeker.Controllers
                         {
                             while (sqlDr.Read())
                             {
-                                Session["userID"] = sqlDr["userID"].ToString();
-                                Session["typeID"] = sqlDr["typeID"].ToString();
+                                Session[Helper.USER_ID_KEY] = sqlDr[Helper.USER_ID_KEY].ToString();
+                                Session[Helper.TYPE_ID_KEY] = sqlDr[Helper.TYPE_ID_KEY].ToString();
 
                             }
 
-                            if (Session["typeID"] != null && Session["userID"] != null ) //user login already
+                            if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null ) //user login already
                             {
-                                if (Session["typeID"].ToString() != "0")
+                                if (Session[Helper.TYPE_ID_KEY].ToString() != "0")
                                 {
                                     return RedirectToAction("MyProfile", "Accounts");
                                 }
@@ -66,7 +66,7 @@ namespace ISPROJ2VetSeeker.Controllers
 
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
-                if (Session["userID"] == null)
+                if (Session[Helper.USER_ID_KEY] == null)
                 {
                     return RedirectToAction("Login");
                 }
@@ -77,7 +77,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 unitHouseNo, street, baranggay, profilePicture, dateAdded, dateModified from Users u INNER JOIN UserType ut ON u.typeID = ut.typeID WHERE userId = @UserID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {  
-                    sqlCmd.Parameters.AddWithValue("@UserID", Session["userID"].ToString());
+                    sqlCmd.Parameters.AddWithValue("@UserID", Session[Helper.USER_ID_KEY].ToString());
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         if (sqlDr.HasRows)
@@ -119,7 +119,7 @@ namespace ISPROJ2VetSeeker.Controllers
 
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
-                if (Session["userid"] == null)
+                if (Session[Helper.USER_ID_KEY] == null)
                 {
                     return RedirectToAction("Login");
                 }
@@ -130,7 +130,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 unitHouseNo, street, baranggay, profilePicture, dateAdded, dateModified from User u INNER JOIN UserType ut ON u.typeID = ut.typeId; ";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@UserID", Session["userid"].ToString());
+                    sqlCmd.Parameters.AddWithValue("@UserID", Session[Helper.USER_ID_KEY].ToString());
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         if (sqlDr.HasRows)

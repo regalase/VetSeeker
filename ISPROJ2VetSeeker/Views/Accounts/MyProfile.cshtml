@@ -1,0 +1,75 @@
+﻿@model ISPROJ2VetSeeker.Models.UserModel
+
+@{
+    ViewBag.Title = "MyProfile";
+}
+@{
+    Layout = "";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@Scripts.Render("~/Scripts/Hover.js")
+<script src="~/Scripts/Hover.js"></script>
+@Styles.Render("~/Style/ProductIndex.css")
+<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="~/Style/ProductIndex.css" rel="stylesheet" type="text/css" />
+<canvas id="fireflies"></canvas>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="site-title">
+                <a href="@Url.Action("Index", "Store")">
+                    <img src="~/Images/Logo/a.png" height="55" style="margin-top: 10px;" />
+                </a>
+            </div>
+        </div>
+
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" style="float:right;">
+                <li style="margin: 25px 7px; cursor: pointer;">
+                    @using (@Html.BeginForm("Index", "Store", FormMethod.Get))
+                    {
+                        @Html.TextBox("keyword")
+                        <input type="submit" value="Search" />
+                    }
+                </li>
+                <li class="button2 button3" style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "MyProfileInfo", "Accounts", null, new { @class = "fa fa-user-circle", style = "color:#17421F" }) </liclass="button2>
+                <li class="button2 button3" style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "About", "Home", null, new { @class = "fa fa-info-circle", style = "color:#17421F" })</liclass="button2>
+                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View My Selling Product", "Index", "Products", null, new { style = "color:white" })</li>
+                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Log Out", "LogOut", "Accounts", null, new { style = "color:white" })</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="title">
+
+    <div id="topborder">
+    </div>
+
+    <h1 class="splitting">
+        <span class="char s">H</span><span class="char t">E</span><span class="char r">L</span><span class="char a">L</span><span class="char n">L</span><span class="char g">O</span><span class="char e">!</span><span class="char r2">!</span>
+
+    </h1>
+
+    <h2 class="splitting">
+
+        <span class="things"><span class="thingst char">W</span><span class="thingsh char">O</span><span class="thingsi char">R</span><span class="thingsn char">L</span><span class="thingsg char">D</span><span class="thingss char">!</span></span>
+    </h2>
+
+    <div id="leftborder">
+    </div>
+    <div id="rightborder">
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

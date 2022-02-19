@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using GMap;
 
 namespace ISPROJ2VetSeeker.Models
 {
@@ -13,9 +14,13 @@ namespace ISPROJ2VetSeeker.Models
 
         public long UserID { get; set; }
 
+        [Display(Name = "Clinic Name")]
+        [Required]
+        public string ClinicName { get; set; }
+
         [Display(Name = "Unit House No.")]
         [Required]
-        public int UnitHouseNo { get; set; }
+        public string UnitHouseNo { get; set; }
 
         [Display(Name = "Street")]
         [Required]
@@ -23,7 +28,7 @@ namespace ISPROJ2VetSeeker.Models
 
         [Display(Name = "Barangay")]
         [Required]
-        public string Barangay { get; set; }
+        public string Baranggay { get; set; }
 
         [Display(Name = "City")]
         [Required]
@@ -32,6 +37,8 @@ namespace ISPROJ2VetSeeker.Models
         public string Longitude { get; set; }
 
         public string Latitude { get; set; }
+
+        //public bool Status { get; set; }
 
     }
 }

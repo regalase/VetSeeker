@@ -11,6 +11,9 @@ namespace ISPROJ2VetSeeker.App_Code
 {
     public class Helper
     {
+        public const string USER_ID_KEY = "userID";
+        public const string TYPE_ID_KEY = "typeID";
+
         public static string GetCon()
         {
             return ConfigurationManager.ConnectionStrings["MyCon"].ConnectionString;
