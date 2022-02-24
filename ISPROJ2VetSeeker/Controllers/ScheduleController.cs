@@ -79,6 +79,7 @@ namespace ISPROJ2VetSeeker.Controllers
             var record = new List<ViewScheduleUIModel>();
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
+                sqlCon.Open();
                 string query = @"SELECT scheduleID, s.userID, date, status, s.clinicID, clinicName FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.userId = @userId";
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon)) {

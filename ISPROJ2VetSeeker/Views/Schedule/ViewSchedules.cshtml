@@ -1,9 +1,40 @@
-﻿@model ISPROJ2VetSeeker.Models.ViewScheduleUIModel
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ViewScheduleUIModel>
 @{
     ViewBag.Title = "ViewSchedules";
 }
 @using (Html.BeginForm())
 {
     //render as table
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClinicName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
 
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClinicName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <input type="button" value="Accept" class="btn-success" />
+                    <input type="button" value="Decline" class="btn-danger" />
+                </td>
+            </tr>
+        }
+    </table>
 }
