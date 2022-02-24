@@ -1,8 +1,8 @@
 ﻿@model ISPROJ2VetSeeker.Models.CreateScheduleUIModel
 
-@{
-    ViewBag.Title = "Create";
-}
+
+
+@{ ViewBag.Title = "Create"; }
 
 @using (Html.BeginForm())
 {
@@ -24,15 +24,16 @@
                     @Html.LabelFor(model => model.ClinicModels, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.DropDownListFor(model => model.ScheduleModel.ClinicID,
-                                    new SelectList(Model.ClinicModels, "ClinicID", "ClinicName"),
-                                    "Select from the list...", new { @class = "form-control" })
+                                                                                                          new SelectList(Model.ClinicModels, "ClinicID", "ClinicName"),
+                                                                                                          "Select from the list...", new { @class = "form-control" })
                     </div>
 
                     @Html.LabelFor(model => model.ScheduleModel.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.ScheduleModel.Date, new { @class = "Date", @id = "datetimeid", Name = "selectedDateTime" })
+                        @Html.EditorFor(model => model.ScheduleModel.Date, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
                         @Html.ValidationMessageFor(model => model.ScheduleModel.Date, "", new { @class = "text-danger" })
                     </div>
+
                 </div>
 
             </div>
@@ -47,15 +48,3 @@
         </div>
     </div>
 }
-
-@Styles.Render("~/Style/StyleSheetCreate.css")
-<link href="~/Style/StyleSheetCreate.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-<!--<script type="text/javascript">
-    $(function () {
-        $("#datetimeid").datetimepicker();
-    });
-</script>-->

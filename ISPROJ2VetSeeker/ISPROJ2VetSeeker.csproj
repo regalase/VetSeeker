@@ -214,11 +214,12 @@
     <Content Include="Views\Clinic\RegisterClinic.cshtml" />
     <Content Include="Views\Schedule\CreateSchedule.cshtml" />
     <Content Include="Views\Schedule\ViewSchedules.cshtml" />
-    <Content Include="Views\Schedule\ClinicSchedules.cshtml" />
+    <Content Include="Views\MyAppointment\ClinicSchedules.cshtml" />
+    <Content Include="Views\MyAppointment\BookAppointment.cshtml" />
+    <Content Include="Views\Accounts\VetProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\MyAppointment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -21,7 +21,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, typeID FROM Users WHERE username=@username AND password=@password";
+                string query = @"SELECT userID, typeID, firstName, lastName, email FROM Users WHERE username=@username AND password=@password";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@username", record.UserName);
@@ -34,19 +34,24 @@ namespace ISPROJ2VetSeeker.Controllers
                             {
                                 Session[Helper.USER_ID_KEY] = sqlDr[Helper.USER_ID_KEY].ToString();
                                 Session[Helper.TYPE_ID_KEY] = sqlDr[Helper.TYPE_ID_KEY].ToString();
-
                             }
 
                             if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null ) //user login already
                             {
-                                if (Session[Helper.TYPE_ID_KEY].ToString() != "0")
+                                if (Session[Helper.TYPE_ID_KEY].ToString() == "1")
                                 {
                                     return RedirectToAction("MyProfile", "Accounts");
+                                } else if (Session[Helper.TYPE_ID_KEY].ToString() == "2")
+                                {
+                                    return RedirectToAction("VetProfile", "Accounts");///change to Vet
+                                } else
+                                {
+                                    return RedirectToAction("Dashboard", "Admin");
                                 }
+                            } else
+                            {
+                                return RedirectToAction("Login", "Accounts");
                             }
-
-                            return RedirectToAction("Dashboard", "Admin");
-
                         }
                         else
                         {
@@ -113,7 +118,7 @@ namespace ISPROJ2VetSeeker.Controllers
             }
         }
 
-
+        //Change to Client Info
         public ActionResult MyProfileInfo()
         {
 
@@ -165,6 +170,57 @@ namespace ISPROJ2VetSeeker.Controllers
             }
         }
         // GET: Account
+
+        public ActionResult VetProfile()
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                if (Session[Helper.USER_ID_KEY] == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var record = new UserModel();
+                sqlCon.Open();
+                string query = @"SELECT userID, ut.typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, 
+                unitHouseNo, street, baranggay, profilePicture, dateAdded, dateModified from Users u INNER JOIN UserType ut ON u.typeID = ut.typeID WHERE userId = @UserID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@UserID", Session[Helper.USER_ID_KEY].ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                record.TypeID = int.Parse(sqlDr["typeID"].ToString());
+                                record.FirstName = sqlDr["firstName"].ToString();
+                                record.LastName = sqlDr["lastName"].ToString();
+                                record.MobileNo = sqlDr["mobileNo"].ToString();
+                                record.Email = sqlDr["email"].ToString();
+                                record.UserName = sqlDr["username"].ToString();
+                                record.Password = sqlDr["password"].ToString();
+                                record.Gender = sqlDr["gender"].ToString();
+                                string dateTime = sqlDr["birthday"].ToString();
+                                record.Birthday = System.DateTime.Parse(dateTime);
+                                record.City = sqlDr["city"].ToString();
+                                record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
+                                record.Street = sqlDr["street"].ToString();
+                                record.Baranggay = sqlDr["baranggay"].ToString();
+                                //record.ProfilePicture = byte[].parse(sqlDr["profilePicture"].ToString());
+                                record.DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString());
+                                record.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
+                            }
+                            return View(record);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index");
+                        }
+                    }
+                }
+            }
+        }
         public ActionResult Index()
         {
             return View();

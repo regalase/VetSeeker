@@ -17,13 +17,13 @@ namespace ISPROJ2VetSeeker.Controllers
         // GET: MyAppointment
         public ActionResult ClinicSchedules()
         {
-            var record = new List<ClinicModel>();
+            var record = new List<ClinicScheduleUIModel>();
             //query clinics by user logged in;
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
                 //Change later with claculations to nearest clinic
-                string query = @"SELECT clinicId, userId, unitHouseNo, street, baranggay, city, clinicname, longitude, latitude FROM Clinic ORDER BY longitude, latitude DESC";
+                string query = @"SELECT clinicID, userID, unitHouseNo, street, baranggay, city, clinicname, longitude, latitude FROM Clinic ORDER BY longitude, latitude DESC";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     //Add long lat params from gmaps
@@ -34,7 +34,7 @@ namespace ISPROJ2VetSeeker.Controllers
                         {
                             while (sqlDr.Read())
                             {
-                                var clinic = new ClinicModel();
+                                var clinic = new ClinicScheduleUIModel();
                                 clinic.ClinicID = int.Parse(sqlDr["clinicID"].ToString());
                                 clinic.UserID = int.Parse(sqlDr["userID"].ToString());
                                 clinic.UnitHouseNo = sqlDr["unitHouseNo"].ToString();
@@ -46,9 +46,42 @@ namespace ISPROJ2VetSeeker.Controllers
                             }
                         }
                     }
+
+                }
+                sqlCon.Close();
+            }
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                //Change later with claculations to nearest clinic
+                foreach (ClinicScheduleUIModel model in record)
+                {
+                    string query = @"SELECT s.scheduleId, s.userID, s.date, s.status, s.clinicID FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.clinicID = @clinicID";
+                    using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                    {
+                        //Add long lat params from gmaps
+                        sqlCmd.Parameters.AddWithValue("@clinicID", model.ClinicID); //replace with user session
+                        using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                        {
+                            if (sqlDr.HasRows)
+                            {
+                                while (sqlDr.Read())
+                                {
+                                    var schedule = new ScheduleModel();
+                                    schedule.ScheduleID = int.Parse(sqlDr["scheduleID"].ToString());
+                                    schedule.UserID = int.Parse(sqlDr["userID"].ToString());
+                                    schedule.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                    schedule.Status = sqlDr["status"].ToString();
+                                    model.ScheduleModels.Add(schedule);
+                                }
+                            }
+                        }
+                    }
                 }
 
+                sqlCon.Close();
             }
+
             return View(record);
         }
 
@@ -58,6 +91,7 @@ namespace ISPROJ2VetSeeker.Controllers
             var clinicSchedules = new ClinicScheduleUIModel();
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
+                sqlCon.Open();
                 string query = @"SELECT scheduleID, s.userID, date, status, s.clinicID FROM Schedule s WHERE s.clinicID = @clinicID";
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))

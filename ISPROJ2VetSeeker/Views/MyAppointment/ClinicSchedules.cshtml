@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ClinicScheduleUIModel>
+
+
+@{
+    ViewBag.Title = "ClinicSchedules";
+
+}
+
+<h2>Available Schedules</h2>
+
+@foreach (var item in Model)
+{
+
+    <table class="table table-condensed">
+        <tr>
+            <th>
+                <h4><b>@item.ClinicName</b></h4>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Date and Time
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+
+        @foreach (var schedule in item.ScheduleModels)
+        {
+            <tr>
+                <td>
+                    @schedule.Date
+                </td>
+                <td>
+                    @schedule.Status
+                </td>
+
+            </tr>
+
+        }
+
+    </table>
+}
