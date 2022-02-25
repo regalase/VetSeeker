@@ -16,6 +16,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
+            <th>
+                Actions
+            </th>
         </tr>
 
         @foreach (var item in Model)
@@ -28,12 +31,31 @@
                     @Html.DisplayFor(modelItem => item.ClinicName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @if (item.Status == "1")
+                    {
+                        @Html.Raw("Pending");
+                    } else if (item.Status == "2") {
+                        @Html.Raw("Accepted");
+                    } else
+                    {
+                        @Html.Raw("Available");
+                    }
                 </td>
-                <td>
-                    <input type="button" value="Accept" class="btn-success" />
-                    <input type="button" value="Decline" class="btn-danger" />
-                </td>
+
+                @if (item.Status == "1")
+                {
+                    <td>
+                        @Html.ActionLink("Accept", "ManageSchedules", new { id = item.ScheduleId, status = 2 })
+                        @Html.ActionLink("Decline", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
+                        <!--<input type="button" value="Accept" class="btn-success" />-->
+                        <!--<input type="button" value="Decline" class="btn-danger" />-->
+                    </td>
+                } else if(item.Status == "2")
+                {
+                    <td>
+                        @Html.ActionLink("Cancel", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
+                    </td>
+                }
             </tr>
         }
     </table>

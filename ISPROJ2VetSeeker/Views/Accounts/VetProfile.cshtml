@@ -39,9 +39,8 @@
                         <input type="submit" value="Search" />
                     }
                 </li>
-                <li class="button2 button3" style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "MyProfileInfo", "Accounts", null, new { @class = "fa fa-user-circle", style = "color:#17421F" }) </liclass="button2>
-                <li class="button2 button3" style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "About", "Home", null, new { @class = "fa fa-info-circle", style = "color:#17421F" })</liclass="button2>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Book an Appointment", "ClinicSchedules", "MyAppointment", null, new { style = "color:white" })</li>
+                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Create Schedule", "CreateSchedule", "Schedule", null, new { style = "color:white" })</li>
+                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View Bookings", "ViewSchedules", "Schedule", null, new { style = "color:white" })</li>
                 <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Log Out", "LogOut", "Accounts", null, new { style = "color:white" })</li>
             </ul>
         </div>

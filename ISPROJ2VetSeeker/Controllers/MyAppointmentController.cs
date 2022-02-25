@@ -56,7 +56,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 //Change later with claculations to nearest clinic
                 foreach (ClinicScheduleUIModel model in record)
                 {
-                    string query = @"SELECT s.scheduleId, s.userID, s.date, s.status, s.clinicID FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.clinicID = @clinicID";
+                    string query = @"SELECT s.scheduleId, s.userID, s.date, s.status, s.clinicID FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.clinicID = @clinicID AND status = 0 ORDER BY s.date ASC";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                     {
                         //Add long lat params from gmaps
@@ -114,13 +114,33 @@ namespace ISPROJ2VetSeeker.Controllers
                     }
                 }
             }
-            //Change with return to another view, with the ClinicScheduleUIModel
+
             return RedirectToAction("BookAppointment", record);
         }
 
-        public ActionResult BookAppointment(ClinicScheduleUIModel record)
+        public ActionResult BookAppointment(ClinicScheduleUIModel record, int id, string specificProblem)
         {
-            return View(record);
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string bookAppointmentQuery = @"INSERT INTO MyAppointment VALUES(@scheduleID, @userID, @specificProblem)";
+                using (SqlCommand sqlCmd = new SqlCommand(bookAppointmentQuery, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", id);
+                    sqlCmd.Parameters.AddWithValue("@userID", 13);
+                    sqlCmd.Parameters.AddWithValue("@specificProblem", specificProblem);
+                    sqlCmd.ExecuteNonQuery();
+                }
+
+                string scheduleUpdateQuery = @"UPDATE Schedule SET status = 1 WHERE scheduleID = @scheduleID";
+                using (SqlCommand sqlCmd = new SqlCommand(scheduleUpdateQuery, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", id);
+                    sqlCmd.ExecuteNonQuery();
+                }
+                sqlCon.Close();
+            }
+            return RedirectToAction("MyProfile", "Accounts");//GO TO HOME
         }
 
         /*

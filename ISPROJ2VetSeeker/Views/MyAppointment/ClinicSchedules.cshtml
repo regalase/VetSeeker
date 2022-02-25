@@ -7,16 +7,13 @@
 }
 
 <h2>Available Schedules</h2>
+<br />
 
 @foreach (var item in Model)
 {
+    <h4><b>@item.ClinicName</b></h4>
+    <table class="table">
 
-    <table class="table table-condensed">
-        <tr>
-            <th>
-                <h4><b>@item.ClinicName</b></h4>
-            </th>
-        </tr>
         <tr>
             <th>
                 Date and Time
@@ -24,21 +21,24 @@
             <th>
                 Status
             </th>
+            <th>
+            </th>
         </tr>
 
         @foreach (var schedule in item.ScheduleModels)
         {
             <tr>
                 <td>
-                    @schedule.Date
+                    @schedule.Date.ToString("MM/dd/yyyy hh:mm tt")
                 </td>
                 <td>
                     @schedule.Status
                 </td>
-
+                <td>
+                    @Html.ActionLink("Book", "BookAppointment", new { id = schedule.ScheduleID, specificProblem = "specificProblem" })
+                </td>
             </tr>
-
         }
-
     </table>
+    <br />
 }

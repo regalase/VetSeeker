@@ -69,7 +69,7 @@ namespace ISPROJ2VetSeeker.Controllers
 
                     sqlCmd.ExecuteNonQuery();
 
-                    return RedirectToAction("Login", "Clinics");// SHOULD BE CHANGED, NOT SURE TO WHAT
+                    return RedirectToAction("VetProfile", "Accounts");// SHOULD BE CHANGED, NOT SURE TO WHAT
                 }
             }
         }
@@ -94,6 +94,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 viewScheduleUIModel.ScheduleId = int.Parse(sqlDr["scheduleID"].ToString());
                                 viewScheduleUIModel.UserID = int.Parse(sqlDr["userID"].ToString());
                                 viewScheduleUIModel.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                viewScheduleUIModel.Status = sqlDr["status"].ToString();
                                 viewScheduleUIModel.ClinicId = int.Parse(sqlDr["clinicID"].ToString());
                                 viewScheduleUIModel.ClinicName = sqlDr["clinicName"].ToString();
                                 record.Add(viewScheduleUIModel);
@@ -104,6 +105,24 @@ namespace ISPROJ2VetSeeker.Controllers
             }
 
             return View(record);
+        }
+
+        public ActionResult ManageSchedules(int id, string status)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string scheduleUpdateQuery = @"UPDATE Schedule SET status = @status WHERE scheduleID = @scheduleID";
+                using (SqlCommand sqlCmd = new SqlCommand(scheduleUpdateQuery, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@status", status);
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", id);
+                    sqlCmd.ExecuteNonQuery();
+                }
+                sqlCon.Close();
+            }
+
+            return RedirectToAction("VetProfile", "Accounts");
         }
     }
 }
