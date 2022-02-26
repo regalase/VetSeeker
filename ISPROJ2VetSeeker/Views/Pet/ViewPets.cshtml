@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.PetModel>
+
+
+@{
+    ViewBag.Title = "ViewPets";
+
+}
+
+<h2>Pets</h2>
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Pet Name
+        </th>
+        <th>
+            Breed
+        </th>
+        <th>
+            Sex
+        </th>
+        <th>
+            Color
+        </th>
+        <th>
+            Birthday
+        </th>
+        <th>
+            Pet Chip Number
+        </th>
+        <th>
+            Guardian
+        </th>
+        <th>
+            Profile Picture
+        </th>
+        <th>
+            
+        </th>
+        <th>
+            
+        </th>
+        <th>
+        </th>
+    </tr>
+
+    @foreach (var petModel in Model)
+    {
+        <tr>
+            <td>
+                @petModel.PetName
+            </td>
+            <td>
+                @petModel.Breed
+            </td>
+            <td>
+                @petModel.Sex
+            </td>
+            <td>
+                @petModel.Color
+            </td>
+            <td>
+                @petModel.Birthday
+            </td>
+            <td>
+                @petModel.PetChipNo
+            </td>
+            <td>
+                @petModel.Guardian
+            </td>
+            <td>
+                @petModel.PetProfilePic
+            </td>
+            <td>
+                @Html.ActionLink("Update Profile", "UpdatePetProfile", new { petId = petModel.PetID })
+            </td>
+            <td>
+                @Html.ActionLink("Medical History", "BookAppointment",  new { petId = petModel.PetID })
+            </td>
+        </tr>
+    }
+</table>

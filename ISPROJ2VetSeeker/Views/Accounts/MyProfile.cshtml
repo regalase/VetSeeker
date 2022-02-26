@@ -25,10 +25,12 @@
             </button>
             <div class="site-title">
                 <a href="@Url.Action("Index", "Store")">
-                    <img src="~/Images/Logo/a.png" height="55" style="margin-top: 10px;" />
+                    <!--<img src="~/Images/Logo/a.png" height="55" style="margin-top: 10px;" />-->
+                    <h3>VetSeeker</h3>
                 </a>
             </div>
         </div>
+
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav" style="float:right;">
@@ -39,14 +41,43 @@
                         <input type="submit" value="Search" />
                     }
                 </li>
-                <li class="button2 button3" style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "MyProfileInfo", "Accounts", null, new { @class = "fa fa-user-circle", style = "color:#17421F" }) </liclass="button2>
-                <li class="button2 button3" style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "About", "Home", null, new { @class = "fa fa-info-circle", style = "color:#17421F" })</liclass="button2>
+                <li class="button2 button3" style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "MyProfileInfo", "Accounts", null, new { @class = "fa fa-user-circle", style = "color:#17421F" }) </li>
+                <li class="button2 button3" style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "About", "Home", null, new { @class = "fa fa-info-circle", style = "color:#17421F" })</li>
                 <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Book an Appointment", "ClinicSchedules", "MyAppointment", null, new { style = "color:white" })</li>
+                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Add a Pet", "PetRegister", "Pet", null, new { style = "color:white" })</li>
+                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View Pets", "ViewPets", "Pet", null, new { style = "color:white" })</li>
+                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View Schedules", "ClinicSchedules", "Schedule", null, new { style = "color:white" })</li>
                 <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Log Out", "LogOut", "Accounts", null, new { style = "color:white" })</li>
             </ul>
         </div>
     </div>
 </div>
 <div>
-    <p>@Model.FirstName</p>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3" style="text-align:center">
+        <i class="fa fa-user-circle" style="font-size:25rem"></i>
+        <br /><h5>(Profile Picture)</h5>
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-5 list-group-item">
+
+
+
+        <h1>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h1>
+        <p style="font-size: 20px">
+            Username: @Html.DisplayFor(model => model.UserName)
+            <br />
+            Mobile Number: @Html.DisplayFor(model => model.MobileNo)
+            <br />
+            @Html.DisplayNameFor(model => model.Gender): @Html.DisplayFor(model => model.Gender)
+            <br />
+            @Html.DisplayNameFor(model => model.Birthday): @Html.DisplayFor(model => model.Birthday)
+            <br />
+            Address: @Html.DisplayFor(model => model.UnitHouseNo) @Html.DisplayFor(model => model.Street) @Html.DisplayFor(model => model.City) @Html.DisplayFor(model => model.Baranggay)
+        </p>
+    </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
