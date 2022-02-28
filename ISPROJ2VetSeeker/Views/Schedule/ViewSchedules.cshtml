@@ -19,6 +19,14 @@
             <th>
                 Actions
             </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
         </tr>
 
         @foreach (var item in Model)
@@ -36,24 +44,33 @@
                         @Html.Raw("Pending");
                     } else if (item.Status == "2") {
                         @Html.Raw("Accepted");
-                    } else
+                    } else if (item.Status == "0") 
                     {
                         @Html.Raw("Available");
+                    } else if (item.Status == "3")
+                    {
+                        @Html.Raw("Completed");
                     }
+
                 </td>
 
                 @if (item.Status == "1")
                 {
                     <td>
                         @Html.ActionLink("Accept", "ManageSchedules", new { id = item.ScheduleId, status = 2 })
-                        @Html.ActionLink("Decline", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
                         <!--<input type="button" value="Accept" class="btn-success" />-->
                         <!--<input type="button" value="Decline" class="btn-danger" />-->
+                    </td>
+                    <td>
+                        @Html.ActionLink("Decline", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
                     </td>
                 } else if(item.Status == "2")
                 {
                     <td>
                         @Html.ActionLink("Cancel", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Complete", "CompleteSchedule", new { id = item.ScheduleId, status = 3 })
                     </td>
                 }
             </tr>

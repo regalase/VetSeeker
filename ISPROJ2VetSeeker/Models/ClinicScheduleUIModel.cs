@@ -10,6 +10,7 @@ namespace ISPROJ2VetSeeker.Models
         public ClinicScheduleUIModel()
         {
             ScheduleModels = new List<ScheduleModel>();
+            PetModels = new List<PetModel>();
         }
 
         public long ClinicID { get; set; }
@@ -29,6 +30,11 @@ namespace ISPROJ2VetSeeker.Models
         public string Latitude { get; set; }
 
         public List<ScheduleModel> ScheduleModels { get; set; }
+
+        public List<PetModel> PetModels { get; set; }
+
+        public int selectedPetID { get; set; }
+
 
     }
 }

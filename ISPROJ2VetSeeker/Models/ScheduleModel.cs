@@ -19,6 +19,8 @@ namespace ISPROJ2VetSeeker.Models
         /*FOREIGN KEYS*/
         public long UserID { get; set; }
 
+        public int PetID { get; set; }
+
         public long ClinicID { get; set; }
 
         [DataType(DataType.Date)]

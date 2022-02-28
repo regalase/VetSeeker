@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.InvoiceModel>
+@{
+    ViewBag.Title = "Invoices";
+}
+
+<h2>Invoices</h2>
+
+<table>
+    <tr>
+        <th>
+            Invoice ID
+        </th>
+        <th>
+            Appointment ID
+        </th>
+        <th>
+            Medical History ID
+        </th>
+        <th>
+            Professional Fee
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Total Price
+        </th>
+    </tr>
+    @foreach (var invoice in Model)
+    {
+        <tr>
+            <td>
+                @invoice.InvoiceID
+            </td>
+            <td>
+                @invoice.MyAppointmentID
+            </td>
+            <td>
+                @invoice.MedicalHistoryID
+            </td>
+            <td>
+                @invoice.ProfessionalFee
+            </td>
+            <td>
+                @invoice.Date
+            </td>
+            <td>
+                @invoice.TotalPrice
+            </td>
+        </tr>
+    }
+</table>
+

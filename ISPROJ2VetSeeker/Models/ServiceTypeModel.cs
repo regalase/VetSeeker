@@ -15,7 +15,7 @@ namespace ISPROJ2VetSeeker.Models
         /*DETAILS*/
         public string ServiceName { get; set; }
 
-        public decimal price { get; set; }
+        public decimal Price { get; set; }
 
     }
 }

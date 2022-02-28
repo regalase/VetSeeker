@@ -150,15 +150,19 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClinicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\MyAppointmentController.cs" />
     <Compile Include="Controllers\PetController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientViewScheduleModel.cs" />
     <Compile Include="Models\ClinicScheduleUIModel.cs" />
     <Compile Include="Models\ClinicModel.cs" />
+    <Compile Include="Models\CompleteScheduleModel.cs" />
     <Compile Include="Models\CreateScheduleUIModel.cs" />
     <Compile Include="Models\FeedbackModel.cs" />
     <Compile Include="Models\InvoiceModel.cs" />
@@ -222,6 +226,10 @@
     <Content Include="Views\Pet\PetRegister.cshtml" />
     <Content Include="Views\Pet\ViewPets.cshtml" />
     <Content Include="Views\Pet\UpdatePetProfile.cshtml" />
+    <Content Include="Views\Schedule\CompleteSchedule.cshtml" />
+    <Content Include="Views\Service\CreateService.cshtml" />
+    <Content Include="Views\Invoice\Invoices.cshtml" />
+    <Content Include="Views\Invoice\VetInvoices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

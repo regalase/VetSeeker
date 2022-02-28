@@ -1,0 +1,105 @@
+﻿@model ISPROJ2VetSeeker.Models.CompleteScheduleModel
+
+
+@{
+    ViewBag.Title = "CompleteSchedule";
+
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="Create">
+            <table>
+                <tr>
+                    <th>
+                        Date and Time
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        @Model.ScheduleModel.Date.ToString("MM/dd/yyyy hh:mm tt")
+                    </th>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>
+                        @Html.LabelFor(model => model.PetModel.PetName)
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.PetModel.Breed)
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.PetModel.Sex)
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.PetModel.Color)
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.PetModel.PetChipNo)
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.PetModel.Guardian)
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        @Model.PetModel.PetName
+                    </th>
+                    <th>
+                        @Model.PetModel.Breed
+                    </th>
+                    <th>
+                        @Model.PetModel.Sex
+                    </th>
+                    <th>
+                        @Model.PetModel.Color
+                    </th>
+                    <th>
+                        @Model.PetModel.PetChipNo
+                    </th>
+                    <th>
+                        @Model.PetModel.Guardian
+                    </th>
+                </tr>
+            </table>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ServiceTypeModels, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SelectedService.ServiceTypeID,
+                                new SelectList(Model.ServiceTypeModels, "serviceTypeID", "serviceName"),
+                                "Select from the list...", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProfessionalFee, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProfessionalFee, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TotalPrice, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Diagnosis, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Diagnosis, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.SelectedPetID, new { id = "SelectedPetID", Value = Model.PetModel.PetID })
+            @Html.HiddenFor(model => model.MyAppointmentID, new { id = "MyAppointmentID", Value = Model.MyAppointmentID })
+            @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "ScheduleID", Value = Model.ScheduleModel.ScheduleID })
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
