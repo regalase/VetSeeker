@@ -1,0 +1,63 @@
+﻿@model ISPROJ2VetSeeker.Models.ViewMedicalHistoryModel
+
+
+@{
+    ViewBag.Title = "ViewMedicalHistory";
+
+}
+
+<h2>Medical History</h2>
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Pet Name
+        </th>
+        <th>
+            Diagnosis
+        </th>
+        <th>
+            Service 
+        </th>
+        <th>
+            Veterinarian
+        </th>
+        <th>
+            Mobile Number
+        </th>
+        <th>
+            Email
+        </th>
+       
+        <th>
+        </th>
+    </tr>
+
+    
+        <tr>
+            <td>
+                @Model.PetName
+            </td>
+            <td>
+                @Model.Diagnosis
+            </td>
+            <td>
+                @Model.ServiceName
+            </td>
+            <td>
+                @Model.LastName, @Model.FirstName
+            </td>
+            <td>
+                @Model.MobileNo
+            </td>
+            <td>
+                @Model.Email
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+    
+</table>
+

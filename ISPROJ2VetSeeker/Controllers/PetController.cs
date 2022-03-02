@@ -186,5 +186,47 @@ namespace ISPROJ2VetSeeker.Controllers
             return RedirectToAction("ViewPets", "Pet");
         }
 
+        public ActionResult ViewMedicalHistory(int PetID)
+        {
+            var ViewMedicalHistoryModel = new ViewMedicalHistoryModel();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+
+                sqlCon.Open();
+                string query = @"SELECT m.medicalHistoryID, m.petID, m.serviceTypeID, m.diagnosis, s.serviceName, u.userID, u.firstName, u.lastName, u.mobileNo, u.email, p.petName
+                                 FROM MedicalHistory m 
+                                 INNER JOIN serviceType s ON s.serviceTypeID = m.serviceTypeID 
+                                 INNER JOIN users u ON u.userID = s.userID 
+                                 INNER JOIN pet p ON p.petID = m.petID 
+                                 WHERE m.petID = @petID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@petID", PetID.ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                ViewMedicalHistoryModel.PetID = int.Parse(sqlDr["petID"].ToString());
+                                ViewMedicalHistoryModel.MedicalHistoryID = int.Parse(sqlDr["medicalHistoryID"].ToString());
+                                ViewMedicalHistoryModel.ServiceTypeID = int.Parse(sqlDr["serviceTypeID"].ToString());
+                                ViewMedicalHistoryModel.Diagnosis = sqlDr["diagnosis"].ToString();
+                                ViewMedicalHistoryModel.ServiceName = sqlDr["serviceName"].ToString();
+                                ViewMedicalHistoryModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                ViewMedicalHistoryModel.FirstName = sqlDr["firstName"].ToString();
+                                ViewMedicalHistoryModel.LastName = sqlDr["lastName"].ToString();
+                                ViewMedicalHistoryModel.MobileNo = sqlDr["mobileNo"].ToString();
+                                ViewMedicalHistoryModel.Email = sqlDr["email"].ToString();
+                                ViewMedicalHistoryModel.PetName = sqlDr["petName"].ToString();
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+            }
+            return View(ViewMedicalHistoryModel);
+        }
+
     }
 }

@@ -173,6 +173,7 @@
     <Compile Include="Models\ServiceTypeModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
+    <Compile Include="Models\ViewMedicalHistoryModel.cs" />
     <Compile Include="Models\ViewScheduleUIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -181,6 +182,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\StyleSheet.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -230,9 +232,11 @@
     <Content Include="Views\Service\CreateService.cshtml" />
     <Content Include="Views\Invoice\Invoices.cshtml" />
     <Content Include="Views\Invoice\VetInvoices.cshtml" />
+    <Content Include="Views\Pet\ViewMedicalHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
