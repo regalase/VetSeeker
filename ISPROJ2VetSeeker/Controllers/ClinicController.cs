@@ -38,7 +38,7 @@ namespace ISPROJ2VetSeeker.Controllers
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@userID", 13);
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY]);
                     sqlCmd.Parameters.AddWithValue("@clinicname", record.ClinicName);
                     sqlCmd.Parameters.AddWithValue("@unitHouseNo", record.UnitHouseNo);
                     sqlCmd.Parameters.AddWithValue("@street", record.Street);
@@ -48,7 +48,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@longitude", record.Longitude);
                     sqlCmd.ExecuteNonQuery();
 
-                    return RedirectToAction("Login", "Clinics");// SHOULD BE CHANGED, NOT SURE TO WHAT
+                    return RedirectToAction("VetProfile", "Accounts");// SHOULD BE CHANGED, NOT SURE TO WHAT
                 }
             }
         }

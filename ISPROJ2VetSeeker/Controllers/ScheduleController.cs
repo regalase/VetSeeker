@@ -26,7 +26,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 string query = @"SELECT clinicId, userId, unitHouseNo, street, baranggay, city, clinicname FROM Clinic WHERE userId = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@userID", 13); //replace with user session
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY]); //replace with user session
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         if (sqlDr.HasRows)
@@ -59,10 +59,11 @@ namespace ISPROJ2VetSeeker.Controllers
                 Debug.WriteLine(record.ScheduleModel.ClinicID);
                 Debug.WriteLine(record.ScheduleModel.Date);
                 sqlCon.Open();
-                string query = @"INSERT INTO Schedule VALUES(@userID, @date, @status, @clinicID);";
+                string query = @"INSERT INTO Schedule VALUES(@userID, @petID, @date, @status, @clinicID)";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@userID", 13);
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY]);
+                    sqlCmd.Parameters.AddWithValue("@petID", DBNull.Value);
                     sqlCmd.Parameters.AddWithValue("@date", record.ScheduleModel.Date);
                     sqlCmd.Parameters.AddWithValue("@status", 0);
                     sqlCmd.Parameters.AddWithValue("@clinicID", record.ScheduleModel.ClinicID);
@@ -84,7 +85,7 @@ namespace ISPROJ2VetSeeker.Controllers
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@userId", 13);
+                    sqlCmd.Parameters.AddWithValue("@userId", Session[Helper.USER_ID_KEY]);
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         if (sqlDr.HasRows)

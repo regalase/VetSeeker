@@ -1,21 +1,18 @@
 ﻿@model ISPROJ2VetSeeker.Models.ClinicModel
-
-@{
-    ViewBag.Title = "Create";
+@{ 
+    ViewBag.Title = "Register Clinic";
+    Layout = "~/Views/Shared/_LayoutVet.cshtml"; 
 }
 
 
-@Styles.Render("~/Style/StyleSheetCreate.css")
-<link href="~/Style/StyleSheetCreate.css" rel="stylesheet" type="text/css" />
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <br />
-        <br />
-        <br />
         <h4 style="text-align:center">Create Clinic</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -81,7 +78,7 @@
                         @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                
+
             </div>
 
             <div class="col-lg-1"></div>

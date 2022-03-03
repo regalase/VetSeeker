@@ -1,10 +1,14 @@
 ﻿@model ISPROJ2VetSeeker.Models.PetModel
 
-@{ ViewBag.Title = "PetRegister"; }
+@{
+    ViewBag.Title = "Register Pet";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
 
 
-@Styles.Render("~/Style/StyleSheetCreate.css")
-<link href="~/Style/StyleSheetCreate.css" rel="stylesheet" type="text/css" />
+
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 
 @using (Html.BeginForm())
 {
@@ -41,7 +45,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Sex, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.RadioButtonFor(model => model.Sex, "Male", new { htmlAttributes = new { @class = "form-control" } }) Male
+                        @Html.RadioButtonFor(model => model.Sex, "Female", new { htmlAttributes = new { @class = "form-control" } }) Female
                         @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                     </div>
                 </div>

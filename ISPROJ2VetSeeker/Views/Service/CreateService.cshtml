@@ -1,12 +1,12 @@
 ﻿@model ISPROJ2VetSeeker.Models.ServiceTypeModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Service";
+    Layout = "~/Views/Shared/_LayoutVet.cshtml";
 }
 
-
-@Styles.Render("~/Style/StyleSheetCreate.css")
-<link href="~/Style/StyleSheetCreate.css" rel="stylesheet" type="text/css" />
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 
 @using (Html.BeginForm())
 {

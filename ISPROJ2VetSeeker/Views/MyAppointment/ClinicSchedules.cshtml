@@ -11,45 +11,49 @@
 
     foreach (var item in Model.ClinicScheduleUIModels)
     {
-        <h4><b>@item.ClinicName</b></h4>
-        <table class="table">
+        if (item.ScheduleModels.Count > 0)
+        {
+            <h4><b>@item.ClinicName</b></h4>
+            <table class="table">
 
-            <tr>
-                <th>
-                    Date and Time
-                </th>
-                <th>
-                    Status
-                </th>
-                <th>
-                    Select Pet
-                </th>
-                <th>
-                </th>
-            </tr>
-
-            @foreach (var schedule in item.ScheduleModels)
-            {
                 <tr>
-                    <td>
-                        @schedule.Date.ToString("MM/dd/yyyy hh:mm tt")
-                    </td>
-                    <td>
-                        @schedule.Status
-                    </td>
-                    <td>
-                        @Html.DropDownListFor(model => model.SelectedPetId,
-                             new SelectList(item.PetModels, "PetID", "PetName"),
-                             "Select Pet For Appointment", new { @class = "form-control" })
-                        @Html.HiddenFor(model => model.SelectedScheduleID, new { id="SelectedScheduleID", Value = schedule.ScheduleID})
-                    </td>
-                    <td>
-
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </td>
+                    <th>
+                        Date and Time
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Select Pet
+                    </th>
+                    <th>
+                    </th>
                 </tr>
-            }
-        </table>
-        <br />
+
+                @foreach (var schedule in item.ScheduleModels)
+                {
+                    <tr>
+                        <td>
+                            @schedule.Date.ToString("MM/dd/yyyy hh:mm tt")
+                        </td>
+                        <td>
+                            @schedule.Status
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.SelectedPetId,
+                                 new SelectList(item.PetModels, "PetID", "PetName"),
+                                 "Select Pet For Appointment", new { @class = "form-control" })
+                            @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "SelectedScheduleID", Value = schedule.ScheduleID })
+                        </td>
+                        <td>
+
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </td>
+                    </tr>
+                }
+            </table>
+            <br />
+        }
+
     }
 }

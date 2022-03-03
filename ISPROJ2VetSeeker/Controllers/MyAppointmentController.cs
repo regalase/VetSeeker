@@ -133,7 +133,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 using (SqlCommand sqlCmd = new SqlCommand(bookAppointmentQuery, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@scheduleID", record.SelectedScheduleID);
-                    sqlCmd.Parameters.AddWithValue("@userID", 13);
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
                     sqlCmd.Parameters.AddWithValue("@specificProblem", "BLANK");
                     sqlCmd.ExecuteNonQuery();
                 }
@@ -149,6 +149,48 @@ namespace ISPROJ2VetSeeker.Controllers
             }
             return RedirectToAction("MyProfile", "Accounts");//GO TO HOME
         }
+
+        public ActionResult ViewAppointments()
+        {
+            var ViewAppointmentsModels = new List<ViewAppointmentsModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string ViewAppointmentQuery = @"SELECT p.petID, p.petName, c.clinicName, c.clinicID, s.scheduleID, s.date, s.status, u.firstName, u.lastName, u.userID 
+                                                FROM MyAppointment m  
+                                                INNER JOIN Schedule s ON s.scheduleID = m.myAppointmentID  
+                                                INNER JOIN Users u ON u.userID = s.userID 
+                                                INNER JOIN Clinic c ON c.clinicID = s.clinicID 
+                                                INNER JOIN Pet p ON s.petID = p.petID 
+                                                WHERE m.userID = @userID ";
+                using (SqlCommand sqlCmd = new SqlCommand(ViewAppointmentQuery, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var ViewAppointmentsModel = new ViewAppointmentsModel();
+                                ViewAppointmentsModel.PetID = int.Parse(sqlDr["petID"].ToString());
+                                ViewAppointmentsModel.PetName = sqlDr["petName"].ToString();
+                                ViewAppointmentsModel.ClinicName = sqlDr["clinicName"].ToString();
+                                ViewAppointmentsModel.ClinicID = int.Parse(sqlDr["clinicID"].ToString());
+                                ViewAppointmentsModel.ScheduleID = int.Parse(sqlDr["scheduleID"].ToString());
+                                ViewAppointmentsModel.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                ViewAppointmentsModel.Status = sqlDr["status"].ToString();
+                                ViewAppointmentsModel.FirstName = sqlDr["firstName"].ToString();
+                                ViewAppointmentsModel.LastName = sqlDr["lastName"].ToString();
+                                ViewAppointmentsModel.VetID = int.Parse(sqlDr["userID"].ToString());
+                                ViewAppointmentsModels.Add(ViewAppointmentsModel);
+                            }
+                        }
+                    }
+                }
+            }
+            return View(ViewAppointmentsModels);
+        } 
 
         /*
         [HttpPost]

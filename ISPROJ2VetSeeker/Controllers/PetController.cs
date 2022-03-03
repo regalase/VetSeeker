@@ -60,7 +60,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 string query = @"INSERT INTO Pet VALUES(@userID, @petName, @breed, @sex, @color, @dateOfBirth, @petChipNo, @guardian, @petProfilePic, @dateAdded, @dateModified)";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@userID", 13);
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY]);
                     sqlCmd.Parameters.AddWithValue("@petName", record.PetName);
                     sqlCmd.Parameters.AddWithValue("@breed", record.Breed);
                     sqlCmd.Parameters.AddWithValue("@sex", record.Sex);

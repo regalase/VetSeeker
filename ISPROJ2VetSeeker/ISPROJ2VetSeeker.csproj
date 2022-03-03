@@ -173,6 +173,7 @@
     <Compile Include="Models\ServiceTypeModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
+    <Compile Include="Models\ViewAppointmentsModel.cs" />
     <Compile Include="Models\ViewMedicalHistoryModel.cs" />
     <Compile Include="Models\ViewScheduleUIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -183,6 +184,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\StyleSheet.css" />
+    <Content Include="Content\StyleSheetPetRegister.css" />
+    <Content Include="Content\StyleSheetRegister.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -233,6 +236,9 @@
     <Content Include="Views\Invoice\Invoices.cshtml" />
     <Content Include="Views\Invoice\VetInvoices.cshtml" />
     <Content Include="Views\Pet\ViewMedicalHistory.cshtml" />
+    <Content Include="Views\Shared\_LayoutClient.cshtml" />
+    <Content Include="Views\Shared\_LayoutVet.cshtml" />
+    <Content Include="Views\MyAppointment\ViewAppointments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
