@@ -1,6 +1,6 @@
 ﻿@model ISPROJ2VetSeeker.Models.UserModel
 
-@{ ViewBag.Title = "Register"; }
+@{ ViewBag.Title = "Create"; }
 
 @Styles.Render("~/Content/StyleSheetRegister.css")
 <link href="~/Content/StyleSheetRegister.css" rel="stylesheet" type="text/css" />
@@ -83,8 +83,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.RadioButtonFor(model => model.Gender, "Male", new { htmlAttributes = new { @class = "form-control" } }) Male
-                        @Html.RadioButtonFor(model => model.Gender, "Female", new { htmlAttributes = new { @class = "form-control" } }) Female
+                        @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -139,9 +138,8 @@
 
             <div class="form-group">
                 <div class="col-md-8">
-                    <input type="submit" value="Register" class="btn btn-default" />
+                    <input type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
         </div>
-    </div>
-}
+    </div>}

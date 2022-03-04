@@ -1,13 +1,10 @@
 ﻿@model ISPROJ2VetSeeker.Models.PetModel
 
-@{ 
-    ViewBag.Title = "UpdatePetProfile"; 
-    Layout = "~/Views/Shared/_LayoutClient.cshtml";
-}
+@{ ViewBag.Title = "UpdatePetProfile"; }
 
 
-@Styles.Render("~/Style/StyleSheetCreate.css")
-<link href="~/Style/StyleSheetCreate.css" rel="stylesheet" type="text/css" />
+@Styles.Render("~/Content/UpdatePetProfile.css")
+<link href="~/Content/UpdatePetProfile.css" rel="stylesheet" type="text/css" />
 
 @using (Html.BeginForm())
 {
@@ -38,9 +35,6 @@
                         @Html.ValidationMessageFor(model => model.Breed, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-5">
-
                 <div class="form-group">
                     @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -56,7 +50,8 @@
                         @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
+            </div>
+            <div class="col-lg-5">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -89,7 +84,7 @@
             <div class="col-lg-1"></div>
 
             <div class="form-group">
-                <div class="col-md-offset-5 col-md-10">
+                <div class="col-md-offset-1 col-md-10">
                     <input type="submit" value="Update Pet" class="btn btn-default" />
                 </div>
             </div>

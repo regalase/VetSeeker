@@ -186,6 +186,8 @@
     <Content Include="Content\StyleSheet.css" />
     <Content Include="Content\StyleSheetPetRegister.css" />
     <Content Include="Content\StyleSheetRegister.css" />
+    <Content Include="Content\UpdatePetProfile.css" />
+    <Content Include="Content\ViewPets.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

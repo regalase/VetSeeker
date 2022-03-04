@@ -1,54 +1,26 @@
 ﻿@model IEnumerable<ISPROJ2VetSeeker.Models.InvoiceModel>
-@{
-    ViewBag.Title = "Invoices";
-    Layout = "~/Views/Shared/_LayoutClient.cshtml";
-}
 
-<h2>Invoices</h2>
 
-<table>
-    <tr>
-        <th>
-            Invoice ID
-        </th>
-        <th>
-            Appointment ID
-        </th>
-        <th>
-            Medical History ID
-        </th>
-        <th>
-            Professional Fee
-        </th>
-        <th>
-            Date
-        </th>
-        <th>
-            Total Price
-        </th>
-    </tr>
-    @foreach (var invoice in Model)
-    {
-        <tr>
-            <td>
-                @invoice.InvoiceID
-            </td>
-            <td>
-                @invoice.MyAppointmentID
-            </td>
-            <td>
-                @invoice.MedicalHistoryID
-            </td>
-            <td>
-                @invoice.ProfessionalFee
-            </td>
-            <td>
-                @invoice.Date
-            </td>
-            <td>
-                @invoice.TotalPrice
-            </td>
-        </tr>
-    }
-</table>
+@{ ViewBag.Title = "Invoices"; }
 
+@Styles.Render("~/Content/StyleSheetViewPets.css")
+<link href="~/Content/StyleSheetViewPets.css" rel="stylesheet" type="text/css" />
+<div class="col-md-offset-0">
+    <h1>Invoice</h1>
+</div>
+
+@foreach (var InvoiceModel in Model)
+{
+    <div class="col-md-offset-0 col-md-3">
+        <h2></h2>
+        <div class="thumbnail">
+            <div class="caption">
+                <h4><b>Invoice ID:</b> <span style="color: dodgerblue"> @InvoiceModel.InvoiceID</span></h4>
+                <h4><b>Appoinment ID:</b> <span style="color: dodgerblue"> @InvoiceModel.MyAppointmentID</span></h4>
+                <h4><b>Medical History ID:</b> <span style="color: dodgerblue"> @InvoiceModel.MedicalHistoryID</span></h4>
+                <h4><b>Professional Fee:</b> <span style="color: dodgerblue"> @InvoiceModel.ProfessionalFee</span></h4>
+                <h4><b>Date:</b> <span style="color: dodgerblue"> @InvoiceModel.Date</span></h4>
+                <h4><b>Total Price:</b> <span style="color: red"> @InvoiceModel.TotalPrice</span></h4>
+            </div>
+        </div>
+    </div>}

@@ -1,63 +1,25 @@
 ﻿@model ISPROJ2VetSeeker.Models.ViewMedicalHistoryModel
 
 
-@{
-    ViewBag.Title = "ViewMedicalHistory";
-    Layout = "~/Views/Shared/_LayoutClient.cshtml";
-}
+@{ ViewBag.Title = "ViewMedicalHistory"; }
 
-<h2>Medical History</h2>
-<br />
+@Styles.Render("~/Content/MedicalHistory.css")
+<link href="~/Content/MedicalHistory.css" rel="stylesheet" type="text/css" />
 
-<table class="table">
-    <tr>
-        <th>
-            Pet Name
-        </th>
-        <th>
-            Diagnosis
-        </th>
-        <th>
-            Service 
-        </th>
-        <th>
-            Veterinarian
-        </th>
-        <th>
-            Mobile Number
-        </th>
-        <th>
-            Email
-        </th>
-       
-        <th>
-        </th>
-    </tr>
+<div class="col-md-offset-0">
+    <h2>Pets</h2>
+</div>
 
-    
-        <tr>
-            <td>
-                @Model.PetName
-            </td>
-            <td>
-                @Model.Diagnosis
-            </td>
-            <td>
-                @Model.ServiceName
-            </td>
-            <td>
-                @Model.LastName, @Model.FirstName
-            </td>
-            <td>
-                @Model.MobileNo
-            </td>
-            <td>
-                @Model.Email
-            </td>
-            <td>
-                
-            </td>
-        </tr>
-    
-</table>
-
+<div class="col-md-offset-0 col-md-3">
+    <h2></h2>
+    <div class="thumbnail">
+        <div class="caption">
+            <h4><b>Pet Name:</b><span style="color: dodgerblue"> @Model.PetName</span></h4>
+            <h4><b>Diagnosis:</b><span style="color: dodgerblue"> @Model.Diagnosis</span></h4>
+            <h4><b>Service:</b><span style="color: dodgerblue"> @Model.ServiceName</span></h4>
+            <h4><b>Vetrinarian:</b><span style="color: dodgerblue"> @Model.LastName, @Model.FirstName</span></h4>
+            <h4><b>Mobile Number:</b><span style="color: dodgerblue"> @Model.MobileNo</span></h4>
+            <h4><b>Email:</b><span style="color: dodgerblue"> @Model.Email</span></h4>
+        </div>
+    </div>
+</div>
