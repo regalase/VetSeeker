@@ -1,0 +1,16 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ViewFeedbackModel>
+
+@{
+    ViewBag.Title = "ViewClientFeedback";
+
+}
+<h2>All Feedback</h2>
+<br />
+@foreach (var item in Model)
+{
+    <h4><b>@item.Username</b></h4>
+    <b>@item.DateAdded</b>
+    <b>@item.Feedback</b>
+    <b>@item.Rating</b>
+    <br />
+}

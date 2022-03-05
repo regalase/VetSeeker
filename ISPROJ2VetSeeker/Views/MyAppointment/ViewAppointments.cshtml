@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "ClinicSchedules";
+    ViewBag.Title = "ViewAppointments";
 
 }
 @using (Html.BeginForm())
@@ -11,58 +11,63 @@
 
     foreach (var item in Model)
     {
-        
-            <h4><b>@item.ClinicName</b></h4>
-            <table class="table">
 
-                <tr>
-                    <th>
-                        Date and Time
-                    </th>
-                    <th>
-                        Veterinarian
-                    </th>
-                    <th>
-                        Pet Name
-                    </th>
-                    <th>
-                        Status
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        @item.Date
-                    </td>
-                    <td>
-                        @item.LastName, @item.FirstName
-                    </td>
-                    <td>
-                        @item.PetName
-                    </td>
-                    <td>
-                        @if (item.Status == "1")
-                        {
-                            @Html.Raw("Pending");
-                        }
-                        else if (item.Status == "2")
-                        {
-                            @Html.Raw("Accepted");
-                        }
-                        else if (item.Status == "0")
-                        {
-                            @Html.Raw("Available");
-                        }
-                        else if (item.Status == "3")
-                        {
-                            @Html.Raw("Completed");
-                        }
-                    </td>
-                    
-                </tr>
+        <h4><b>@item.ClinicName</b></h4>
+        <table class="table">
 
-            </table>
-            <br />
-        
+            <tr>
+                <th>
+                    Date and Time
+                </th>
+                <th>
+                    Veterinarian
+                </th>
+                <th>
+                    Pet Name
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @item.Date
+                </td>
+                <td>
+                    @item.LastName, @item.FirstName
+                </td>
+                <td>
+                    @item.PetName
+                </td>
+                <td>
+                    @if (item.Status == "1")
+                    {
+                        @Html.Raw("Pending");
+                    }
+                    else if (item.Status == "2")
+                    {
+                        @Html.Raw("Accepted");
+                    }
+                    else if (item.Status == "0")
+                    {
+                        @Html.Raw("Available");
+                    }
+                    else if (item.Status == "3")
+                    {
+                        @Html.Raw("Completed");
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Feedback", "CreateFeedback", "MyAppointment", new { id = item.MyAppointmentID }, null)
+                </td>
+            </tr>
+
+        </table>
+        <br />
+
 
     }
 }

@@ -10,6 +10,8 @@ namespace ISPROJ2VetSeeker.Models
     {
         public int PetID { get; set; }
 
+        public int MyAppointmentID { get; set; }
+
         public string PetName { get; set; }
 
         public string ClinicName { get; set; }

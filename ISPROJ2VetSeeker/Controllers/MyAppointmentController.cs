@@ -156,7 +156,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string ViewAppointmentQuery = @"SELECT p.petID, p.petName, c.clinicName, c.clinicID, s.scheduleID, s.date, s.status, u.firstName, u.lastName, u.userID 
+                string ViewAppointmentQuery = @"SELECT m.myAppointmentID, p.petID, p.petName, c.clinicName, c.clinicID, s.scheduleID, s.date, s.status, u.firstName, u.lastName, u.userID 
                                                 FROM MyAppointment m  
                                                 INNER JOIN Schedule s ON s.scheduleID = m.myAppointmentID  
                                                 INNER JOIN Users u ON u.userID = s.userID 
@@ -173,6 +173,7 @@ namespace ISPROJ2VetSeeker.Controllers
                             while (sqlDr.Read())
                             {
                                 var ViewAppointmentsModel = new ViewAppointmentsModel();
+                                ViewAppointmentsModel.MyAppointmentID = int.Parse(sqlDr["myAppointmentID"].ToString());
                                 ViewAppointmentsModel.PetID = int.Parse(sqlDr["petID"].ToString());
                                 ViewAppointmentsModel.PetName = sqlDr["petName"].ToString();
                                 ViewAppointmentsModel.ClinicName = sqlDr["clinicName"].ToString();
@@ -190,7 +191,41 @@ namespace ISPROJ2VetSeeker.Controllers
                 }
             }
             return View(ViewAppointmentsModels);
-        } 
+        }
+
+        public ActionResult CreateFeedback(int id)
+        {
+            var record = new FeedbackModel();
+            record.MyAppointmentID = id;
+            return View(record);
+        }
+
+        [HttpPost]
+        public ActionResult CreateFeedback(FeedbackModel record)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"INSERT INTO Feedback VALUES(@myAppointmentID, @feedback, @rating, @dateAdded, @dateModified);";
+                Debug.WriteLine(record.MyAppointmentID);
+                Debug.WriteLine(record.Feedback);
+                Debug.WriteLine(record.Rating);
+                Debug.WriteLine(record.DateAdded);
+                Debug.WriteLine(record.DateModified);
+
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@myAppointmentID", record.MyAppointmentID);
+                    sqlCmd.Parameters.AddWithValue("@feedback", record.Feedback);
+                    sqlCmd.Parameters.AddWithValue("@rating", record.Rating);
+                    sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
+                    sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
+                    sqlCmd.ExecuteNonQuery();
+
+                    return RedirectToAction("MyProfile", "Accounts");// open alert box and send to.. homepage?
+                }
+            }
+        }
 
         /*
         [HttpPost]

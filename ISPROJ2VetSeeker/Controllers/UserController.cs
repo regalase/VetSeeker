@@ -173,5 +173,129 @@ namespace ISPROJ2VetSeeker.Controllers
             return View(list);
 
         }
+
+        public ActionResult ViewClientFeedback()//For User
+        {
+            if (Session["TypeID"] != null) //user login already
+            {
+                if (Session["TypeID"].ToString() != "2")
+                {
+                    return RedirectToAction("MyProfile", "Accounts");//HOMEPAGE
+                }
+            }
+            var list = new List<ViewFeedbackModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT u.username, f.feedback, f.rating, f.dateAdded, f.dateModified, ma.myAppointmentID
+                                 FROM Feedback f 
+                                 INNER JOIN MyAppointment ma ON f.myAppointmentID = ma.myAppointmentID 
+                                 INNER JOIN Schedule s ON ma.scheduleID = s.scheduleID 
+                                 INNER JOIN Users u ON u.userID = s.userID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        while (sqlDr.Read())
+                        {
+                            list.Add(new ViewFeedbackModel
+                            {
+                                Username = sqlDr["username"].ToString(),
+                                Feedback = sqlDr["feedback"].ToString(),
+                                Rating = decimal.Parse(sqlDr["rating"].ToString()),
+                                DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString()),//add author name..?
+                                DateModified = DateTime.Parse(sqlDr["dateModified"].ToString()),
+                                MyAppointmentID = int.Parse(sqlDr["myAppointmentID"].ToString()),
+                            });
+                        }
+                    }
+                }
+
+            }
+            return View(list);
+
+        }
+
+        public ActionResult UpdateUserProfile()
+        {
+            var record = new UserModel();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT userID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, unitHouseNo, street, baranggay, profilePicture, dateModified FROM Users WHERE userID = @userID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                record.UserID = int.Parse(sqlDr["userID"].ToString());
+                                record.FirstName = sqlDr["firstName"].ToString();
+                                record.LastName = sqlDr["lastName"].ToString();
+                                record.MobileNo = sqlDr["mobileNo"].ToString();
+                                record.Email = sqlDr["email"].ToString();
+                                record.UserName = sqlDr["username"].ToString();
+                                record.Password = sqlDr["password"].ToString();
+                                record.Gender = sqlDr["gender"].ToString();
+                                record.Birthday = DateTime.Parse(sqlDr["birthday"].ToString());
+                                record.City = sqlDr["city"].ToString();
+                                record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
+                                record.Street = sqlDr["street"].ToString();
+                                record.Baranggay = sqlDr["baranggay"].ToString();
+                                //record.ProfilePic = byte[].parse(sqlDr["profilePic"].ToString());
+                                record.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+                return View(record);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UpdateUserProfile(UserModel record)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"UPDATE Users SET firstName=@firstName, lastName=@lastName, mobileNo=@mobileNo, email=@email, username=@username, password=@password, gender=@gender, birthday=@birthday, city=@city, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, dateModified=@dateModified WHERE userID = @userID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@firstName", record.FirstName);
+                    sqlCmd.Parameters.AddWithValue("@lastName", record.LastName);
+                    sqlCmd.Parameters.AddWithValue("@mobileNo", record.MobileNo);
+                    sqlCmd.Parameters.AddWithValue("@email", record.Email);
+                    sqlCmd.Parameters.AddWithValue("@username", record.UserName);
+                    sqlCmd.Parameters.AddWithValue("@password", record.Password);
+                    sqlCmd.Parameters.AddWithValue("@gender", record.Gender);
+                    sqlCmd.Parameters.AddWithValue("@birthday", record.Birthday);
+                    sqlCmd.Parameters.AddWithValue("@city", record.City);
+                    sqlCmd.Parameters.AddWithValue("@unitHouseNo", record.UnitHouseNo);
+                    sqlCmd.Parameters.AddWithValue("@street", record.Street);
+                    sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
+
+                    //byte[] ProfilePicture = new byte[32];
+                    //sqlCmd.Parameters.AddWithValue("@profilePic", ProfilePicture);
+                    sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
+                    sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
+                    sqlCmd.ExecuteNonQuery();
+                }
+                sqlCon.Close();
+            }
+
+            if (Session["TypeID"].ToString() == "1")
+                {
+                    return RedirectToAction("MyProfile", "Accounts");//HOMEPAGE
+                }
+            else
+                {
+                    return RedirectToAction("VetProfile", "Accounts");
+                }
+           
+        }
     }
 }
