@@ -27,7 +27,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"INSERT INTO Clinic VALUES(@userID, @clinicname, @unitHouseNo, @street, @baranggay, @city, @latitude, @longitude);";
+                string query = @"INSERT INTO Clinic VALUES(@userID, @clinicname, @unitHouseNo, @street, @baranggay, @city, @latitude, @longitude)";
                 Debug.WriteLine(record.ClinicName);
                 Debug.WriteLine(record.UnitHouseNo);
                 Debug.WriteLine(record.Street);

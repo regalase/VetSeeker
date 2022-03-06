@@ -173,7 +173,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 ServiceTypeModel.ServiceTypeID = int.Parse(sqlDr["serviceTypeID"].ToString());
                                 ServiceTypeModel.ServiceName = sqlDr["serviceName"].ToString();
                                 ServiceTypeModel.Price = decimal.Parse(sqlDr["price"].ToString());
-
+                                ServiceTypeModel.DropdownDisplayText = ServiceTypeModel.ServiceName + ":" + ServiceTypeModel.Price;
                                 completeScheduleModel.ServiceTypeModels.Add(ServiceTypeModel);
                             }
                         }
@@ -244,6 +244,30 @@ namespace ISPROJ2VetSeeker.Controllers
             //TODO: Invoice
             //TODO: Medical History
             int CreatedMedicalHistoryID = 0;
+            decimal servicePrice = 0;
+            Debug.WriteLine("ServiceFee:" + model.ServiceFee);
+
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT price FROM ServiceType WHERE servicetypeID = @serviceTypeID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@serviceTypeID", model.SelectedService.ServiceTypeID);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                servicePrice = decimal.Parse(sqlDr["price"].ToString());
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+            }
+
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
@@ -257,7 +281,7 @@ namespace ISPROJ2VetSeeker.Controllers
 
                     CreatedMedicalHistoryID = Convert.ToInt32(sqlCmd.ExecuteScalar());
                     Debug.WriteLine("CreatedMedicalHistoryID: " + CreatedMedicalHistoryID);
-                    
+
 
                 }
                 sqlCon.Close();
@@ -269,11 +293,12 @@ namespace ISPROJ2VetSeeker.Controllers
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     Debug.WriteLine(model.MyAppointmentID);
+                    decimal totalPrice = model.ProfessionalFee + servicePrice;
                     sqlCmd.Parameters.AddWithValue("@myAppointmentID", model.MyAppointmentID);
                     sqlCmd.Parameters.AddWithValue("@medicalHistoryID", CreatedMedicalHistoryID);
                     sqlCmd.Parameters.AddWithValue("@professionalFee", model.ProfessionalFee);
                     sqlCmd.Parameters.AddWithValue("@date", DateTime.Now);
-                    sqlCmd.Parameters.AddWithValue("@totalPrice", model.TotalPrice);
+                    sqlCmd.Parameters.AddWithValue("@totalPrice", totalPrice);
                     sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
                     sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
 

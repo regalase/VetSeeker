@@ -17,5 +17,7 @@ namespace ISPROJ2VetSeeker.Models
 
         public decimal Price { get; set; }
 
+        public string DropdownDisplayText { get; set; }
+
     }
 }

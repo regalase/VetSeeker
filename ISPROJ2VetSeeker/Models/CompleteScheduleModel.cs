@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -23,6 +24,8 @@ namespace ISPROJ2VetSeeker.Models
         public ScheduleModel ScheduleModel { get; set; }
 
         public decimal ProfessionalFee { get; set; }
+        
+        public decimal ServiceFee { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -30,6 +33,8 @@ namespace ISPROJ2VetSeeker.Models
 
         public PetModel PetModel { get; set; }
         public List<ServiceTypeModel> ServiceTypeModels { get; set; }
+        
+        [Required]
         public string Diagnosis { get; set; }
     }
 }

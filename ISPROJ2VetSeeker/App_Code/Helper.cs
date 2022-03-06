@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Web;
+using System.Diagnostics;
 
 namespace ISPROJ2VetSeeker.App_Code
 {
@@ -13,6 +14,7 @@ namespace ISPROJ2VetSeeker.App_Code
     {
         public const string USER_ID_KEY = "userID";
         public const string TYPE_ID_KEY = "typeID";
+        public const string AUDIT_ID_KEY = "AuditLogID";
 
         public static string GetCon()
         {
@@ -29,6 +31,45 @@ namespace ISPROJ2VetSeeker.App_Code
             Byte[] EncryptedBytes = HashTool.ComputeHash(PhraseAsByte);
             HashTool.Clear();
             return Convert.ToBase64String(EncryptedBytes);
+        }
+
+        public static int RecordUserSessionLogin(int UserID, int TypeID)
+        {
+            Debug.WriteLine(UserID);
+            Debug.WriteLine(TypeID);
+            int AuditLogID = 0;
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"INSERT INTO UserSessionLog VALUES (@userID, @typeID, @dateOfLogin, @dateOfLogout); SELECT SCOPE_IDENTITY();";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", UserID);
+                    sqlCmd.Parameters.AddWithValue("@typeID", TypeID);
+                    sqlCmd.Parameters.AddWithValue("@dateOfLogin", DateTime.Now);
+                    sqlCmd.Parameters.AddWithValue("@dateOfLogout", DBNull.Value);
+                    AuditLogID = Convert.ToInt32(sqlCmd.ExecuteScalar());
+                }
+            }
+            return AuditLogID;
+        }
+
+        public static void RecordUserSessionLogout(int UserID, int TypeID, int AuditLogID)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"UPDATE UserSessionLog SET userID=@userID, typeID=@typeID, dateOfLogout=@dateOfLogout 
+                                     WHERE userID = @userID AND auditLogID = @auditLogID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", UserID);
+                    sqlCmd.Parameters.AddWithValue("@typeID", TypeID);
+                    sqlCmd.Parameters.AddWithValue("@dateOfLogout", DateTime.Now);
+                    sqlCmd.Parameters.AddWithValue("@auditLogID", AuditLogID);
+                    sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public static void SendEmail(string email, string subject, string message)
