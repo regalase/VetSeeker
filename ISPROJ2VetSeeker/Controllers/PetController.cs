@@ -52,8 +52,13 @@ namespace ISPROJ2VetSeeker.Controllers
         }
 
         [HttpPost]
-        public ActionResult PetRegister(PetModel record)
+        public ActionResult PetRegister(PetModel record, HttpPostedFileBase file)
         {
+            file.SaveAs(HttpContext.Server.MapPath("~/Images/")
+                                                  + file.FileName);
+
+            record.PetProfilePic = file.FileName;
+
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
@@ -68,9 +73,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@dateOfBirth", record.Birthday);
                     sqlCmd.Parameters.AddWithValue("@petChipNo", record.PetChipNo);
                     sqlCmd.Parameters.AddWithValue("@guardian", record.Guardian);
-
-                    byte[] petProfilePic = new byte[32];
-                    sqlCmd.Parameters.AddWithValue("@petProfilePic", petProfilePic);
+                    sqlCmd.Parameters.AddWithValue("@petProfilePic", record.PetProfilePic);
                     sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
                     sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
                     sqlCmd.ExecuteNonQuery();
@@ -107,7 +110,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 petModel.Birthday = DateTime.Parse(sqlDr["dateOfBirth"].ToString());
                                 petModel.PetChipNo = sqlDr["petChipNo"].ToString();
                                 petModel.Guardian = sqlDr["guardian"].ToString();
-                                //petModel.PetProfilePic = byte[].parse(sqlDr["petProfilePic"].ToString());
+                                petModel.PetProfilePic = sqlDr["petProfilePic"].ToString();
                                 petModel.DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString());
                                 petModel.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
                                 userPets.Add(petModel);
@@ -158,8 +161,10 @@ namespace ISPROJ2VetSeeker.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdatePetProfile(PetModel record)
+        public ActionResult UpdatePetProfile(PetModel record, HttpPostedFileBase file)
         {
+            file.SaveAs(HttpContext.Server.MapPath("~/Images/") + file.FileName);
+            record.PetProfilePic = file.FileName;
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
@@ -173,9 +178,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@dateOfBirth", record.Birthday);
                     sqlCmd.Parameters.AddWithValue("@petChipNo", record.PetChipNo);
                     sqlCmd.Parameters.AddWithValue("@guardian", record.Guardian);
-
-                    byte[] petProfilePic = new byte[32];
-                    sqlCmd.Parameters.AddWithValue("@petProfilePic", petProfilePic);
+                    sqlCmd.Parameters.AddWithValue("@petProfilePic", record.PetProfilePic);
                     sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
                     sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
                     sqlCmd.Parameters.AddWithValue("@petID", record.PetID);

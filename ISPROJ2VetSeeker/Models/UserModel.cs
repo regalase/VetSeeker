@@ -71,7 +71,7 @@ namespace ISPROJ2VetSeeker.Models
 
         [Display(Name = "Profile Picture")]
         [Required]
-        public byte[] ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
 
         [Display(Name = "Date Added")]
         public DateTime DateAdded { get; set; }

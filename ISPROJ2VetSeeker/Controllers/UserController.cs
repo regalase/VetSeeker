@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data;
+using System.Diagnostics;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
@@ -44,7 +45,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString()),
                                 Street = sqlDr["street"].ToString(),
                                 Baranggay = sqlDr["baranggay"].ToString(),
-                                ProfilePicture = new byte[8],
+                                ProfilePicture = sqlDr["profilePicture"].ToString(),
                                 DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString()),
                                 DateModified = DateTime.Parse(sqlDr["dateModified"].ToString())
                             });
@@ -89,8 +90,13 @@ namespace ISPROJ2VetSeeker.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(UserModel record)
+        public ActionResult Register(UserModel record, HttpPostedFileBase file)
         {
+            file.SaveAs(HttpContext.Server.MapPath("~/Images/") 
+                                                  + file.FileName);
+
+            record.ProfilePicture = file.FileName;
+
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
@@ -111,10 +117,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@unitHouseNo", record.UnitHouseNo);
                     sqlCmd.Parameters.AddWithValue("@street", record.Street);
                     sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
-
-                    //TODO: Fix profile picture logic
-                    byte[] profilePicture = new byte[32];
-                    sqlCmd.Parameters.AddWithValue("@profilePicture", profilePicture);
+                    sqlCmd.Parameters.AddWithValue("@profilePicture", record.ProfilePicture);
                     sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
                     sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
                     sqlCmd.ExecuteNonQuery();
@@ -257,12 +260,16 @@ namespace ISPROJ2VetSeeker.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateUserProfile(UserModel record)
+        public ActionResult UpdateUserProfile(UserModel record, HttpPostedFileBase file)
         {
+            Debug.WriteLine("PP:" + file.FileName);
+            file.SaveAs(HttpContext.Server.MapPath("~/Images/")+ file.FileName);
+            record.ProfilePicture = file.FileName;
+
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE Users SET firstName=@firstName, lastName=@lastName, mobileNo=@mobileNo, email=@email, username=@username, password=@password, gender=@gender, birthday=@birthday, city=@city, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, dateModified=@dateModified WHERE userID = @userID";
+                string query = @"UPDATE Users SET firstName=@firstName, lastName=@lastName, mobileNo=@mobileNo, email=@email, username=@username, password=@password, gender=@gender, birthday=@birthday, city=@city, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, profilePicture=@profilePicture, dateModified=@dateModified WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@firstName", record.FirstName);
@@ -277,9 +284,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@unitHouseNo", record.UnitHouseNo);
                     sqlCmd.Parameters.AddWithValue("@street", record.Street);
                     sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
-
-                    //byte[] ProfilePicture = new byte[32];
-                    //sqlCmd.Parameters.AddWithValue("@profilePic", ProfilePicture);
+                    sqlCmd.Parameters.AddWithValue("@profilePicture", record.ProfilePicture);
                     sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
                     sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
                     sqlCmd.ExecuteNonQuery();

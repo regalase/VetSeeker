@@ -1,0 +1,58 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins&display=swap');
+
+body {
+    background-color: #F8F0DF;
+}
+
+
+.hover:hover:before {
+    background-color: yellow;
+}
+
+.star-rating {
+    display: flex;
+    width: 160px;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    position: relative;
+}
+
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating > label {
+        width: 30px;
+        height: 30px;
+        font-family: Arial;
+        font-size: 30px;
+        transition: 0.2s ease;
+        color: orange;
+    }
+
+    .star-rating label:hover {
+        color: #ff69b4;
+        transition: 0.2s ease;
+    }
+
+    .star-rating label:active::before {
+        transform: scale(1.1);
+    }
+
+    .star-rating label::before {
+        content: '\2606';
+        position: absolute;
+        top: 0px;
+        line-height: 26px;
+    }
+
+    .star-rating input:checked ~ label:before {
+        content: '\2605';
+    }
+
+@-moz-document url-prefix() {
+    .star-rating input:checked ~ label:before {
+        font-size: 36px;
+        line-height: 21px;
+    }
+}

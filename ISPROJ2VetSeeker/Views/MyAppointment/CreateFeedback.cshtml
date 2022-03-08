@@ -2,26 +2,23 @@
 
 @{
     ViewBag.Title = "CreateFeedback";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
-
-@Styles.Render("~/Style/StyleSheetCreate.css")
-<link href="~/Style/StyleSheetCreate.css" rel="stylesheet" type="text/css" />
+@Styles.Render("~/Content/CreateFeedback.css")
+<link href="~/Content/CreateFeedback.css" rel="stylesheet" type="text/css" />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <br />
-        <br />
-        <br />
         <h4 style="text-align:center">Write Feedback</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="Create">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-5 col-md-offset-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -32,18 +29,34 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
+
+                        <div class="star-rating">
+                            <input id="star-a" type="radio" name="@Html.NameFor(model =>model.Rating)" value="5" />
+                            <label for="star-a" class="hover glyphicon glyphicon-star-empty"></label>
+
+                            <input id="star-b" type="radio" name="@Html.NameFor(model =>model.Rating)" value="4" />
+                            <label for="star-b" class="hover glyphicon glyphicon-star-empty"></label>
+
+                            <input id="star-c" type="radio" name="@Html.NameFor(model =>model.Rating)" value="3" />
+                            <label for="star-c" class="hover glyphicon glyphicon-star-empty"></label>
+
+                            <input id="star-d" type="radio" name="@Html.NameFor(model =>model.Rating)" value="2" />
+                            <label for="star-d" class="hover glyphicon glyphicon-star-empty"></label>
+
+                            <input id="star-e" type="radio" name="@Html.NameFor(model =>model.Rating)" value="1" />
+                            <label for="star-e" class="hover glyphicon glyphicon-star-empty"></label>
+                        </div>
                         @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 @Html.HiddenFor(model => model.MyAppointmentID, new { id = "MyAppointmentID", Value = Model.MyAppointmentID })
             </div>
 
-            <div class="col-lg-1"></div>
+            <div class="col-md-1"></div>
 
             <div class="form-group">
                 <div class="col-md-offset-5 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Submit" class="btn btn-success" />
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 @{ ViewBag.Title = "UpdateUserProfile"; }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("UpdateUserProfile","User", FormMethod.Post, new { enctype ="multipart/form-data", @name = "image" }))
 {
     @Html.AntiForgeryToken()
 
@@ -117,8 +117,10 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ProfilePicture, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.ProfilePicture, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ProfilePicture, "", new { @class = "text-danger" })
+                        <div class="col-md-10">
+                            <input id="ProfilePicture" title="Upload a product image"
+                                   type="file" name="file" />
+                        </div>
                     </div>
                 </div>
 

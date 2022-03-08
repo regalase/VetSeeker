@@ -42,22 +42,16 @@ namespace ISPROJ2VetSeeker.Controllers
 
 
 
-        public ActionResult ListofServices()//For Admin
+        public ActionResult ListofServices()
         {
-            if (Session[Helper.USER_ID_KEY] != null) //user login already
-            {
-                if (Session[Helper.TYPE_ID_KEY].ToString() == "0")//ADMIN
-                {
-                    return RedirectToAction("MyProfile", "Clinics");
-                }
-            }
             var list = new List<ServiceTypeModel>();
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, serviceName, price FROM ServiceType";
+                string query = @"SELECT userID, serviceName, price FROM ServiceType WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         while (sqlDr.Read())

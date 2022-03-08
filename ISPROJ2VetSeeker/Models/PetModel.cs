@@ -41,7 +41,7 @@ namespace ISPROJ2VetSeeker.Models
         [Required]
         public String Guardian { get; set; }
 
-        public byte[] PetProfilePic { get; set; }
+        public string PetProfilePic { get; set; }
 
         public DateTime DateAdded { get; set; }
 
