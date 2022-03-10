@@ -1,35 +1,44 @@
 ﻿@model IEnumerable<ISPROJ2VetSeeker.Models.PetModel>
 
 
-@{ ViewBag.Title = "ViewPets"; }
+@{
+    ViewBag.Title = "ViewPets";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
 
-@Styles.Render("~/Content/ViewPets.css")
-<link href="~/Content/ViewPets.css" rel="stylesheet" type="text/css" />
-<div class="col-md-offset-0">
-    <h1>Pets</h1>
-</div>
-<div class="col-md-offset-11">
-    <h5>@Html.ActionLink("Add Pet", "PetRegister", new { @class = "btn btn-primary" }, new { @class = "btn btn-success" })</h5>
-</div>
-@foreach (var petModel in Model)
-{
-    <div class="col-md-offset-0 col-md-3">
-        <h2></h2>
-        <div class="thumbnail">
-            <div class="caption">
-                <h4><b>Pet Profile Picture:</b> <img src="~/Images/@petModel.PetProfilePic" alt="@petModel.PetProfilePic" width="100" height="100" /></h4>
-                <h4><b>Pet name:</b> <span style="color: dodgerblue"> @petModel.PetName</span></h4>
-                <h4><b>Breed:</b> <span style="color: dodgerblue ">@petModel.Breed</span></h4>
-                <h4><b>Sex:</b> <span style="color: dodgerblue ">@petModel.Sex</span></h4>
-                <h4><b>Color:</b> <span style="color: dodgerblue ">@petModel.Color</span></h4>
-                <h4><b>Birthday:</b> <span style="color: dodgerblue ">@petModel.Birthday</span></h4>
-                <h4><b>Pet Chip Number:</b> <span style="color: dodgerblue ">@petModel.PetChipNo</span></h4>
-                <h4><b>Guardian:</b> <span style="color: dodgerblue">@petModel.Guardian</span></h4>
-                <h5>@Html.ActionLink("Update Profile", "UpdatePetProfile", new { petId = petModel.PetID }, new { @class = "btn btn-primary" })</h5>
-                <h5>@Html.ActionLink("Medical History", "ViewMedicalHistory", new { petId = petModel.PetID }, new { @class = "btn btn-primary" })</h5>
+@Styles.Render("~/Content/View.css")
+<link href="~/Content/View.css" rel="stylesheet" type="text/css" />
+<div class="container-fluid">
+    <div class="col-md-offset-0">
+        <h1>My Pets</h1>
+    </div>
+    <div class="col-md-offset-11">
+        <h5>@Html.ActionLink("Add Pet", "PetRegister", new { @class = "btn btn-primary" }, new { @class = "btn btn-success" })</h5>
+    </div>
+    @foreach (var petModel in Model)
+    {
+        <div class="col-md-offset-0 col-md-3">
+            <h2></h2>
+            <div class="thumbnail">
+                <div class="caption">
+                    <div id="pet" style="text-align:center">
+                        <img src="~/Images/@petModel.PetProfilePic" alt="@petModel.PetProfilePic" width="100" height="100" />
+                    </div>
+
+                    <h4><b>Pet name:</b> <span> @petModel.PetName</span></h4>
+                    <h4><b>Breed:</b> <span>@petModel.Breed</span></h4>
+                    <h4><b>Sex:</b> <span>@petModel.Sex</span></h4>
+                    <h4><b>Color:</b> <span>@petModel.Color</span></h4>
+                    <h4><b>Birthday:</b> <span>@petModel.Birthday.ToString("MM/dd/yyyy")</span></h4>
+                    <h4><b>Pet Chip Number:</b> <span>@petModel.PetChipNo</span></h4>
+                    <h4><b>Guardian:</b> <span>@petModel.Guardian</span></h4>
+                    <h5>@Html.ActionLink("Update Profile", "UpdatePetProfile", new { petId = petModel.PetID }, new { @class = "btn btn-primary" })</h5>
+                    <h5>@Html.ActionLink("Medical History", "ViewMedicalHistory", new { petId = petModel.PetID }, new { @class = "btn btn-primary" })</h5>
+                </div>
             </div>
-        </div>
-    </div>}
+        </div>}
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

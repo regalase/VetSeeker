@@ -3,28 +3,28 @@
     ViewBag.Title = "ViewSchedules";
     Layout = "~/Views/Shared/_LayoutVet.cshtml";
 }
+
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+
 @using (Html.BeginForm())
 {
     //render as table
     <table>
-        <tr>
-            <th>
+        <tr class="head">
+            <th class="col1">
                 @Html.DisplayNameFor(model => model.Date)
             </th>
-            <th>
+            <th class="col2">
                 @Html.DisplayNameFor(model => model.ClinicName)
             </th>
-            <th>
+            <th class="col3">
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                Actions
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
+
             </th>
             <th>
             </th>
@@ -32,23 +32,27 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+            <tr class="body">
+                <td class="col1">
+                    @Convert.ToDateTime(item.Date).ToString("MM/dd/yyyy hh:mm tt")
                 </td>
-                <td>
+                <td class="col2">
                     @Html.DisplayFor(modelItem => item.ClinicName)
                 </td>
-                <td>
+                <td class="col3">
                     @if (item.Status == "1")
                     {
                         @Html.Raw("Pending");
-                    } else if (item.Status == "2") {
+                    }
+                    else if (item.Status == "2")
+                    {
                         @Html.Raw("Accepted");
-                    } else if (item.Status == "0") 
+                    }
+                    else if (item.Status == "0")
                     {
                         @Html.Raw("Available");
-                    } else if (item.Status == "3")
+                    }
+                    else if (item.Status == "3")
                     {
                         @Html.Raw("Completed");
                     }
@@ -65,7 +69,9 @@
                     <td>
                         @Html.ActionLink("Decline", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
                     </td>
-                } else if(item.Status == "2")
+
+                }
+                else if (item.Status == "2")
                 {
                     <td>
                         @Html.ActionLink("Cancel", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
@@ -73,6 +79,12 @@
                     <td>
                         @Html.ActionLink("Complete", "CompleteSchedule", new { id = item.ScheduleId, status = 3 })
                     </td>
+                }
+                else
+                {
+                    <td></td>
+
+                    <td></td>
                 }
             </tr>
         }

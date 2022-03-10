@@ -13,8 +13,13 @@ namespace ISPROJ2VetSeeker.Models
         /*FOREIGN KEYS*/
         public long UserID { get; set; }
         /*DETAILS*/
+
+        [Display(Name = "Service Name")]
+        [Required]
         public string ServiceName { get; set; }
 
+        [Display(Name = "Price")]
+        [Required]
         public decimal Price { get; set; }
 
         public string DropdownDisplayText { get; set; }

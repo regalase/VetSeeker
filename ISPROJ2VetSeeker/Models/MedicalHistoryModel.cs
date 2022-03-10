@@ -15,6 +15,8 @@ namespace ISPROJ2VetSeeker.Models
 
         public long ServiceTypeID { get; set; }
         /*DETAILS*/
+
+        [Display(Name = "Diagnosis")]
         public string Diagnosis { get; set; }
 
     }

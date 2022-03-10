@@ -30,6 +30,7 @@ namespace ISPROJ2VetSeeker.Models
 
         [RegularExpression(@"^09(73|74|05|06|15|16|17|26|27|35|36|37|79|38|07|08|09|10|12|18|19|20|21|28|29|30|38|39|89|99|22|23|32|33)\d{3}\s?\d{4}", ErrorMessage = "Invalid Format")]
         [MaxLength(30)]
+        [Required]
         public string MobileNo { get; set; }
 
         [Display(Name = "Email Address")]

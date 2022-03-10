@@ -7,9 +7,16 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+        .dropdown-toggle:active, .open .dropdown-toggle, .home:hover {
+            background-color: #569B9F !important;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #79B4B7; border: none;">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #79B4B7; border:none;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" style="margin: 25px 10px">
@@ -17,27 +24,52 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("VetSeeker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white; margin: 15px 7px; font-size: 3rem;" })
+                <a href="@Url.Action("VetProfile", "Accounts")">
+                    <img src="~/Images/Logo2.png" alt="VetSeeker Logo" width="50%" style="margin-top:6px; margin-bottom:5px" />
+                </a>
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float:right;">
+                    <li style="font-size: 2rem;margin: 15px 2px; cursor: pointer;">@Html.ActionLink("Add Clinic", "RegisterClinic", "Clinic", null, new { style = "color:white" })</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white; font-size: 2rem; margin: 15px 2px">My Schedules <span class="fa fa-angle-down"></span></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-size: 2rem; margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Create Schedule", "CreateSchedule", "Schedule", null, new { style = "color:#717171" })</li>
+                            <li style="font-size: 2rem; margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View Schedules", "ViewSchedules", "Schedule", null, new { style = "color:#717171" })</li>
+                            <li style="font-size: 2rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Client Feedback", "ViewClientFeedback", "User", null, new { style = "color::#717171" })</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white; font-size: 2rem; margin: 15px 2px">My Services <span class="fa fa-angle-down"></span></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-size: 2rem; margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Create Service", "CreateService", "Service", null, new { style = "color:#717171" })</li>
+                            <li style="font-size: 2rem; margin: 15px 7px; cursor: pointer;">@Html.ActionLink("List of Services", "ListofServices", "Service", null, new { style = "color:#717171" })</li>
+                        </ul>
+                    </li>
 
-                    <li style="font-size: 2rem; margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View Bookings", "ViewSchedules", "Schedule", null, new { style = "color:white" })</li>
-                    <li style="font-size: 2rem; margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Create Service", "CreateService", "Service", null, new { style = "color:white" })</li>
-                    <li style="font-size: 2rem; margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Create Schedule", "CreateSchedule", "Schedule", null, new { style = "color:white" })</li>
-                    <li style="font-size: 3rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink(" ", "VetProfile", "Accounts", null, new { @class = "fa fa-user-circle", style = "color:white;" }) </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle fa fa-user-circle" data-toggle="dropdown" href="#" style="color: white; font-size: 3rem; margin: 15px 2px"></a>
+                        <ul class="dropdown-menu">
+                            <li style="font-size: 2rem;margin: 15px 7px; cursor: pointer;">@Html.ActionLink("My Profile", "VetProfile", "Accounts", null, new { style = "color:#717171;" }) </li>
+
+                            <li style="font-size: 2rem; margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Log Out", "LogOut", "Accounts", null, new { style = "color:#717171" })</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        <br />
+    <div class="container body-content" style="margin-top: 60px; margin-bottom: 60px;">
         <br />
         <br />
 
         @RenderBody()
-        <br />
-        <footer>
+
+
+    </div>
+    <div class="container">
+        <footer style="bottom:0; height:50px;">
             <p>&copy; @DateTime.Now.Year - VetSeeker</p>
         </footer>
     </div>
@@ -45,5 +77,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>$(document).ready(function () {
+            $(".dropdown").hover(function () {
+                $(this).toggleClass("open");
+            });
+        })</script>
 </body>
 </html>

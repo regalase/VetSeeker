@@ -4,10 +4,14 @@
     Layout = "~/Views/Shared/_LayoutVet.cshtml";
 }
 
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 <h2>Invoices</h2>
 
 <table>
-    <tr>
+    <tr class="head">
         <th>
             Invoice ID
         </th>
@@ -29,7 +33,7 @@
     </tr>
     @foreach (var invoice in Model)
     {
-        <tr>
+        <tr class="body">
             <td>
                 @invoice.InvoiceID
             </td>

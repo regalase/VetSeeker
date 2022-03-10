@@ -1,26 +1,34 @@
 ﻿@model IEnumerable<ISPROJ2VetSeeker.Models.InvoiceModel>
 
+@{
+    ViewBag.Title = "Invoices";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
 
-@{ ViewBag.Title = "Invoices"; }
+@Styles.Render("~/Content/View.css")
+<link href="~/Content/View.css" rel="stylesheet" type="text/css" />
 
-@Styles.Render("~/Content/StyleSheetViewPets.css")
-<link href="~/Content/StyleSheetViewPets.css" rel="stylesheet" type="text/css" />
-<div class="col-md-offset-0">
-    <h1>Invoice</h1>
-</div>
 
-@foreach (var InvoiceModel in Model)
-{
-    <div class="col-md-offset-0 col-md-3">
-        <h2></h2>
-        <div class="thumbnail">
-            <div class="caption">
-                <h4><b>Invoice ID:</b> <span style="color: dodgerblue"> @InvoiceModel.InvoiceID</span></h4>
-                <h4><b>Appoinment ID:</b> <span style="color: dodgerblue"> @InvoiceModel.MyAppointmentID</span></h4>
-                <h4><b>Medical History ID:</b> <span style="color: dodgerblue"> @InvoiceModel.MedicalHistoryID</span></h4>
-                <h4><b>Professional Fee:</b> <span style="color: dodgerblue"> @InvoiceModel.ProfessionalFee</span></h4>
-                <h4><b>Date:</b> <span style="color: dodgerblue"> @InvoiceModel.Date</span></h4>
-                <h4><b>Total Price:</b> <span style="color: red"> @InvoiceModel.TotalPrice</span></h4>
+<div class="container-fluid">
+    <div class="col-md-offset-0">
+        <h1>Invoice</h1>
+    </div>
+
+    @foreach (var InvoiceModel in Model)
+    {
+        <div class="col-md-offset-0 col-md-4" id="inv">
+            <h2></h2>
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4><b>Invoice ID:</b> <span> @InvoiceModel.InvoiceID</span></h4>
+                    <h4><b>Appoinment ID:</b> <span> @InvoiceModel.MyAppointmentID</span></h4>
+                    <h4><b>Medical History ID:</b> <span> @InvoiceModel.MedicalHistoryID</span></h4>
+                    <h4><b>Professional Fee:</b> <span> @InvoiceModel.ProfessionalFee</span></h4>
+                    <h4><b>Date:</b> <span> @InvoiceModel.Date.ToString("MM/dd/yyyy hh:mm tt")</span></h4>
+                    <h4><b>Total Price:</b> <span id="total"> @InvoiceModel.TotalPrice</span></h4>
+                </div>
             </div>
         </div>
-    </div>}
+    }
+
+</div>

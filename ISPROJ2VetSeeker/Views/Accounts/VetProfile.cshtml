@@ -2,56 +2,33 @@
 
 @{
     ViewBag.Title = "VetProfile";
-}
-@{
-    Layout = "";
+    Layout = "~/Views/Shared/_LayoutVet.cshtml";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-@Scripts.Render("~/Scripts/Hover.js")
-<script src="~/Scripts/Hover.js"></script>
-@Styles.Render("~/Style/ProductIndex.css")
-<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-<link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
-<link href="~/Style/ProductIndex.css" rel="stylesheet" type="text/css" />
-<canvas id="fireflies"></canvas>
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div class="site-title">
-                <a href="@Url.Action("Index", "Store")">
-                    <img src="~/Images/Logo/a.png" height="55" style="margin-top: 10px;" />
-                </a>
-            </div>
-        </div>
+@Styles.Render("~/Content/MyProfile.css")
+<link href="~/Content/MyProfile.css" rel="stylesheet" type="text/css" />
 
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav" style="float:right;">
-                <li style="margin: 25px 7px; cursor: pointer;">
-                    @using (@Html.BeginForm("Index", "Store", FormMethod.Get))
-                    {
-                        @Html.TextBox("keyword")
-                        <input type="submit" value="Search" />
-                    }
-                </li>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Create Service", "CreateService", "Service", null, new { style = "color:white" })</li>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View Services", "ListofServices", "Service", null, new { style = "color:white" })</li>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Create Schedule", "CreateSchedule", "Schedule", null, new { style = "color:white" })</li>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View Bookings", "ViewSchedules", "Schedule", null, new { style = "color:white" })</li>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Add Clinic", "RegisterClinic", "Clinic", null, new { style = "color:white" })</li>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("View Feedback", "ViewClientFeedback", "User", null, new { style = "color:white" })</li>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Update Profile", "UpdateUserProfile", "User", null, new { style = "color:white" })</li>
-                <li class="button2 button1" style="margin: 15px 7px; cursor: pointer;">@Html.ActionLink("Log Out", "LogOut", "Accounts", null, new { style = "color:white" })</li>
-
-            </ul>
+<div class="container" id="profile">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3" style="text-align:center">
+        <img src="~/Images/@Model.ProfilePicture" alt="@Model.ProfilePicture" width="150" height="150" />
+        <div class="col-lg-10" style="margin-top: 50px;">
+            @Html.ActionLink("Update Profile", "UpdateUserProfile", "User", null, new { @class = "btn btn-primary", style = "color:white;background: #79B4B7; padding:10px;" })
         </div>
     </div>
-</div>
-<div>
-    <p>@Model.FirstName</p>
+    <div class="col-lg-8 list-group-item" id="details">
+
+        <h1>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h1>
+        <p style="font-size: 20px">
+            <b>Username:</b> @Html.DisplayFor(model => model.UserName)
+            <br />
+            <b>Mobile Number:</b> @Html.DisplayFor(model => model.MobileNo)
+            <br />
+            <b>@Html.DisplayNameFor(model => model.Gender):</b> @Html.DisplayFor(model => model.Gender)
+            <br />
+            <b>@Html.DisplayNameFor(model => model.Birthday):</b> @Html.DisplayFor(model => model.Birthday)
+            <br />
+            <b>Address:</b> @Html.DisplayFor(model => model.UnitHouseNo) @Html.DisplayFor(model => model.Street) @Html.DisplayFor(model => model.City) @Html.DisplayFor(model => model.Baranggay)
+        </p>
+    </div>
 </div>

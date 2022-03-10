@@ -15,10 +15,14 @@ namespace ISPROJ2VetSeeker.Models
 
         public long MedicalHistoryID { get; set; }
         /*DETAILS*/
+
+        [Display(Name = "Professional Fee")]
+        [Required]
         public decimal ProfessionalFee { get; set; }
 
         public DateTime Date { get; set; }
 
+        [Display(Name = "Total Price")]
         public decimal TotalPrice { get; set; }
 
         public DateTime DateAdded { get; set; }

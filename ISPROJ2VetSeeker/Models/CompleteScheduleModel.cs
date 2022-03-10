@@ -23,17 +23,22 @@ namespace ISPROJ2VetSeeker.Models
 
         public ScheduleModel ScheduleModel { get; set; }
 
+        [Display(Name = "Professional Fee")]
+        [Required]
         public decimal ProfessionalFee { get; set; }
-        
+
+        [Display(Name = "Service Fee")]
         public decimal ServiceFee { get; set; }
 
         public DateTime Date { get; set; }
 
+        [Display(Name = "Total Price")]
         public decimal TotalPrice { get; set; }
 
         public PetModel PetModel { get; set; }
         public List<ServiceTypeModel> ServiceTypeModels { get; set; }
-        
+
+        [Display(Name = "Diagnosis")]
         [Required]
         public string Diagnosis { get; set; }
     }

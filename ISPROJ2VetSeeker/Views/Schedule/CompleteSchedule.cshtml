@@ -1,12 +1,12 @@
 ﻿@model ISPROJ2VetSeeker.Models.CompleteScheduleModel
 
 
-@{
-    ViewBag.Title = "CompleteSchedule";
-    Layout = "~/Views/Shared/_LayoutVet.cshtml";
-
-}
-
+@{ ViewBag.Title = "CompleteSchedule";
+    Layout = "~/Views/Shared/_LayoutVet.cshtml"; }
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 <script>
 
     function AddProfessionalFee(value) {
@@ -38,19 +38,19 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="Create">
             <table>
-                <tr>
+                <tr class="head">
                     <th>
                         Date and Time
                     </th>
                 </tr>
-                <tr>
-                    <th>
+                <tr class="body">
+                    <td>
                         @Model.ScheduleModel.Date.ToString("MM/dd/yyyy hh:mm tt")
-                    </th>
+                    </td>
                 </tr>
             </table>
             <table>
-                <tr>
+                <tr class="head">
                     <th>
                         @Html.LabelFor(model => model.PetModel.PetName)
                     </th>
@@ -70,61 +70,68 @@
                         @Html.LabelFor(model => model.PetModel.Guardian)
                     </th>
                 </tr>
-                <tr>
-                    <th>
+                <tr class="body">
+                    <td>
                         @Model.PetModel.PetName
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Model.PetModel.Breed
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Model.PetModel.Sex
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Model.PetModel.Color
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Model.PetModel.PetChipNo
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @Model.PetModel.Guardian
-                    </th>
+                    </td>
                 </tr>
             </table>
-            <div class="form-group">
-                @Html.LabelFor(model => model.ServiceTypeModels, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.SelectedService.ServiceTypeID,
-                 new SelectList(Model.ServiceTypeModels, "serviceTypeID", "DropdownDisplayText"),
-                 "Select from the list...", new { @id = "service-type-list", @class = "form-control", @onchange = "AddServiceFee(this)" })
+            <br />
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <span class="control-label col-md-2" style="font-weight:700">Service</span>
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.SelectedService.ServiceTypeID,
+                                         new SelectList(Model.ServiceTypeModels, "serviceTypeID", "DropdownDisplayText"),
+                                         "Select from the list...", new { @id = "service-type-list", @class = "form-control", @onchange = "AddServiceFee(this)" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2" style="font-weight:700">Professional Fee</span>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProfessionalFee, new { htmlAttributes = new { @id = "professional-fee-id", @class = "form-control", @onchange = "AddProfessionalFee(this.value)" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2" style="font-weight:700">Total Price</span>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TotalPrice, new { htmlAttributes = new { @id = "total-price-id", @class = "form-control", @disabled = "disabled" } })
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProfessionalFee, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProfessionalFee, new { htmlAttributes = new { @id = "professional-fee-id", @class = "form-control", @onchange = "AddProfessionalFee(this.value)" }})
+            <div class="col-lg-6">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Diagnosis, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Diagnosis, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.TotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TotalPrice, new { htmlAttributes = new { @id = "total-price-id", @class = "form-control", @disabled = "disabled"} })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Diagnosis, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Diagnosis, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
+
+
             @Html.HiddenFor(model => model.SelectedPetID, new { id = "SelectedPetID", Value = Model.PetModel.PetID })
             @Html.HiddenFor(model => model.MyAppointmentID, new { id = "MyAppointmentID", Value = Model.MyAppointmentID })
             @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "ScheduleID", Value = Model.ScheduleModel.ScheduleID })
             <div class="form-group">
                 <div class="col-md-offset-5 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Complete" class="btn btn-default" />
                 </div>
             </div>
         </div>
-    </div>
-}
+    </div>}

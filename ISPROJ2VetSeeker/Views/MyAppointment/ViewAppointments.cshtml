@@ -3,8 +3,14 @@
 
 @{
     ViewBag.Title = "ViewAppointments";
-
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
+
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+<h2 style="margin-bottom:30px">View Appointments</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -13,9 +19,9 @@
     {
 
         <h4><b>@item.ClinicName</b></h4>
-        <table class="table">
+        <table>
 
-            <tr>
+            <tr class="head">
                 <th>
                     Date and Time
                 </th>
@@ -32,7 +38,7 @@
                     Actions
                 </th>
             </tr>
-            <tr>
+            <tr class="body">
                 <td>
                     @item.Date
                 </td>

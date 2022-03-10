@@ -13,8 +13,13 @@ namespace ISPROJ2VetSeeker.Models
         /*FOREIGN KEYS*/
         public long MyAppointmentID { get; set; }
         /*DETAILS*/
+
+        [Display(Name = "Feedback")]
+        [Required]
         public string Feedback { get; set; }
 
+        [Display(Name = "Rating")]
+        [Required]
         public decimal Rating { get; set; }
 
         public DateTime DateAdded { get; set; }

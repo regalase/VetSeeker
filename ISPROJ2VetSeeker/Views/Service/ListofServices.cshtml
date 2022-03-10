@@ -1,32 +1,36 @@
 ﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ServiceTypeModel>
-    @{
-        ViewBag.Title = "ListofServices";
-        Layout = "~/Views/Shared/_LayoutVet.cshtml";
-    }
+@{
+    ViewBag.Title = "ListofServices";
+    Layout = "~/Views/Shared/_LayoutVet.cshtml";
+}
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 
-    <h2>Invoices</h2>
+<h2>Invoices</h2>
 
-    <table>
-        <tr>
-            <th>
-                Service
-            </th>
-            <th>
-                Price
-            </th>
+<table>
+    <tr class="head">
+        <th>
+            Service
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    @foreach (var Service in Model)
+    {
+        <tr class="body">
+            <td>
+                @Service.ServiceName
+            </td>
+            <td>
+                @Service.Price
+            </td>
         </tr>
-        @foreach (var Service in Model)
-        {
-            <tr>
-                <td>
-                    @Service.ServiceName
-                </td>
-                <td>
-                    @Service.Price
-                </td>
-            </tr>
-        }
-    </table>
-        
+    }
+</table>
+
 
 

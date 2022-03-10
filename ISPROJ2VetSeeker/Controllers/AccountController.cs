@@ -209,7 +209,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
                                 record.Street = sqlDr["street"].ToString();
                                 record.Baranggay = sqlDr["baranggay"].ToString();
-                                //record.ProfilePicture = byte[].parse(sqlDr["profilePicture"].ToString());
+                                record.ProfilePicture = sqlDr["profilePicture"].ToString();
                                 record.DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString());
                                 record.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
                             }

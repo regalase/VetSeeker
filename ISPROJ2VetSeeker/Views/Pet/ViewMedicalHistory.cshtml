@@ -1,25 +1,31 @@
 ﻿@model ISPROJ2VetSeeker.Models.ViewMedicalHistoryModel
 
 
-@{ ViewBag.Title = "ViewMedicalHistory"; }
+@{
+    ViewBag.Title = "ViewMedicalHistory";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
 
 @Styles.Render("~/Content/MedicalHistory.css")
 <link href="~/Content/MedicalHistory.css" rel="stylesheet" type="text/css" />
+<div class="container-fluid">
+    <div class="col-md-offset-0">
+        <h2>Pets</h2>
+    </div>
 
-<div class="col-md-offset-0">
-    <h2>Pets</h2>
-</div>
-
-<div class="col-md-offset-0 col-md-3">
-    <h2></h2>
-    <div class="thumbnail">
-        <div class="caption">
-            <h4><b>Pet Name:</b><span style="color: dodgerblue"> @Model.PetName</span></h4>
-            <h4><b>Diagnosis:</b><span style="color: dodgerblue"> @Model.Diagnosis</span></h4>
-            <h4><b>Service:</b><span style="color: dodgerblue"> @Model.ServiceName</span></h4>
-            <h4><b>Vetrinarian:</b><span style="color: dodgerblue"> @Model.LastName, @Model.FirstName</span></h4>
-            <h4><b>Mobile Number:</b><span style="color: dodgerblue"> @Model.MobileNo</span></h4>
-            <h4><b>Email:</b><span style="color: dodgerblue"> @Model.Email</span></h4>
+    <div class="col-md-offset-0 col-md-3">
+        <h2></h2>
+        <div class="thumbnail">
+            <div class="caption">
+                <h4><b>Pet Name:</b><span style="color: dodgerblue"> @Model.PetName</span></h4>
+                <h4><b>Diagnosis:</b><span style="color: dodgerblue"> @Model.Diagnosis</span></h4>
+                <h4><b>Service:</b><span style="color: dodgerblue"> @Model.ServiceName</span></h4>
+                <h4><b>Vetrinarian:</b><span style="color: dodgerblue"> @Model.LastName, @Model.FirstName</span></h4>
+                <h4><b>Mobile Number:</b><span style="color: dodgerblue"> @Model.MobileNo</span></h4>
+                <h4><b>Email:</b><span style="color: dodgerblue"> @Model.Email</span></h4>
+            </div>
         </div>
     </div>
+
+
 </div>

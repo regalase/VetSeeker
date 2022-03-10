@@ -34,8 +34,10 @@ namespace ISPROJ2VetSeeker.Models
         [Required]
         public string City { get; set; }
 
+        [Required]
         public string Longitude { get; set; }
 
+        [Required]
         public string Latitude { get; set; }
 
         //public bool Status { get; set; }
