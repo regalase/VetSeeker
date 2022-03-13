@@ -155,6 +155,7 @@
     <Compile Include="Controllers\PetController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -249,10 +250,12 @@
     <Content Include="Views\User\ViewClientFeedback.cshtml" />
     <Content Include="Views\User\UpdateUserProfile.cshtml" />
     <Content Include="Views\Service\ListofServices.cshtml" />
+    <Content Include="Views\Accounts\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

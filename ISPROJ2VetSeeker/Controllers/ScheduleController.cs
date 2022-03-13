@@ -70,7 +70,7 @@ namespace ISPROJ2VetSeeker.Controllers
 
                     sqlCmd.ExecuteNonQuery();
 
-                    return RedirectToAction("VetProfile", "Accounts");// SHOULD BE CHANGED, NOT SURE TO WHAT
+                    return RedirectToAction("ViewSchedules", "Schedule");// SHOULD BE CHANGED, NOT SURE TO WHAT
                 }
             }
         }
@@ -239,10 +239,8 @@ namespace ISPROJ2VetSeeker.Controllers
         }
 
         [HttpPost]
-        public ActionResult CompleteSchedule(CompleteScheduleModel model)
+        public ActionResult CompleteSchedule(CompleteScheduleModel model) //Insert into Invoice
         {
-            //TODO: Invoice
-            //TODO: Medical History
             int CreatedMedicalHistoryID = 0;
             decimal servicePrice = 0;
             Debug.WriteLine("ServiceFee:" + model.ServiceFee);

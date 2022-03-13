@@ -54,7 +54,7 @@ namespace ISPROJ2VetSeeker.Controllers
         }
 
         // GET: Users
-        public ActionResult ListofClinics()//For Admin
+        public ActionResult ListofClinics()
         {
             if (Session[Helper.USER_ID_KEY] != null) //user login already
             {
@@ -94,7 +94,7 @@ namespace ISPROJ2VetSeeker.Controllers
             return View(list);
 
         }
-        public ActionResult Details(int? id)//For Admin
+        public ActionResult Details(int? id)
         {
             if (id == null) //no record selected
             {

@@ -42,10 +42,10 @@ namespace ISPROJ2VetSeeker.Controllers
                                 Session[Helper.AUDIT_ID_KEY] = AuditLogID.ToString();
                                 if (Session[Helper.TYPE_ID_KEY].ToString() == "1")
                                 {
-                                    return RedirectToAction("MyProfile", "Accounts");
+                                    return RedirectToAction("ClinicSchedules", "MyAppointment");
                                 } else if (Session[Helper.TYPE_ID_KEY].ToString() == "2")
                                 {
-                                    return RedirectToAction("VetProfile", "Accounts");
+                                    return RedirectToAction("ViewSchedules", "Schedule");
                                 } else
                                 {
                                     return RedirectToAction("Dashboard", "Admin");
@@ -233,6 +233,11 @@ namespace ISPROJ2VetSeeker.Controllers
             Helper.RecordUserSessionLogout(int.Parse(Session[Helper.USER_ID_KEY].ToString()), int.Parse(Session[Helper.TYPE_ID_KEY].ToString()), int.Parse(Session[Helper.AUDIT_ID_KEY].ToString()));
             Session.Abandon();
             return RedirectToAction("Login");
+        }
+
+        public ActionResult Test()
+        {
+            return View();
         }
     }
 }

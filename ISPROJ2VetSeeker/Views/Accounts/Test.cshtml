@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Test</h2>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<style>
+    #map {
+      height: 50% !important; 
+      width: 50% !important;
+      position: fixed !important;
+    }
+</style>
+<script>
+    let map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 14.5547, lng: 121.0244 },
+            zoom: 12,
+            panControl: false,
+            streetViewControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP   
+        });
+        
+        var marker = new google.maps.Marker({
+            map: map,
+            position: { lat: 14.5547, lng: 121.0244 },
+            draggable: true
+        });
+        google.maps.event.addListener(marker, 'dragend', function () {
+            map.setCenter(marker.getPosition());
+            console.log(marker.getPosition().lat());
+            console.log(marker.getPosition().lng());
+        })
+        google.maps.event.trigger(map, "resize");
+    }
+
+</script>
+
+<div id="map"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdKWIdIY9R5PNi_RYI3NU5TcF4KR4eLOE&callback=initMap&v=weekly&channel=2" async></script>
+

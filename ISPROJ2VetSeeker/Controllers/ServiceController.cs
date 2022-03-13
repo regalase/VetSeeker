@@ -35,7 +35,7 @@ namespace ISPROJ2VetSeeker.Controllers
 
                     sqlCmd.ExecuteNonQuery();
 
-                    return RedirectToAction("VetProfile", "Accounts");
+                    return RedirectToAction("ListofServices", "Service");
                 }
             }
         }

@@ -227,12 +227,5 @@ namespace ISPROJ2VetSeeker.Controllers
             }
         }
 
-        /*
-        [HttpPost]
-        public ActionResult BookAppointment(ClinicScheduleUIModel record)
-        {
-            //Save the appointment + Schedule, refer to query.
-            return View(record);
-        }*/
     }
 }
