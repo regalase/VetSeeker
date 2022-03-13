@@ -13,6 +13,7 @@ namespace ISPROJ2VetSeeker.Models
             ClinicModels = new List<ClinicModel>();
             ScheduleModel = new ScheduleModel();
         }
+        public int ClinicID { get; set; }
 
         public List<ClinicModel> ClinicModels { get; set; }
         public ScheduleModel ScheduleModel { get; set; }

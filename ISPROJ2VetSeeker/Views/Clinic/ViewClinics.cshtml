@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ClinicModel>
+
+
+@{
+    ViewBag.Title = "ViewClinics";
+    Layout = "~/Views/Shared/_LayoutVet.cshtml";
+}
+
+@Styles.Render("~/Content/View.css")
+<link href="~/Content/View.css" rel="stylesheet" type="text/css" />
+<div class="container-fluid">
+    <div class="col-md-offset-0">
+        <h1>My Clinics</h1>
+    </div>
+    <div class="col-md-offset-11">
+        <h5>@Html.ActionLink("Add Clinic", "RegisterClinic", new { @class = "btn btn-primary" }, new { @class = "btn btn-success" })</h5>
+    </div>
+    @foreach (var ClinicModel in Model)
+    {
+        <div class="col-md-offset-0 col-md-3">
+            <h2></h2>
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4><b>Clinic:</b> <span> @ClinicModel.ClinicName</span></h4>
+                    <h4><b>Unit House Number:</b> <span>@ClinicModel.UnitHouseNo</span></h4>
+                    <h4><b>Street:</b> <span>@ClinicModel.Street</span></h4>
+                    <h4><b>Barangay:</b> <span>@ClinicModel.Baranggay</span></h4>
+                    <h4><b>City:</b> <span>@ClinicModel.City</span></h4>
+                    <h5>@Html.ActionLink("Update Clinic", "UpdateClinic", new { clinicId = ClinicModel.ClinicID }, new { @class = "btn btn-primary" })</h5>
+                </div>
+            </div>
+        </div>}
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

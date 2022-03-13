@@ -321,5 +321,83 @@ namespace ISPROJ2VetSeeker.Controllers
 
             return RedirectToAction("VetProfile", "Accounts");
         }
+
+        public ActionResult UpdateSchedule(int id)
+        {
+            var record = new CreateScheduleUIModel();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT * FROM Clinic WHERE userID=@userID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var ClinicModel = new ClinicModel();
+                                ClinicModel.ClinicID = int.Parse(sqlDr["clinicID"].ToString());
+                                ClinicModel.ClinicName = sqlDr["clinicName"].ToString();
+                                record.ClinicModels.Add(ClinicModel);
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+
+            }
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                Debug.WriteLine("Alex" + id);
+                sqlCon.Open();
+                string query = @"SELECT * FROM Schedule WHERE scheduleID=@scheduleID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", id);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var ScheduleModel = new ScheduleModel();
+                                ScheduleModel.ScheduleID = int.Parse(sqlDr["scheduleID"].ToString());
+                                ScheduleModel.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                record.ScheduleModel = ScheduleModel;
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+
+            }
+            return View(record);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateSchedule(CreateScheduleUIModel record)
+        {
+
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"UPDATE Schedule SET clinicID=@clinicID, date=@date WHERE scheduleID = @scheduleID AND clinicID=@clinicID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    Debug.WriteLine("Alex" + record.ClinicID);
+                    Debug.WriteLine("Alex" + record.ScheduleModel.ScheduleID);
+                    Debug.WriteLine("Alex" + record.ScheduleModel.Date);
+                    sqlCmd.Parameters.AddWithValue("@clinicID", record.ClinicID);
+                    sqlCmd.Parameters.AddWithValue("@date", record.ScheduleModel.Date);
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", record.ScheduleModel.ScheduleID);
+                    sqlCmd.ExecuteNonQuery();
+                }
+                sqlCon.Close();
+            }
+            return RedirectToAction("ViewSchedules", "Schedule");
+        }
     }
 }

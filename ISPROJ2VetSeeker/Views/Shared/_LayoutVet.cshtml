@@ -31,7 +31,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float:right;">
+                    <li style="font-size: 2rem;margin: 15px 2px; cursor: pointer;">@Html.ActionLink("Invoices", "VetInvoices", "Invoice", null, new { style = "color:white" })</li>
                     <li style="font-size: 2rem;margin: 15px 2px; cursor: pointer;">@Html.ActionLink("Add Clinic", "RegisterClinic", "Clinic", null, new { style = "color:white" })</li>
+                    <li style="font-size: 2rem;margin: 15px 2px; cursor: pointer;">@Html.ActionLink("View Clinic", "ViewClinics", "Clinic", null, new { style = "color:white" })</li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white; font-size: 2rem; margin: 15px 2px">My Schedules <span class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu">

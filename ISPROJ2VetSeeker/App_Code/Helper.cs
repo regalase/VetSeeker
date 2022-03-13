@@ -14,7 +14,51 @@ namespace ISPROJ2VetSeeker.App_Code
     {
         public const string USER_ID_KEY = "userID";
         public const string TYPE_ID_KEY = "typeID";
+        public const string USER_CITY_KEY = "city";
         public const string AUDIT_ID_KEY = "AuditLogID";
+
+        private static Dictionary<String, double> CITY_LONGITUDE_MAP = new Dictionary<String, double>();
+
+        private static Dictionary<String, double> CITY_LATITUDE_MAP = new Dictionary<String, double>();
+
+        public static void init()
+        {
+            CITY_LONGITUDE_MAP.Add("Makati", 121.0244);
+            CITY_LATITUDE_MAP.Add("Makati", 14.5547);
+            CITY_LONGITUDE_MAP.Add("Manila", 120.9842);
+            CITY_LATITUDE_MAP.Add("Manila", 14.5995);
+            CITY_LONGITUDE_MAP.Add("Quezon City", 121.0437);
+            CITY_LATITUDE_MAP.Add("Quezon City", 14.6760);
+            CITY_LONGITUDE_MAP.Add("Caloocan", 121.0450);
+            CITY_LATITUDE_MAP.Add("Caloocan", 14.7566);
+            CITY_LONGITUDE_MAP.Add("Pasay", 121.0014);
+            CITY_LATITUDE_MAP.Add("Pasay", 14.5378);
+            CITY_LONGITUDE_MAP.Add("Pasig", 121.0851);
+            CITY_LATITUDE_MAP.Add("Pasig", 14.5764);
+            CITY_LONGITUDE_MAP.Add("Taguig", 121.0509);
+            CITY_LATITUDE_MAP.Add("Taguig", 14.5176);
+            CITY_LONGITUDE_MAP.Add("Navotas", 120.9350);
+            CITY_LATITUDE_MAP.Add("Navotas", 14.6732);
+            CITY_LONGITUDE_MAP.Add("Muntinlupa", 121.0415);
+            CITY_LATITUDE_MAP.Add("Muntinlupa", 14.4081);
+            CITY_LONGITUDE_MAP.Add("Mandaluyong", 121.0359);
+            CITY_LATITUDE_MAP.Add("Mandaluyong", 14.5794);
+            CITY_LONGITUDE_MAP.Add("Valenzuela", 120.986542);
+            CITY_LATITUDE_MAP.Add("Valenzuela", 14.703580);
+            CITY_LONGITUDE_MAP.Add("Malabon", 120.9658);
+            CITY_LATITUDE_MAP.Add("Malabon", 14.6681);
+            CITY_LONGITUDE_MAP.Add("San Juan", 121.0355);
+            CITY_LATITUDE_MAP.Add("San Juan", 14.6019);
+            CITY_LONGITUDE_MAP.Add("Marikina", 121.1029);
+            CITY_LATITUDE_MAP.Add("Marikina", 14.6507);
+            CITY_LONGITUDE_MAP.Add("Pateros", 121.0687);
+            CITY_LATITUDE_MAP.Add("Pateros", 14.5454);
+            CITY_LONGITUDE_MAP.Add("Paranaque", 121.0198);
+            CITY_LATITUDE_MAP.Add("Paranaque", 14.4793);
+            CITY_LONGITUDE_MAP.Add("Bonifacio Global City", 121.0503);
+            CITY_LATITUDE_MAP.Add("Bonifacio Global City", 14.5409);
+
+        }
 
         public static string GetCon()
         {
@@ -32,6 +76,17 @@ namespace ISPROJ2VetSeeker.App_Code
             HashTool.Clear();
             return Convert.ToBase64String(EncryptedBytes);
         }
+
+        public static double GetCityLongitude(String city)
+        {
+            return CITY_LONGITUDE_MAP[city];
+        }
+
+        public static double GetCityLatitude(String city)
+        {
+            return CITY_LATITUDE_MAP[city];
+        }
+
 
         public static int RecordUserSessionLogin(int UserID, int TypeID)
         {

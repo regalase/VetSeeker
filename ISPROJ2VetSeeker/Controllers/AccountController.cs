@@ -21,7 +21,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, typeID, firstName, lastName, email FROM Users WHERE username=@username AND password=@password";
+                string query = @"SELECT userID, typeID, city, firstName, lastName, email FROM Users WHERE username=@username AND password=@password";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@username", record.UserName);
@@ -34,6 +34,7 @@ namespace ISPROJ2VetSeeker.Controllers
                             {
                                 Session[Helper.USER_ID_KEY] = sqlDr[Helper.USER_ID_KEY].ToString();
                                 Session[Helper.TYPE_ID_KEY] = sqlDr[Helper.TYPE_ID_KEY].ToString();
+                                Session[Helper.USER_CITY_KEY] = sqlDr[Helper.USER_CITY_KEY].ToString();
                             }
 
                             if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null ) //user login already

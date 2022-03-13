@@ -29,5 +29,7 @@ namespace ISPROJ2VetSeeker.Models
 
         public string PetName { get; set; }
 
+        public DateTime Date { get; set; }
+
     }
 }

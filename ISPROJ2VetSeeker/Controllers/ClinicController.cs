@@ -94,6 +94,99 @@ namespace ISPROJ2VetSeeker.Controllers
             return View(list);
 
         }
+
+        public ActionResult ViewClinics()
+        {
+            var userClinics = new List<ClinicModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT clinicID, userID, clinicname, unitHouseNo, street, baranggay, city FROM Clinic WHERE userID = @userID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var clinicModel = new ClinicModel();
+                                clinicModel.ClinicID = int.Parse(sqlDr["clinicID"].ToString());
+                                clinicModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                clinicModel.ClinicName = sqlDr["clinicname"].ToString();
+                                clinicModel.UnitHouseNo = sqlDr["unitHouseNo"].ToString();
+                                clinicModel.Street = sqlDr["street"].ToString();
+                                clinicModel.Baranggay = sqlDr["baranggay"].ToString();
+                                clinicModel.City = sqlDr["city"].ToString();
+                                userClinics.Add(clinicModel);
+                            }
+                        }
+                    }
+                }
+            }
+            return View(userClinics);
+        }
+
+        public ActionResult UpdateClinic(int ClinicID)
+        {
+            var record = new ClinicModel();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT clinicID, userID, clinicname, unitHouseNo, street, baranggay, city, latitude, longitude FROM Clinic WHERE userID = @userID AND clinicID = @clinicID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    sqlCmd.Parameters.AddWithValue("@clinicID", ClinicID);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                record.ClinicID = int.Parse(sqlDr["clinicID"].ToString());
+                                record.UserID = int.Parse(sqlDr["userID"].ToString());
+                                record.ClinicName = sqlDr["clinicname"].ToString();
+                                record.UnitHouseNo = sqlDr["unitHouseNo"].ToString();
+                                record.Street = sqlDr["street"].ToString();
+                                record.Baranggay = sqlDr["baranggay"].ToString();
+                                record.City = sqlDr["city"].ToString();
+                                record.Latitude = sqlDr["latitude"].ToString();
+                                record.Longitude = sqlDr["longitude"].ToString();
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+                return View(record);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UpdateClinic(ClinicModel record)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"UPDATE Clinic SET clinicname=@clinicname, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, city=@city, latitude=@latitude, longitude=@longitude WHERE userID = @userID and clinicID = @clinicID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@clinicname", record.ClinicName);
+                    sqlCmd.Parameters.AddWithValue("@unitHouseNo", record.UnitHouseNo);
+                    sqlCmd.Parameters.AddWithValue("@street", record.Street);
+                    sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
+                    sqlCmd.Parameters.AddWithValue("@city", record.City);
+                    sqlCmd.Parameters.AddWithValue("@latitude", record.Latitude);
+                    sqlCmd.Parameters.AddWithValue("@longitude", record.Longitude);
+                    sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
+                    sqlCmd.Parameters.AddWithValue("@clinicID", record.ClinicID);
+                    sqlCmd.ExecuteNonQuery();
+                }
+                sqlCon.Close();
+            }
+            return RedirectToAction("ViewClinics", "Clinic");
+        }
         public ActionResult Details(int? id)
         {
             if (id == null) //no record selected

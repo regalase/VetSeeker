@@ -251,6 +251,9 @@
     <Content Include="Views\User\UpdateUserProfile.cshtml" />
     <Content Include="Views\Service\ListofServices.cshtml" />
     <Content Include="Views\Accounts\Test.cshtml" />
+    <Content Include="Views\Clinic\ViewClinics.cshtml" />
+    <Content Include="Views\Clinic\UpdateClinic.cshtml" />
+    <Content Include="Views\Schedule\UpdateSchedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

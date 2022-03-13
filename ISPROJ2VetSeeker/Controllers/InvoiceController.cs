@@ -58,7 +58,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 string getVetInvoicesQuery = @"SELECT i.invoiceID, i.myAppointmentID, i.medicalHistoryID, i.professionalFee, i.date, i.totalPrice 
                                              FROM Invoice i 
                                              INNER JOIN MyAppointment m on m.myAppointmentID = i.myAppointmentID 
-                                             INNER JOIN Schedule s on s.scheduleID = i.scheduleID
+                                             INNER JOIN Schedule s on s.scheduleID = m.scheduleID
                                              WHERE s.userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(getVetInvoicesQuery, sqlCon))
                 {

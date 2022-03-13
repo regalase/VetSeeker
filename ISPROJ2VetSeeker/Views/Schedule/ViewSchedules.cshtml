@@ -57,10 +57,19 @@
                     {
                         @Html.Raw("Completed");
                     }
-
                 </td>
 
-                @if (item.Status == "1")
+                @if (item.Status == "0")
+                {
+
+                    <td>
+                        @Html.ActionLink("Edit", "UpdateSchedule", new { id = item.ScheduleId })
+                    </td>
+                    <td></td>
+
+                }
+
+                else if (item.Status == "1")
                 {
                     <td>
                         @Html.ActionLink("Accept", "ManageSchedules", new { id = item.ScheduleId, status = 2 })
@@ -72,6 +81,7 @@
                     </td>
 
                 }
+
                 else if (item.Status == "2")
                 {
                     <td>

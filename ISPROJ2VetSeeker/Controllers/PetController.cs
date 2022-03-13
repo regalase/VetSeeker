@@ -191,17 +191,19 @@ namespace ISPROJ2VetSeeker.Controllers
 
         public ActionResult ViewMedicalHistory(int PetID)
         {
-            var ViewMedicalHistoryModel = new ViewMedicalHistoryModel();
+            var ViewMedicalHistoryModels = new List<ViewMedicalHistoryModel>();
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
 
                 sqlCon.Open();
-                string query = @"SELECT m.medicalHistoryID, m.petID, m.serviceTypeID, m.diagnosis, s.serviceName, u.userID, u.firstName, u.lastName, u.mobileNo, u.email, p.petName
+                string query = @"SELECT m.medicalHistoryID, m.petID, m.serviceTypeID, m.diagnosis, s.serviceName, u.userID, u.firstName, u.lastName, u.mobileNo, u.email, p.petName, i.date
                                  FROM MedicalHistory m 
                                  INNER JOIN serviceType s ON s.serviceTypeID = m.serviceTypeID 
                                  INNER JOIN users u ON u.userID = s.userID 
                                  INNER JOIN pet p ON p.petID = m.petID 
-                                 WHERE m.petID = @petID";
+                                 INNER JOIN Invoice i ON i.medicalHistoryID = m.medicalHistoryID
+                                 WHERE m.petID = @petID
+                                 ORDER BY i.date DESC";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@petID", PetID.ToString());
@@ -211,24 +213,27 @@ namespace ISPROJ2VetSeeker.Controllers
                         {
                             while (sqlDr.Read())
                             {
-                                ViewMedicalHistoryModel.PetID = int.Parse(sqlDr["petID"].ToString());
-                                ViewMedicalHistoryModel.MedicalHistoryID = int.Parse(sqlDr["medicalHistoryID"].ToString());
-                                ViewMedicalHistoryModel.ServiceTypeID = int.Parse(sqlDr["serviceTypeID"].ToString());
-                                ViewMedicalHistoryModel.Diagnosis = sqlDr["diagnosis"].ToString();
-                                ViewMedicalHistoryModel.ServiceName = sqlDr["serviceName"].ToString();
-                                ViewMedicalHistoryModel.UserID = int.Parse(sqlDr["userID"].ToString());
-                                ViewMedicalHistoryModel.FirstName = sqlDr["firstName"].ToString();
-                                ViewMedicalHistoryModel.LastName = sqlDr["lastName"].ToString();
-                                ViewMedicalHistoryModel.MobileNo = sqlDr["mobileNo"].ToString();
-                                ViewMedicalHistoryModel.Email = sqlDr["email"].ToString();
-                                ViewMedicalHistoryModel.PetName = sqlDr["petName"].ToString();
+                                var model = new ViewMedicalHistoryModel();
+                                model.PetID = int.Parse(sqlDr["petID"].ToString());
+                                model.MedicalHistoryID = int.Parse(sqlDr["medicalHistoryID"].ToString());
+                                model.ServiceTypeID = int.Parse(sqlDr["serviceTypeID"].ToString());
+                                model.Diagnosis = sqlDr["diagnosis"].ToString();
+                                model.ServiceName = sqlDr["serviceName"].ToString();
+                                model.UserID = int.Parse(sqlDr["userID"].ToString());
+                                model.FirstName = sqlDr["firstName"].ToString();
+                                model.LastName = sqlDr["lastName"].ToString();
+                                model.MobileNo = sqlDr["mobileNo"].ToString();
+                                model.Email = sqlDr["email"].ToString();
+                                model.PetName = sqlDr["petName"].ToString();
+                                model.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                ViewMedicalHistoryModels.Add(model);
                             }
                         }
                     }
                 }
                 sqlCon.Close();
             }
-            return View(ViewMedicalHistoryModel);
+            return View(ViewMedicalHistoryModels);
         }
 
     }
