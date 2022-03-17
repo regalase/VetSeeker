@@ -17,12 +17,12 @@
 
     foreach (var item in Model)
     {
-
+        <br />
         <h4><b>@item.ClinicName</b></h4>
         <table>
 
             <tr class="head">
-                <th>
+                <th width="20%">
                     Date and Time
                 </th>
                 <th>
@@ -40,7 +40,7 @@
             </tr>
             <tr class="body">
                 <td>
-                    @item.Date
+                    @item.Date.ToString("MM/dd/yyyy hh:mm tt")
                 </td>
                 <td>
                     @item.LastName, @item.FirstName

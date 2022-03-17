@@ -181,18 +181,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\About.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CreateFeedback.css" />
+    <Content Include="Content\Layout.css" />
     <Content Include="Content\MyProfile.css" />
-    <Content Include="Content\StyleSheet.css" />
+    <Content Include="Content\Login.css" />
     <Content Include="Content\StyleSheetPetRegister.css" />
     <Content Include="Content\StyleSheetRegister.css" />
     <Content Include="Content\Table.css" />
     <Content Include="Content\UpdatePetProfile.css" />
     <Content Include="Content\View.css" />
+    <Content Include="Content\ViewClientFeedback.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -254,6 +257,7 @@
     <Content Include="Views\Clinic\ViewClinics.cshtml" />
     <Content Include="Views\Clinic\UpdateClinic.cshtml" />
     <Content Include="Views\Schedule\UpdateSchedule.cshtml" />
+    <Content Include="Views\Service\UpdateService.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

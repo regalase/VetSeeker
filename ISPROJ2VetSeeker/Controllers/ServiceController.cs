@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data;
+using System.Diagnostics;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
@@ -48,7 +49,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, serviceName, price FROM ServiceType WHERE userID = @userID";
+                string query = @"SELECT serviceTypeID, userID, serviceName, price FROM ServiceType WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -58,6 +59,7 @@ namespace ISPROJ2VetSeeker.Controllers
                         {
                             list.Add(new ServiceTypeModel
                             {
+                                ServiceTypeID = int.Parse(sqlDr["serviceTypeID"].ToString()),
                                 UserID = int.Parse(sqlDr["userID"].ToString()),
                                 ServiceName = sqlDr["serviceName"].ToString(),
                                 Price = decimal.Parse(sqlDr["price"].ToString())
@@ -70,11 +72,11 @@ namespace ISPROJ2VetSeeker.Controllers
             return View(list);
 
         }
-        public ActionResult Details(int? id)//For Admin
+        public ActionResult UpdateService(int? id)
         {
             if (id == null) //no record selected
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("ListofServices");
             }
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
@@ -94,11 +96,13 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.ServiceName = sqlDr["serviceName"].ToString();
                                 record.Price = decimal.Parse(sqlDr["price"].ToString());
                             }
+                            sqlCon.Close();
                             return View(record);
                         }
                         else
                         {
-                            return RedirectToAction("Index");
+                            sqlCon.Close();
+                            return RedirectToAction("ListofServices", "Service");
                         }
 
                     }
@@ -106,44 +110,42 @@ namespace ISPROJ2VetSeeker.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Details(int? id, ServiceTypeModel record)
+        public ActionResult UpdateService(int? id, ServiceTypeModel record)
         {
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE ServiceType SET userID=@UserID, serviceName=@ServiceName, price=@Price
+                string query = @"UPDATE ServiceType SET serviceName=@ServiceName, price=@Price
                                 WHERE serviceTypeID=@ServiceTypeID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
+                    Debug.WriteLine(" ID" + id);
+                    Debug.WriteLine("SCHED ID" + record.ServiceName);
+                    Debug.WriteLine("Clinic ID" + record.Price);
                     sqlCmd.Parameters.AddWithValue("@serviceName", record.ServiceName);
                     sqlCmd.Parameters.AddWithValue("@price", record.Price);
+                    sqlCmd.Parameters.AddWithValue("@ServiceTypeID", id);
                     sqlCmd.ExecuteNonQuery();
-                    return RedirectToAction("Index");
                 }
+                sqlCon.Close();
             }
+            return RedirectToAction("ListofServices", "Service");
         }
-        public ActionResult Delete(int? id, ServiceTypeModel record)
-        {
-            if (id == null)
-            {
-                return RedirectToAction("Index");
-            }
 
+        public ActionResult DeleteService(int id)
+        {
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE serviceType SET userID=@userID, serviceName=@serviceName, price=@price
-                            WHERE serviceTypeID=@ServiceTypeID";
+                string query = @"DELETE FROM ServiceType WHERE serviceTypeID=@serviceTypeID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
-                    sqlCmd.Parameters.AddWithValue("@serviceName", record.ServiceName);
-                    sqlCmd.Parameters.AddWithValue("@price", record.Price);
+                    sqlCmd.Parameters.AddWithValue("@serviceTypeID", id);
                     sqlCmd.ExecuteNonQuery();
-                    return RedirectToAction("Index");
                 }
+                sqlCon.Close();
             }
+            return RedirectToAction("ListofServices", "Service");
         }
     }
 }

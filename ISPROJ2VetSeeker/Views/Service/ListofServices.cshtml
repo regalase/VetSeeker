@@ -18,6 +18,9 @@
         <th>
             Price
         </th>
+        <th>
+            Action
+        </th>
     </tr>
     @foreach (var Service in Model)
     {
@@ -27,6 +30,10 @@
             </td>
             <td>
                 @Service.Price
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "UpdateService", new { id = Service.ServiceTypeID, record = Service })
+                | @Html.ActionLink("Delete", "DeleteService", new { id = Service.ServiceTypeID, record = Service })
             </td>
         </tr>
     }

@@ -23,9 +23,6 @@
                         Date and Time
                     </th>
                     <th>
-                        Status
-                    </th>
-                    <th>
                         Select Pet
                     </th>
                     <th>
@@ -37,9 +34,6 @@
                     <tr class="body">
                         <td>
                             @schedule.Date.ToString("MM/dd/yyyy hh:mm tt")
-                        </td>
-                        <td>
-                            @schedule.Status
                         </td>
                         <td>
                             @Html.DropDownListFor(model => model.SelectedPetId,

@@ -52,6 +52,7 @@ namespace ISPROJ2VetSeeker.Models
 
         [Required]
         [Display(Name = "Birthday")]
+        [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
 
         [Display(Name = "City")]

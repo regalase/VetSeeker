@@ -1,16 +1,37 @@
 ﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ViewFeedbackModel>
 
-@{
-    ViewBag.Title = "ViewClientFeedback";
+@{ ViewBag.Title = "ViewClientFeedback";
+    Layout = "~/Views/Shared/_LayoutVet.cshtml";}
 
-}
-<h2>All Feedback</h2>
-<br />
-@foreach (var item in Model)
-{
-    <h4><b>@item.Username</b></h4>
-    <b>@item.DateAdded</b>
-    <b>@item.Feedback</b>
-    <b>@item.Rating</b>
-    <br />
+@Styles.Render("~/Content/ViewClientFeedback.css")
+<link href="~/Content/ViewClientFeedback.css" rel="stylesheet" type="text/css" />
+<div class="container-fluid">
+    <div class="col-md-offset-0">
+        <h1>All Feedbacks</h1>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="col-md-offset-0 col-md-4">
+            <h2></h2>
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4><b>Username:</b> <span> @item.Username</span></h4>
+                    <h4><b>Date Added:</b> <span> @item.DateAdded.ToString("MM/dd/yyyy")</span></h4>
+                    <h4><b>Feedback:</b> <span> @item.Feedback</span></h4>
+                    <h4>
+                        <b>Rating:</b> <span>
+                            @for (int i = 0; i < item.Rating; i++)
+                            {
+                                <span class="glyphicon glyphicon-star"></span>
+                            }
+                        </span>
+                    </h4>
+                </div>
+            </div>
+        </div>}
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

@@ -19,6 +19,8 @@ namespace ISPROJ2VetSeeker.Models
         public int ClinicId { get; set; }
 
         public String ClinicName { get; set; }
+        public int MyAppoinmentId { get; set; }
+        public String SpecificProblem { get; set; }
 
     }
 

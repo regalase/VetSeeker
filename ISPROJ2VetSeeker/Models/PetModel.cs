@@ -32,6 +32,7 @@ namespace ISPROJ2VetSeeker.Models
 
         [Display(Name = "Birthday")]
         [Required]
+        [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
 
         [Display(Name = "Pet Chip Number")]

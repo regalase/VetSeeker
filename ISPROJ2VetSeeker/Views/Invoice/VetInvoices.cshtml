@@ -8,6 +8,11 @@
 @Styles.Render("~/Content/Table.css")
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+<style>
+    th, td {
+        text-align: center !important;
+    }
+</style>
 <h2>Invoices</h2>
 
 <table>
@@ -47,7 +52,7 @@
                 @invoice.ProfessionalFee
             </td>
             <td>
-                @invoice.Date
+                @invoice.Date.ToString("MM/dd/yyyy hh:mm tt")
             </td>
             <td>
                 @invoice.TotalPrice

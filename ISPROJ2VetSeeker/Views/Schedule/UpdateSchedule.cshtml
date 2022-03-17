@@ -1,7 +1,7 @@
 ﻿@model ISPROJ2VetSeeker.Models.CreateScheduleUIModel
 @{ ViewBag.Title = "UpdateSchedule"; }
 @Styles.Render("~/Content/StyleSheetPetRegister.css")
-@using (Html.BeginForm("UpdateScheduleProfile", "Schedule", FormMethod.Post, new { enctype = "multipart/form-data", @name = "image" }))
+@using (Html.BeginForm("UpdateSchedule", "Schedule", FormMethod.Post, new { enctype = "multipart/form-data", @name = "image" }))
 {
     @Html.AntiForgeryToken()
 

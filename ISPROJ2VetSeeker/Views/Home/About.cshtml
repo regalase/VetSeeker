@@ -1,7 +1,38 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@{ ViewBag.Title = "About"; }
+@if (Model.TypeID == 1)
+{
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+else if (Model.TypeID == 2)
+{
+    Layout = "~/Views/Shared/_LayoutVet.cshtml";
+}
+@Styles.Render("~/Content/About.css")
 
-<p>Use this area to provide additional information.</p>
+<div class="container">
+    <div class="row title">
+        <h1>About Us</h1>
+    </div>
+    <br />
+    <br />
+    <div class="content">
+        <div class="row image">
+            <img src="~/Images/Logo-green.png" alt="VetSeeker Logo" width="350px" />
+        </div>
+        <div class="row">
+            <p class="about">
+                VetSeeker was created by a group of researchers from De La Salle-College of Saint Benilde who
+                believe through extensive research and online surveys that most veterinarians run into issues
+                with regards to having multiple and conflicting bookings at a time, clients canceling minutes
+                before an appointment and drop calls mid booking. In comparison, metro manila pet owners go
+                through the inconvenience of long queue times, difficulty finding available veterinarians to
+                service their pets, and complete booking schedules. Additionally, with the long ongoing pandemic,
+                both veterinarians and pet owners run into problems when it comes to safety protocols. In order
+                to help alleviate these types of situations, the researchers have proposed an online booking
+                system where pet owners can book ahead of time through this system, and veterinarians are given
+                the option to provide schedules that are best for them.
+            </p>
+        </div>
+    </div>
+
+</div>

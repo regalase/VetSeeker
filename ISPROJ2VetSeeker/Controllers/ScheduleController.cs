@@ -81,7 +81,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT scheduleID, s.userID, date, status, s.clinicID, clinicName FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.userId = @userId";
+                string query = @"SELECT scheduleID, s.userID, date, s.status, s.clinicID, clinicName FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.userId = @userId";
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
@@ -384,16 +384,35 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE Schedule SET clinicID=@clinicID, date=@date WHERE scheduleID = @scheduleID AND clinicID=@clinicID";
+                string query = @"UPDATE Schedule SET clinicID=@clinicID, date=@date WHERE scheduleID = @scheduleID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    Debug.WriteLine("Alex" + record.ClinicID);
-                    Debug.WriteLine("Alex" + record.ScheduleModel.ScheduleID);
-                    Debug.WriteLine("Alex" + record.ScheduleModel.Date);
+                    Debug.WriteLine("SCHED ID" + record.ScheduleModel.ScheduleID);
+                    Debug.WriteLine("Clinic ID" + record.ClinicID);
+                    Debug.WriteLine("SCHED ID" + record.ScheduleModel.Date);
                     sqlCmd.Parameters.AddWithValue("@clinicID", record.ClinicID);
                     sqlCmd.Parameters.AddWithValue("@date", record.ScheduleModel.Date);
                     sqlCmd.Parameters.AddWithValue("@scheduleID", record.ScheduleModel.ScheduleID);
                     sqlCmd.ExecuteNonQuery();
+
+                }
+                sqlCon.Close();
+            }
+            return RedirectToAction("ViewSchedules", "Schedule");
+        }
+
+        public ActionResult DeleteSchedule(int id)
+        {
+
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"DELETE FROM Schedule WHERE scheduleID=@ScheduleID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@ScheduleID", id);
+                    sqlCmd.ExecuteNonQuery();
+
                 }
                 sqlCon.Close();
             }

@@ -1,3 +1,4 @@
+C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\obj\Debug\ISPROJ2VetSeeker.csprojAssemblyReference.cache
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\ISPROJ2VetSeeker.dll.config
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\ISPROJ2VetSeeker.dll
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\ISPROJ2VetSeeker.pdb
@@ -82,7 +83,6 @@ C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\System.Web.WebP
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\System.Web.WebPages.Razor.xml
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\Antlr3.Runtime.pdb
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\obj\Debug\ISPROJ2VetSeeker.csprojAssemblyReference.cache
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\obj\Debug\ISPROJ2VetSeeker.csproj.CopyComplete
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\obj\Debug\ISPROJ2VetSeeker.dll
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\obj\Debug\ISPROJ2VetSeeker.pdb

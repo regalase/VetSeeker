@@ -88,7 +88,7 @@ tr {
     border-radius: 1000px;
     padding: 1% 10%;
     border: none;
-    width: 60%;
+    width: 100%;
     color: #FFFFFF;
     font-size: 110%;
     font-family: 'Poppins', sans-serif;
@@ -101,7 +101,7 @@ tr {
     }
 
 .form-control {
-    background-color: #F3F3F3;
+    background-color: #dedede;
     border-radius: 100px;
     border: none;
     padding: 1%;

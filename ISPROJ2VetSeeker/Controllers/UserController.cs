@@ -225,7 +225,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, unitHouseNo, street, baranggay, profilePicture, dateModified FROM Users WHERE userID = @userID";
+                string query = @"SELECT userID, typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, unitHouseNo, street, baranggay, profilePicture, dateModified FROM Users WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -236,6 +236,7 @@ namespace ISPROJ2VetSeeker.Controllers
                             while (sqlDr.Read())
                             {
                                 record.UserID = int.Parse(sqlDr["userID"].ToString());
+                                record.TypeID = int.Parse(sqlDr["typeID"].ToString());
                                 record.FirstName = sqlDr["firstName"].ToString();
                                 record.LastName = sqlDr["lastName"].ToString();
                                 record.MobileNo = sqlDr["mobileNo"].ToString();
@@ -248,7 +249,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
                                 record.Street = sqlDr["street"].ToString();
                                 record.Baranggay = sqlDr["baranggay"].ToString();
-                                //record.ProfilePic = byte[].parse(sqlDr["profilePic"].ToString());
+                                record.ProfilePicture = sqlDr["profilePicture"].ToString();
                                 record.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
                             }
                         }
@@ -262,9 +263,17 @@ namespace ISPROJ2VetSeeker.Controllers
         [HttpPost]
         public ActionResult UpdateUserProfile(UserModel record, HttpPostedFileBase file)
         {
-            Debug.WriteLine("PP:" + file.FileName);
-            file.SaveAs(HttpContext.Server.MapPath("~/Images/")+ file.FileName);
-            record.ProfilePicture = file.FileName;
+            //Debug.WriteLine("PP:" + file.FileName);
+            if (file != null)
+            {
+                file.SaveAs(HttpContext.Server.MapPath("~/Images/") + file.FileName);
+                record.ProfilePicture = file.FileName;
+            }
+            else
+            {
+                record.ProfilePicture = "";
+            }
+            
 
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {

@@ -1,7 +1,14 @@
 ﻿@model ISPROJ2VetSeeker.Models.UserModel
 
 @{ ViewBag.Title = "UpdateUserProfile"; }
-
+@if (Model.TypeID == 1)
+{
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+else if (Model.TypeID == 2)
+{
+    Layout = "~/Views/Shared/_LayoutVet.cshtml";
+}
 @Styles.Render("~/Content/StyleSheetPetRegister.css")
 
 @using (Html.BeginForm("UpdateUserProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data", @name = "image" }))
@@ -126,7 +133,7 @@
                 </div>
 
                 @Html.HiddenFor(model => model.UserID)
-
+                @Html.HiddenFor(model => model.TypeID)
 
                 <!--Date Added and Date Modified-->
             </div>

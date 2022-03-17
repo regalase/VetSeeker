@@ -17,8 +17,8 @@
         <br />
         <br />
         <br />
-        <h2 style="text-align:center">Add Pet</h2>
-        <hr />
+        <h2 style="text-align:center; margin-bottom:40px; font-weight:bold">Add Pet</h2>
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="Create">
             <div class="col-lg-1"></div>
@@ -50,8 +50,9 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Sex, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-10" style="font-size:17px; text-align:left">
+                        @Html.RadioButtonFor(model => model.Sex, "Male", new { htmlAttributes = new { @class = "form-control" } }) Male
+                        @Html.RadioButtonFor(model => model.Sex, "Female", new { htmlAttributes = new { @class = "form-control" } }) Female
                         @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                     </div>
                 </div>
