@@ -1,33 +1,66 @@
 ﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ViewMedicalHistoryModel>
-
-
 @{
     ViewBag.Title = "ViewMedicalHistory";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
-@Styles.Render("~/Content/View.css")
-<link href="~/Content/View.css" rel="stylesheet" type="text/css" />
-<div class="container-fluid">
-    <div class="col-md-offset-0">
-        <h2>Pets</h2>
-    </div>
-    @foreach (var viewMedicalHistoryModel in Model)
-    {
-        <div class="col-md-offset-0 col-md-3">
-            <h2></h2>
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4><b>Pet Name:</b><span style="color: dodgerblue"> @viewMedicalHistoryModel.PetName</span></h4>
-                    <h4><b>Diagnosis:</b><span style="color: dodgerblue"> @viewMedicalHistoryModel.Diagnosis</span></h4>
-                    <h4><b>Service:</b><span style="color: dodgerblue"> @viewMedicalHistoryModel.ServiceName</span></h4>
-                    <h4><b>Vetrinarian:</b><span style="color: dodgerblue"> @viewMedicalHistoryModel.LastName, @viewMedicalHistoryModel.FirstName</span></h4>
-                    <h4><b>Mobile Number:</b><span style="color: dodgerblue"> @viewMedicalHistoryModel.MobileNo</span></h4>
-                    <h4><b>Email:</b><span style="color: dodgerblue"> @viewMedicalHistoryModel.Email</span></h4>
-                    <h4><b>Date:</b><span style="color: dodgerblue"> @viewMedicalHistoryModel.Date</span></h4>
-                </div>
-            </div>
-        </div>
-    }
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 
-</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ActionLink("< Back", "ViewPets", "Pet")
+    <h1>Medical History</h1>
+    <br />
+    <table>
+
+        <tr class="head">
+            <th>
+                Date
+            </th>
+            <th>
+                Diagnosis
+            </th>
+            <th>
+                Service Name
+            </th>
+            <th>
+                Veterinarian
+            </th>
+            <th>
+                Mobile Number
+            </th>
+            <th>
+                Email
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="body">
+                <td>
+                    @item.Date.ToString("MM/dd/yyyy hh:mm tt")
+                </td>
+                <td>
+                    @item.Diagnosis
+                </td>
+                <td>
+                    @item.ServiceName
+                </td>
+                <td>
+                    @item.LastName, @item.FirstName
+                </td>
+                <td>
+                    @item.MobileNo
+                </td>
+                <td>
+                    @item.Email
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+}

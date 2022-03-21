@@ -81,7 +81,9 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT scheduleID, s.userID, date, s.status, s.clinicID, clinicName FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.userId = @userId";
+                string query = @"SELECT scheduleID, s.userID, date, s.status, s.clinicID, clinicName FROM Schedule s 
+                                 INNER JOIN Clinic c ON c.clinicID = s.clinicID 
+                                 WHERE s.userId = @userId";
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
@@ -104,6 +106,50 @@ namespace ISPROJ2VetSeeker.Controllers
                         }
                     }
                 }
+            }
+
+            return View(record);
+        }
+
+        public ActionResult ViewDetails(int id)
+        {
+            var record = new List<ViewScheduleUIModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT s.scheduleID, s.userID, m.myAppointmentID, m.specificProblem, p.petID, p.petName,
+                                 u.userID, u.firstName, u.lastName FROM Schedule s 
+                                 INNER JOIN MyAppointment m ON m.scheduleID = s.scheduleID 
+                                 INNER JOIN Pet p ON p.petID = s.petID
+                                 INNER JOIN Users u ON u.userID = m.userID
+                                 WHERE s.userId = @userID AND s.scheduleID = @scheduleID";
+
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userId", Session[Helper.USER_ID_KEY]);
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", id);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var viewScheduleUIModel = new ViewScheduleUIModel();
+                                viewScheduleUIModel.ScheduleId = int.Parse(sqlDr["scheduleID"].ToString());
+                                viewScheduleUIModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                viewScheduleUIModel.MyAppoinmentId = int.Parse(sqlDr["myAppointmentID"].ToString());
+                                viewScheduleUIModel.SpecificProblem = sqlDr["specificProblem"].ToString();
+                                viewScheduleUIModel.PetId = int.Parse(sqlDr["petID"].ToString());
+                                viewScheduleUIModel.PetName = sqlDr["petName"].ToString();
+                                viewScheduleUIModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                viewScheduleUIModel.FirstName = sqlDr["firstName"].ToString();
+                                viewScheduleUIModel.LastName = sqlDr["lastName"].ToString();
+                                record.Add(viewScheduleUIModel);
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
             }
 
             return View(record);
@@ -418,5 +464,38 @@ namespace ISPROJ2VetSeeker.Controllers
             }
             return RedirectToAction("ViewSchedules", "Schedule");
         }
+
+        public ActionResult DeclineSchedule(int id, string status)
+        {
+
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"DELETE FROM MyAppointment WHERE scheduleID=@ScheduleID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@ScheduleID", id);
+                    sqlCmd.ExecuteNonQuery();
+
+                }
+                sqlCon.Close();
+            }
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string scheduleUpdateQuery = @"UPDATE Schedule SET status = @status, petID = @petID WHERE scheduleID = @scheduleID";
+                using (SqlCommand sqlCmd = new SqlCommand(scheduleUpdateQuery, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@status", status);
+                    sqlCmd.Parameters.AddWithValue("@petID", DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", id);
+                    sqlCmd.ExecuteNonQuery();
+                }
+                sqlCon.Close();
+            }
+            return RedirectToAction("ViewSchedules", "Schedule");
+        }
+
+
     }
 }

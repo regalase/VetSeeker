@@ -17,5 +17,7 @@ namespace ISPROJ2VetSeeker.Models
 
         public long UserID { get; set; }
 
+        public string SpecificProblem { get; set; }
+
     }
 }

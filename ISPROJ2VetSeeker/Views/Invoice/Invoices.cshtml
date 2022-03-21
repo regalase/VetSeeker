@@ -1,34 +1,63 @@
 ﻿@model IEnumerable<ISPROJ2VetSeeker.Models.InvoiceModel>
-
 @{
     ViewBag.Title = "Invoices";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
-@Styles.Render("~/Content/View.css")
-<link href="~/Content/View.css" rel="stylesheet" type="text/css" />
-
-
-<div class="container-fluid">
-    <div class="col-md-offset-0">
-        <h1>Invoice</h1>
-    </div>
-
-    @foreach (var InvoiceModel in Model)
-    {
-        <div class="col-md-offset-0 col-md-4" id="inv">
-            <h2></h2>
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4><b>Invoice ID:</b> <span> @InvoiceModel.InvoiceID</span></h4>
-                    <h4><b>Appoinment ID:</b> <span> @InvoiceModel.MyAppointmentID</span></h4>
-                    <h4><b>Medical History ID:</b> <span> @InvoiceModel.MedicalHistoryID</span></h4>
-                    <h4><b>Professional Fee:</b> <span> @InvoiceModel.ProfessionalFee</span></h4>
-                    <h4><b>Date:</b> <span> @InvoiceModel.Date.ToString("MM/dd/yyyy hh:mm tt")</span></h4>
-                    <h4><b>Total Price:</b> <span id="total"> @InvoiceModel.TotalPrice</span></h4>
-                </div>
-            </div>
-        </div>
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+<style>
+    th, td {
+        text-align: center !important;
     }
+</style>
+<h2>Invoices</h2>
 
-</div>
+<table>
+    <tr class="head">
+        <th>
+            Invoice ID
+        </th>
+        <th>
+            Appointment ID
+        </th>
+        <th>
+            Medical History ID
+        </th>
+        <th>
+            Professional Fee
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Total Price
+        </th>
+    </tr>
+    @foreach (var invoice in Model)
+    {
+        <tr class="body">
+            <td>
+                @invoice.InvoiceID
+            </td>
+            <td>
+                @invoice.MyAppointmentID
+            </td>
+            <td>
+                @invoice.MedicalHistoryID
+            </td>
+            <td>
+                @invoice.ProfessionalFee
+            </td>
+            <td>
+                @invoice.Date.ToString("MM/dd/yyyy hh:mm tt")
+            </td>
+            <td>
+                @invoice.TotalPrice
+            </td>
+        </tr>
+    }
+</table>
+

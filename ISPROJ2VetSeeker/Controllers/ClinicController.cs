@@ -48,7 +48,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@longitude", record.Longitude);
                     sqlCmd.ExecuteNonQuery();
 
-                    return RedirectToAction("ViewClinics", "Clinic");// SHOULD BE CHANGED, NOT SURE TO WHAT
+                    return RedirectToAction("ViewClinics", "Clinic");
                 }
             }
         }
@@ -56,9 +56,9 @@ namespace ISPROJ2VetSeeker.Controllers
         // GET: Users
         public ActionResult ListofClinics()
         {
-            if (Session[Helper.USER_ID_KEY] != null) //user login already
+            if (Session[Helper.USER_ID_KEY] != null) 
             {
-                if (Session[Helper.TYPE_ID_KEY].ToString() == "0")//ADMIN
+                if (Session[Helper.TYPE_ID_KEY].ToString() == "0")
                 {
                     return RedirectToAction("MyProfile", "Clinics");
                 }

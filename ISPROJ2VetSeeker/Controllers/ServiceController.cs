@@ -41,8 +41,6 @@ namespace ISPROJ2VetSeeker.Controllers
             }
         }
 
-
-
         public ActionResult ListofServices()
         {
             var list = new List<ServiceTypeModel>();

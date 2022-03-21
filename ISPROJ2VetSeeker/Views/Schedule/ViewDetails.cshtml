@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ViewScheduleUIModel>
+@{
+    ViewBag.Title = "ViewDetails";
+    Layout = "~/Views/Shared/_LayoutVet.cshtml";
+}
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+@using (Html.BeginForm())
+{
+
+    <table>
+        <tr class="head">
+            <th>
+                Owner
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecificProblem)
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr class="body">
+                <td>
+                    @item.FirstName @item.LastName
+                </td>
+                <td>
+                    @item.PetName
+                </td>
+                <td>
+                    @item.SpecificProblem
+                </td>
+            </tr>
+
+        }
+    </table>
+}

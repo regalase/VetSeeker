@@ -1,6 +1,4 @@
 ﻿@model ISPROJ2VetSeeker.Models.ClientViewScheduleModel
-
-
 @{
     ViewBag.Title = "ClinicSchedules";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
@@ -26,6 +24,9 @@
                         Select Pet
                     </th>
                     <th>
+                        Specific Problem
+                    </th>
+                    <th>
                     </th>
                 </tr>
 
@@ -42,7 +43,13 @@
                             @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "SelectedScheduleID", Value = schedule.ScheduleID })
                         </td>
                         <td>
-
+                            @Html.EditorFor(model => model.SpecificProblem, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SpecificProblem, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("View Details", "ViewVetDetails", new { id = item.ClinicID, ScheduleID = schedule.ScheduleID })
+                        </td>
+                        <td>
                             <input type="submit" value="Book" class="btn btn-default" />
                         </td>
                     </tr>

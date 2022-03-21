@@ -12,10 +12,9 @@ namespace ISPROJ2VetSeeker.Models
         {
             ClinicScheduleUIModels = new List<ClinicScheduleUIModel>();
         }
-
         public List<ClinicScheduleUIModel> ClinicScheduleUIModels { get; set;} 
-
         public int SelectedPetId { get; set; }
         public int SelectedScheduleID { get; set; }
+        public String SpecificProblem { get; set; }
     }
 }

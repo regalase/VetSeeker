@@ -235,10 +235,5 @@ namespace ISPROJ2VetSeeker.Controllers
             Session.Abandon();
             return RedirectToAction("Login");
         }
-
-        public ActionResult Test()
-        {
-            return View();
-        }
     }
 }

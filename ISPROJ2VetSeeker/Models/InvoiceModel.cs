@@ -20,6 +20,8 @@ namespace ISPROJ2VetSeeker.Models
         [Required]
         public decimal ProfessionalFee { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         [Display(Name = "Total Price")]

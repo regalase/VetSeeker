@@ -12,6 +12,8 @@ namespace ISPROJ2VetSeeker.Models
         public int ScheduleId { get; set; }
 
         public int UserID { get; set; }
+        public String FirstName { get; set; }
+        public String LastName { get; set; }
         public DateTime Date { get; set; }
 
         public String Status { get; set; }
@@ -21,7 +23,9 @@ namespace ISPROJ2VetSeeker.Models
         public String ClinicName { get; set; }
         public int MyAppoinmentId { get; set; }
         public String SpecificProblem { get; set; }
+        public int PetId { get; set; }
+        public String PetName { get; set; }
+
 
     }
-
 }

@@ -90,7 +90,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     string query = @"SELECT petID, userID, petName FROM Pet WHERE userID = @userID";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                     {
-                        sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString()); 
+                        sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
                         using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                         {
                             if (sqlDr.HasRows)
@@ -110,7 +110,6 @@ namespace ISPROJ2VetSeeker.Controllers
 
                 sqlCon.Close();
             }
-
             return View(record);
         }
 
@@ -124,21 +123,22 @@ namespace ISPROJ2VetSeeker.Controllers
 
         public ActionResult BookAppointment(ClientViewScheduleModel record)
         {
-            Debug.WriteLine("Selected PET: "+ record.SelectedPetId);
+            Debug.WriteLine("Selected PET: " + record.SelectedPetId);
             Debug.WriteLine("SELECTED SCHEDULE: " + record.SelectedScheduleID);
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string bookAppointmentQuery = @"INSERT INTO MyAppointment VALUES(@scheduleID, @userID, @specificProblem) ";
+                string bookAppointmentQuery = @"INSERT INTO MyAppointment VALUES(@scheduleID, @userID, @specificProblem)";
+
                 using (SqlCommand sqlCmd = new SqlCommand(bookAppointmentQuery, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@scheduleID", record.SelectedScheduleID);
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
-                    sqlCmd.Parameters.AddWithValue("@specificProblem", "BLANK");
+                    sqlCmd.Parameters.AddWithValue("@specificProblem", record.SpecificProblem);
                     sqlCmd.ExecuteNonQuery();
                 }
 
-                string scheduleUpdateQuery = @"UPDATE Schedule SET status = 1, petID = @petID  WHERE scheduleID = @scheduleID";
+                string scheduleUpdateQuery = @"UPDATE Schedule SET status = 1, petID = @petID WHERE scheduleID = @scheduleID";
                 using (SqlCommand sqlCmd = new SqlCommand(scheduleUpdateQuery, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@scheduleID", record.SelectedScheduleID);
@@ -227,5 +227,79 @@ namespace ISPROJ2VetSeeker.Controllers
             }
         }
 
+        public ActionResult ViewVetDetails(int id, int ScheduleID)
+        {
+            var record = new ViewVetDetailsModel();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT c.clinicID, c.clinicname, c.unitHouseNo, c.street, c.baranggay, c.city, c.latitude, c.longitude, u.firstName, u.lastName, u.mobileNo, u.email, s.status, u.userID
+                                 FROM Clinic c 
+                                 INNER JOIN Users u ON u.userID=c.userID
+                                 INNER JOIN Schedule s ON s.userID=u.userID
+                                 WHERE c.clinicID=@clinicID AND s.scheduleID=@scheduleID AND s.status = 0";
+
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    Debug.WriteLine("sheduleID: " + id);
+                    Debug.WriteLine("clinicID: " + id);
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", ScheduleID);
+                    sqlCmd.Parameters.AddWithValue("@clinicID", id);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var viewVetDetailsModel = new ViewVetDetailsModel();
+                                viewVetDetailsModel.ClinicModel.ClinicID = int.Parse(sqlDr["clinicID"].ToString());
+                                viewVetDetailsModel.ClinicModel.ClinicName = sqlDr["clinicname"].ToString();
+                                viewVetDetailsModel.ClinicModel.UnitHouseNo = sqlDr["unitHouseNo"].ToString();
+                                viewVetDetailsModel.ClinicModel.Street = sqlDr["street"].ToString();
+                                viewVetDetailsModel.ClinicModel.Baranggay = sqlDr["baranggay"].ToString();
+                                viewVetDetailsModel.ClinicModel.City = sqlDr["city"].ToString();
+                                viewVetDetailsModel.ClinicModel.Latitude = sqlDr["latitude"].ToString();
+                                viewVetDetailsModel.ClinicModel.Longitude = sqlDr["longitude"].ToString();
+                                viewVetDetailsModel.UserModel.FirstName = sqlDr["firstname"].ToString();
+                                viewVetDetailsModel.UserModel.LastName = sqlDr["lastname"].ToString();
+                                viewVetDetailsModel.UserModel.MobileNo = sqlDr["mobileNo"].ToString();
+                                viewVetDetailsModel.UserModel.Email = sqlDr["Email"].ToString();
+                                viewVetDetailsModel.UserModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                record = viewVetDetailsModel;
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+            }
+
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT serviceName, price
+                                 FROM ServiceType
+                                 WHERE userID = @userID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", record.UserModel.UserID);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var ServiceTypeModel = new ServiceTypeModel();
+                                ServiceTypeModel.ServiceName = sqlDr["serviceName"].ToString();
+                                ServiceTypeModel.Price = decimal.Parse(sqlDr["price"].ToString());
+                                record.ServiceTypeModels.Add(ServiceTypeModel);
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+            }
+
+            return View(record);
+        }
     }
 }

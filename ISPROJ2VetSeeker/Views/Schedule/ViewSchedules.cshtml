@@ -33,73 +33,81 @@
 
         @foreach (var item in Model)
         {
-    <tr class="body">
-        <td class="col1">
-            @Convert.ToDateTime(item.Date).ToString("MM/dd/yyyy hh:mm tt")
-        </td>
-        <td class="col2">
-            @Html.DisplayFor(modelItem => item.ClinicName)
-        </td>
-        <td class="col3">
-            @if (item.Status == "1")
-            {
-                @Html.Raw("Pending");
-            }
-            else if (item.Status == "2")
-            {
-                @Html.Raw("Accepted");
-            }
-            else if (item.Status == "0")
-            {
-                @Html.Raw("Available");
-            }
-            else if (item.Status == "3")
-            {
-                @Html.Raw("Completed");
-            }
-        </td>
+            <tr class="body">
+                <td class="col1">
+                    @Convert.ToDateTime(item.Date).ToString("MM/dd/yyyy hh:mm tt")
+                </td>
+                <td class="col2">
+                    @Html.DisplayFor(modelItem => item.ClinicName)
+                </td>
+                <td class="col3">
+                    @if (item.Status == "1")
+                    {
+                        @Html.Raw("Pending");
+                    }
+                    else if (item.Status == "2")
+                    {
+                        @Html.Raw("Accepted");
+                    }
+                    else if (item.Status == "0")
+                    {
+                        @Html.Raw("Available");
+                    }
+                    else if (item.Status == "3")
+                    {
+                        @Html.Raw("Completed");
+                    }
+                </td>
+                @if (item.Status != "0")
+                {
+                    <td>
+                        @Html.ActionLink("View Details", "ViewDetails", new { id = item.ScheduleId })
+                    </td>
+                }
 
-        @if (item.Status == "0")
-        {
 
-            <td>
-                @Html.ActionLink("Edit", "UpdateSchedule", new { id = item.ScheduleId })
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId })
-            </td>
+                @if (item.Status == "0")
+                {
 
-        }
+                    <td>
+                        @Html.ActionLink("Edit", "UpdateSchedule", new { id = item.ScheduleId })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId })
+                    </td>
 
-        else if (item.Status == "1")
-        {
-            <td>
-                @Html.ActionLink("Accept", "ManageSchedules", new { id = item.ScheduleId, status = 2 })
-                <!--<input type="button" value="Accept" class="btn-success" />-->
-                <!--<input type="button" value="Decline" class="btn-danger" />-->
-            </td>
-            <td>
-                @Html.ActionLink("Decline", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
-            </td>
+                }
 
-        }
+                else if (item.Status == "1")
+                {
+                    <td>
+                        @Html.ActionLink("Accept", "ManageSchedules", new { id = item.ScheduleId, status = 2 })
+                        <!--<input type="button" value="Accept" class="btn-success" />-->
+                        <!--<input type="button" value="Decline" class="btn-danger" />-->
+                    </td>
+                    <td>
+                        @Html.ActionLink("Decline", "DeclineSchedule", new { id = item.ScheduleId, status = 0 })
+                    </td>
 
-        else if (item.Status == "2")
-        {
-            <td>
-                @Html.ActionLink("Cancel", "ManageSchedules", new { id = item.ScheduleId, status = 0 })
-            </td>
-            <td>
-                @Html.ActionLink("Complete", "CompleteSchedule", new { id = item.ScheduleId, status = 3 })
-            </td>
-        }
-        else
-        {
-            <td></td>
+                }
 
-            <td></td>
-        }
-    </tr>
+                else if (item.Status == "2")
+                {
+                    <td>
+                        @Html.ActionLink("Cancel", "DeclineSchedule", new { id = item.ScheduleId, status = 0 })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Complete", "CompleteSchedule", new { id = item.ScheduleId, status = 3 })
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+
+                    <td></td>
+                }
+            </tr>
+
         }
     </table>
 }
