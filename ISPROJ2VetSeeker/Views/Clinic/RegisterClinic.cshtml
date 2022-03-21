@@ -8,9 +8,11 @@
 @Styles.Render("~/Content/StyleSheetPetRegister.css")
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <style>
+
     #map {
-        height: 80% !important;
-        width: 100% !important;
+        height: 200% !important;
+        width: 85% !important;
+        margin-left: 55px;
         position: absolute !important;
     }
 </style>
@@ -53,15 +55,15 @@
         });
         google.maps.event.addListener(marker, 'dragend', function () {
             map.setCenter(marker.getPosition());
-            document.getElementById("Longitude").value = marker.getPosition().lat();
-            document.getElementById("Latitude").value = marker.getPosition().lng();
+            document.getElementById("Latitude").value = marker.getPosition().lat();
+            document.getElementById("Longitude").value = marker.getPosition().lng();
         })
         google.maps.event.trigger(map, "resize");
 
-        
-    }
 
-    function changeMapMarker(value) {
+    }
+    
+    function changeMapMarker(value) { 
         var longitude = cityLongLatMap[value].longitude;
         var latitude = cityLongLatMap[value].latitude;
         document.getElementById("Longitude").value = longitude;
@@ -69,7 +71,7 @@
         var position = new google.maps.LatLng(latitude, longitude);
         marker.setPosition(position)
         map.setCenter(position);
-    }
+    }  
 
 </script>
 @using (Html.BeginForm())
@@ -107,9 +109,8 @@
                         @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
-                <!--Check for error-->
-
+            </div>
+            <div class="col-lg-5">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Baranggay, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -117,37 +118,37 @@
                         @Html.ValidationMessageFor(model => model.Baranggay, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="form-group">
+                <div class="form-group"> <!--Drop Down List for cities-->
                     @{
                         List<SelectListItem> listItems = new List<SelectListItem>();
-                        listItems.Add(new SelectListItem {Text = "Makati"});
-                        listItems.Add(new SelectListItem {Text = "Manila"});
-                        listItems.Add(new SelectListItem {Text = "Quezon City"});
-                        listItems.Add(new SelectListItem {Text = "Caloocan"});
-                        listItems.Add(new SelectListItem {Text = "Pasay"});
-                        listItems.Add(new SelectListItem {Text = "Pasig"});
-                        listItems.Add(new SelectListItem {Text = "Taguig"});
-                        listItems.Add(new SelectListItem {Text = "Navotas"});
-                        listItems.Add(new SelectListItem {Text = "Muntinlupa"});
-                        listItems.Add(new SelectListItem {Text = "Mandaluyong"});
-                        listItems.Add(new SelectListItem {Text = "Valenzuela"});
-                        listItems.Add(new SelectListItem {Text = "Malabon"});
-                        listItems.Add(new SelectListItem {Text = "San Juan"});
-                        listItems.Add(new SelectListItem {Text = "Marikina"});
-                        listItems.Add(new SelectListItem {Text = "Pateros"});
-                        listItems.Add(new SelectListItem {Text = "Paranaque"});
-                        listItems.Add(new SelectListItem {Text = "Bonifacio Global City"});
+                        listItems.Add(new SelectListItem { Text = "Makati" });
+                        listItems.Add(new SelectListItem { Text = "Manila" });
+                        listItems.Add(new SelectListItem { Text = "Quezon City" });
+                        listItems.Add(new SelectListItem { Text = "Caloocan" });
+                        listItems.Add(new SelectListItem { Text = "Pasay" });
+                        listItems.Add(new SelectListItem { Text = "Pasig" });
+                        listItems.Add(new SelectListItem { Text = "Taguig" });
+                        listItems.Add(new SelectListItem { Text = "Navotas" });
+                        listItems.Add(new SelectListItem { Text = "Muntinlupa" });
+                        listItems.Add(new SelectListItem { Text = "Mandaluyong" });
+                        listItems.Add(new SelectListItem { Text = "Valenzuela" });
+                        listItems.Add(new SelectListItem { Text = "Malabon" });
+                        listItems.Add(new SelectListItem { Text = "San Juan" });
+                        listItems.Add(new SelectListItem { Text = "Marikina" });
+                        listItems.Add(new SelectListItem { Text = "Pateros" });
+                        listItems.Add(new SelectListItem { Text = "Paranaque" });
+                        listItems.Add(new SelectListItem { Text = "Bonifacio Global City" });
                     }
                     @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.City, listItems, "Select a City", new { htmlAttributes = new { @class = "form-control" }, onchange = "changeMapMarker(this.value)" })
+                        @Html.DropDownListFor(model => model.City, listItems, "Select a City", new { htmlAttributes = new { @class = "form-control" }, onchange = "changeMapMarker(this.value)", style = "width:225px;font-size:15px;" })
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </div>
                 </div>
+            </div>
 
-
+            <div class="col-lg-1"></div>
+            <div class="col-lg-12" style="margin-bottom:275px;"> <!--Calls map from Google API-->
                 <div class="form-group">
                     <div>Pin your Clinic Location</div>
                     <div id="map"></div>
@@ -169,11 +170,7 @@
                         @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
             </div>
-
-            <div class="col-lg-1"></div>
-
             <div class="form-group">
                 <div class="col-md-offset-1 col-md-10" style="margin-top:20px">
                     <input type="submit" value="Create" class="btn btn-default" />

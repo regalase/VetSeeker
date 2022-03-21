@@ -45,6 +45,11 @@ namespace ISPROJ2VetSeeker.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password does not match")]
+        [Display(Name = "Confirm Password")]
+        public string confirmPassword { get; set; }
 
         [Display(Name = "Gender")]
         [Required]

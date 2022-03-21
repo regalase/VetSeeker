@@ -20,21 +20,22 @@
             <div class="col-lg-1"></div>
             <div class="col-lg-5">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ServiceName, htmlAttributes: new { @class = "control-label col-md-10" })
+                    @Html.LabelFor(model => model.ServiceName, htmlAttributes: new { @class = "control-label col-md-11" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.ServiceName, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <!--Date Added and Date Modified-->
+            </div>
+            <div class="col-lg-5">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-10" })
+                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
-                <!--Date Added and Date Modified-->
             </div>
             <div class="col-lg-1"></div>
             <div class="form-group">

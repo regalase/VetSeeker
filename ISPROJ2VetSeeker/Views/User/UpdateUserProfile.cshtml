@@ -71,13 +71,21 @@ else if (Model.TypeID == 2)
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.confirmPassword, htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.confirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
             <div class="col-lg-5">
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-10" style="font-size:17px; text-align:left">
+                        @Html.RadioButtonFor(model => model.Gender, "Male", new { htmlAttributes = new { @class = "form-control" } }) Male
+                        @Html.RadioButtonFor(model => model.Gender, "Female", new { htmlAttributes = new { @class = "form-control" } }) Female
                         @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -135,7 +143,6 @@ else if (Model.TypeID == 2)
                 @Html.HiddenFor(model => model.UserID)
                 @Html.HiddenFor(model => model.TypeID)
 
-                <!--Date Added and Date Modified-->
             </div>
 
             <div class="col-lg-1"></div>

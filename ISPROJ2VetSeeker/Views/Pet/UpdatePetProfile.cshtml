@@ -17,14 +17,14 @@
         <br />
         <br />
         <br />
-        <h4 style="text-align:center">Update Pet Profile</h4>
-        <hr />
+        <h2 style="text-align:center; margin-bottom:40px; font-weight:bold">Update Pet Profile</h2>
+        
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="Create">
             <div class="col-lg-1"></div>
             <div class="col-lg-5">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.PetProfilePic, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <span class="control-label" style="font-weight:700; padding-left:50px">Pet Profile Picture</span>
                     <div class="col-md-10">
                         <div class="col-md-10">
                             <input id="PetProfilePic" title="Upload an image"
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.PetName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <span class="control-label" style="font-weight:700; padding-right:200px;">Pet Name</span>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.PetName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.PetName, "", new { @class = "text-danger" })
@@ -50,11 +50,13 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Sex, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.RadioButtonFor(model => model.Sex, "Male", new { htmlAttributes = new { @class = "form-control" } }) Male
+                        @Html.RadioButtonFor(model => model.Sex, "Female", new { htmlAttributes = new { @class = "form-control" } }) Female
                         @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
+                </div>
+            <div class="col-lg-5">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -62,8 +64,7 @@
                         @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-5">
+            
                 <div class="form-group">
                     @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -73,7 +74,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.PetChipNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PetChipNo, htmlAttributes: new { @class = "control-label col-md-12" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.PetChipNo, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.PetChipNo, "", new { @class = "text-danger" })
@@ -87,8 +88,8 @@
                         @Html.ValidationMessageFor(model => model.Guardian, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                @Html.HiddenFor(model => model.UserID);
-                @Html.HiddenFor(model => model.PetID);
+                @Html.HiddenFor(model => model.UserID)
+                @Html.HiddenFor(model => model.PetID)
 
                 <!--Date Added and Date Modified-->
             </div>

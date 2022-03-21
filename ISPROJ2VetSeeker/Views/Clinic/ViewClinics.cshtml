@@ -6,31 +6,62 @@
     Layout = "~/Views/Shared/_LayoutVet.cshtml";
 }
 
-@Styles.Render("~/Content/View.css")
-<link href="~/Content/View.css" rel="stylesheet" type="text/css" />
-<div class="container-fluid">
-    <div class="col-md-offset-0">
-        <h1>My Clinics</h1>
-    </div>
-    <div class="col-md-offset-11">
-        <h5>@Html.ActionLink("Add Clinic", "RegisterClinic", new { @class = "btn btn-primary" }, new { @class = "btn btn-success" })</h5>
-    </div>
-    @foreach (var ClinicModel in Model)
-    {
-        <div class="col-md-offset-0 col-md-3">
-            <h2></h2>
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4><b>Clinic:</b> <span> @ClinicModel.ClinicName</span></h4>
-                    <h4><b>Unit House Number:</b> <span>@ClinicModel.UnitHouseNo</span></h4>
-                    <h4><b>Street:</b> <span>@ClinicModel.Street</span></h4>
-                    <h4><b>Barangay:</b> <span>@ClinicModel.Baranggay</span></h4>
-                    <h4><b>City:</b> <span>@ClinicModel.City</span></h4>
-                    <h5>@Html.ActionLink("Update Clinic", "UpdateClinic", new { clinicId = ClinicModel.ClinicID }, new { @class = "btn btn-primary" })</h5>
-                </div>
-            </div>
-        </div>}
-</div>
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+<h2 style="margin-bottom:30px">My Clinics</h2>
+<h5 style="padding-bottom:30px">@Html.ActionLink("Add Clinic", "RegisterClinic", null, new { @class = "btn btn-primary", style = "float:right; width:150px; padding:5px 10px;" })</h5>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <tr class="head">
+            <th width="20%">
+                Clinic
+            </th>
+            <th width="10%">
+                Unit/House #
+            </th>
+            <th width="25%">
+                Street
+            </th>
+            <th width="15%">
+                Barangay
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        @foreach (var ClinicModel in Model)
+        {
+            <tr class="body">
+                <td>
+                    @ClinicModel.ClinicName
+                </td>
+                <td>
+                    @ClinicModel.UnitHouseNo
+                </td>
+                <td>
+                    @ClinicModel.Street
+                </td>
+                <td>
+                    @ClinicModel.Baranggay
+                </td>
+                <td>
+                    @ClinicModel.City
+                </td>
+                <td>
+                    @Html.ActionLink("Update Clinic", "UpdateClinic", new { clinicId = ClinicModel.ClinicID }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </table>
+}
 
 
 @section Scripts {
