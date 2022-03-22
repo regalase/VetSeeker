@@ -13,18 +13,20 @@
     {
         if (item.ScheduleModels.Count > 0)
         {
-            <h4><b>@item.ClinicName</b></h4>
+            <h3 style="color:black!important"><b>@item.ClinicName</b></h3>
             <table>
 
                 <tr class="head">
-                    <th>
+                    <th width="20%">
                         Date and Time
                     </th>
-                    <th>
+                    <th width="20%">
                         Select Pet
                     </th>
-                    <th>
+                    <th width="30%">
                         Specific Problem
+                    </th>
+                    <th>
                     </th>
                     <th>
                     </th>
@@ -39,17 +41,17 @@
                         <td>
                             @Html.DropDownListFor(model => model.SelectedPetId,
                                  new SelectList(item.PetModels, "PetID", "PetName"),
-                                 "Select Pet For Appointment", new { @class = "form-control" })
+                                 "Select Pet For Appointment", new { @class = "form-control", required = "required" })
                             @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "SelectedScheduleID", Value = schedule.ScheduleID })
                         </td>
                         <td>
-                            @Html.EditorFor(model => model.SpecificProblem, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.SpecificProblem, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                             @Html.ValidationMessageFor(model => model.SpecificProblem, "", new { @class = "text-danger" })
                         </td>
                         <td>
                             @Html.ActionLink("View Details", "ViewVetDetails", new { id = item.ClinicID, ScheduleID = schedule.ScheduleID })
                         </td>
-                        <td>
+                        <td style="padding-right:30px;">
                             <input type="submit" value="Book" class="btn btn-default" />
                         </td>
                     </tr>

@@ -7,6 +7,9 @@
 @Styles.Render("~/Content/StyleSheetPetRegister.css")
 @using (Html.BeginForm("UpdateService", "Service", FormMethod.Post, new { enctype = "multipart/form-data", @name = "image" }))
 {
+    <h4>@Html.ActionLink("< Back", "ListofServices")</h4>
+    <br />
+    <br />
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -22,7 +25,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ServiceName, htmlAttributes: new { @class = "control-label col-md-11" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                         @Html.ValidationMessageFor(model => model.ServiceName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -32,7 +35,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                     </div>
                 </div>

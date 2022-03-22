@@ -29,7 +29,7 @@
                 <ul class="nav navbar-nav" style="float:right;">
                     <li id="dropdown">@Html.ActionLink("Book Appointment", "ClinicSchedules", "MyAppointment", null, new { @class = "home", style = "color:white" })</li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropdown">My Pets <span class="fa fa-angle-down"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropdown">My Pets <span class="fa fa-angle-down" style="color:white"></span></a>
 
                         <ul class="dropdown-menu">
                             <li id="droplist">@Html.ActionLink("Add a Pet", "PetRegister", "Pet", null, new { style = "color:#717171" })</li>
@@ -37,7 +37,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropdown">My Appointments <span class="fa fa-angle-down"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropdown">My Appointments <span class="fa fa-angle-down" style="color:white"></span></a>
                         <ul class="dropdown-menu">
                             <li id="droplist">@Html.ActionLink("View Appointments", "ViewAppointments", "MyAppointment", null, new { style = "color:#717171" })</li>
                             <li id="droplist">@Html.ActionLink("Invoices", "Invoices", "Invoice", null, new { style = "color:#717171" })</li>

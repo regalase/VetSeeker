@@ -28,13 +28,7 @@ namespace ISPROJ2VetSeeker.Controllers
             {
                 sqlCon.Open();
                 string query = @"INSERT INTO Clinic VALUES(@userID, @clinicname, @unitHouseNo, @street, @baranggay, @city, @latitude, @longitude)";
-                Debug.WriteLine(record.ClinicName);
-                Debug.WriteLine(record.UnitHouseNo);
-                Debug.WriteLine(record.Street);
-                Debug.WriteLine(record.Baranggay);
-                Debug.WriteLine(record.City);
-                Debug.WriteLine(record.Latitude);
-                Debug.WriteLine(record.Longitude);
+
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {

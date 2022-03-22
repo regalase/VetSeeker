@@ -54,10 +54,15 @@ namespace ISPROJ2VetSeeker.Controllers
         [HttpPost]
         public ActionResult PetRegister(PetModel record, HttpPostedFileBase file)
         {
-            file.SaveAs(HttpContext.Server.MapPath("~/Images/")
-                                                  + file.FileName);
-
-            record.PetProfilePic = file.FileName;
+            if (file != null)
+            {
+                file.SaveAs(HttpContext.Server.MapPath("~/Images/") + file.FileName);
+                record.PetProfilePic = file.FileName;
+            }
+            else
+            {
+                record.PetProfilePic = "";
+            }
 
 
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))

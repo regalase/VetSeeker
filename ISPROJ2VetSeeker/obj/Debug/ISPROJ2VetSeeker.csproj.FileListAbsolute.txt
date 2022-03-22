@@ -86,3 +86,6 @@ C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\Microsoft.CodeD
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\obj\Debug\ISPROJ2VetSeeker.csproj.CopyComplete
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\obj\Debug\ISPROJ2VetSeeker.dll
 C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\obj\Debug\ISPROJ2VetSeeker.pdb
+C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\CaptchaMvc.dll
+C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\CaptchaMvc.pdb
+C:\Users\Sean\source\repos\ISPROJ2VetSeeker\ISPROJ2VetSeeker\bin\CaptchaMvc.xml

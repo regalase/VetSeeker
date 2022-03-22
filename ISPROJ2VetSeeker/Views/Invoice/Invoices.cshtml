@@ -9,22 +9,17 @@
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 <style>
+
     th, td {
         text-align: center !important;
     }
 </style>
 <h2>Invoices</h2>
-
+<br />
 <table>
     <tr class="head">
         <th>
             Invoice ID
-        </th>
-        <th>
-            Appointment ID
-        </th>
-        <th>
-            Medical History ID
         </th>
         <th>
             Professional Fee
@@ -40,13 +35,7 @@
     {
         <tr class="body">
             <td>
-                @invoice.InvoiceID
-            </td>
-            <td>
-                @invoice.MyAppointmentID
-            </td>
-            <td>
-                @invoice.MedicalHistoryID
+                @invoice.InvoiceID-@invoice.MyAppointmentID-@invoice.MedicalHistoryID
             </td>
             <td>
                 @invoice.ProfessionalFee

@@ -1,4 +1,5 @@
 ﻿@model ISPROJ2VetSeeker.Models.UserModel
+@using CaptchaMvc.HtmlHelpers;
 
 @{ ViewBag.Title = "Create"; }
 
@@ -21,8 +22,16 @@
                     @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.DropDownListFor(model => model.TypeID,
-                                                                       new SelectList(Model.Types, "TypeID", "Type"),
-                                                                       "Select from the list...", new { @class = "form-control" })
+                                                                            new SelectList(Model.Types, "TypeID", "Type"),
+                                                                            "Select from the list...", new { @class = "form-control" })
+                        @if (Html.Captcha(5) != null)
+                        {
+                            <script type="text/javascript">
+                                window.onload = function () {
+                                    alert("If registering as a Veterinarian, please send us an image of your license of practice for verification to this EMAIL ADDRESS: VetSeeker@gmail.com");
+                                }
+                            </script>
+}
                     </div>
                 </div>
 
@@ -140,8 +149,11 @@
                         @Html.ValidationMessageFor(model => model.Baranggay, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
-
+                <div class="form-group">
+                    <div class="col-md-8">
+                        @Html.Captcha(5)
+                    </div>
+                </div>
                 <!--Date Added and Date Modified-->
 
 
@@ -151,6 +163,14 @@
 
             <div class="form-group">
                 <div class="col-md-8">
+                    @if (@Html.Captcha(5) != null)
+                    {
+                        <script type="text/javascript">
+                            window.onsubmit = function () {
+                                alert("If you are redirected to login page, your account was CREATED SUCCESFULLY, if not, Please make sure that your CAPTCHA was inputted correctly");
+                            }
+                        </script>
+                    }
                     <input type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>

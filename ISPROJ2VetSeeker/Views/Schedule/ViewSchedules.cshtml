@@ -8,6 +8,8 @@
 @Styles.Render("~/Content/Table.css")
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+<h2>My Schedule</h2>
+<br />
 @using (Html.BeginForm())
 {
 
@@ -15,17 +17,19 @@
     //render as table
     <table>
         <tr class="head">
-            <th class="col1">
+            <th width="20%">
                 @Html.DisplayNameFor(model => model.Date)
             </th>
-            <th class="col2">
+            <th width="25%">
                 Clinic Name
             </th>
-            <th class="col3">
+            <th width="20%">
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
 
+            </th>
+            <th>
             </th>
             <th>
             </th>
@@ -34,13 +38,13 @@
         @foreach (var item in Model)
         {
             <tr class="body">
-                <td class="col1">
+                <td>
                     @Convert.ToDateTime(item.Date).ToString("MM/dd/yyyy hh:mm tt")
                 </td>
-                <td class="col2">
+                <td>
                     @Html.DisplayFor(modelItem => item.ClinicName)
                 </td>
-                <td class="col3">
+                <td>
                     @if (item.Status == "1")
                     {
                         @Html.Raw("Pending");
@@ -75,6 +79,7 @@
                     <td>
                         @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId })
                     </td>
+                    <td></td>
 
                 }
 

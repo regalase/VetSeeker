@@ -11,8 +11,10 @@
 
 @using (Html.BeginForm())
 {
+    <h4>@Html.ActionLink("< Back", "ViewPets")</h4>
+    <br />
+    <br />
     @Html.AntiForgeryToken()
-    @Html.ActionLink("< Back", "ViewPets", "Pet")
     <h1>Medical History</h1>
     <br />
     <table>

@@ -29,7 +29,7 @@
                         <span class="control-label col-md-2" style="font-weight:700">Clinic</span>
                         <div class="col-md-10">
                             @Html.DropDownListFor(model => model.ScheduleModel.ClinicID, new SelectList(Model.ClinicModels, "ClinicID", "ClinicName"),
-                                                                                            "Select from the list...", new { @class = "form-control" })
+                                                                                            "Select from the list...", new { @class = "form-control", required = "required" })
                         </div>
 
                     </div>
@@ -38,7 +38,7 @@
                 <div class="col-lg-5">
                     @Html.LabelFor(model => model.ScheduleModel.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.ScheduleModel.Date, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
+                        @Html.EditorFor(model => model.ScheduleModel.Date, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", type = "datetime-local", required = "required" } })
                         @Html.ValidationMessageFor(model => model.ScheduleModel.Date, "", new { @class = "text-danger" })
                     </div>
                 </div>

@@ -22,11 +22,9 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                //Change later with claculations to nearest clinic
                 string query = @"SELECT clinicID, userID, unitHouseNo, street, baranggay, city, clinicname, longitude, latitude FROM Clinic ORDER BY longitude, latitude DESC";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    //Add long lat params from gmaps
                     //sqlCmd.Parameters.AddWithValue("@userID", 13); //replace with user session
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
@@ -147,7 +145,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 }
                 sqlCon.Close();
             }
-            return RedirectToAction("MyProfile", "Accounts");//GO TO HOME
+            return RedirectToAction("ViewAppointments", "MyAppointment");
         }
 
         public ActionResult ViewAppointments()
@@ -158,11 +156,12 @@ namespace ISPROJ2VetSeeker.Controllers
                 sqlCon.Open();
                 string ViewAppointmentQuery = @"SELECT m.myAppointmentID, p.petID, p.petName, c.clinicName, c.clinicID, s.scheduleID, s.date, s.status, u.firstName, u.lastName, u.userID 
                                                 FROM MyAppointment m  
-                                                INNER JOIN Schedule s ON s.scheduleID = m.myAppointmentID  
+                                                INNER JOIN Schedule s ON s.scheduleID = m.scheduleID 
                                                 INNER JOIN Users u ON u.userID = s.userID 
                                                 INNER JOIN Clinic c ON c.clinicID = s.clinicID 
                                                 INNER JOIN Pet p ON s.petID = p.petID 
-                                                WHERE m.userID = @userID ";
+                                                WHERE m.userID = @userID
+                                                ORDER BY m.myAppointmentID DESC";
                 using (SqlCommand sqlCmd = new SqlCommand(ViewAppointmentQuery, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());

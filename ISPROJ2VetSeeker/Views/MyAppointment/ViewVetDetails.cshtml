@@ -6,13 +6,31 @@
 @Styles.Render("~/Content/Table.css")
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+<script src="https://kit.fontawesome.com/567441b5cd.js" crossorigin="anonymous"></script>
+
 <style>
 
+
     #map {
-        height: 200% !important;
+        height: 600% !important;
         width: 85% !important;
-        margin-left: 55px;
+        margin-left: 10px;
         position: absolute !important;
+    }
+
+    #details {
+        height: 50%;
+        padding: 50px 80px;
+        border-radius: 100px;
+        border: 10px solid #79B4B7;
+        background-color: white;
+        margin-bottom: 100px;
+    }
+
+    #clinic {
+        height: 50rem;
+        padding-top: 30px;
+        padding-left: 50px;
     }
 </style>
 <script>
@@ -22,7 +40,7 @@
     window.onload = function () {
         this.initMap(parseFloat(latitude).toFixed(14), parseFloat(longitude).toFixed(14));
     };
-    
+
     var map;
     var marker;
 
@@ -38,8 +56,7 @@
 
         marker = new google.maps.Marker({
             map: map,
-            position: point,
-            draggable: true
+            position: point
         });
         //google.maps.event.addListener(marker, 'dragend', function () {
             //map.setCenter(marker.getPosition());
@@ -53,69 +70,56 @@
 </script>
 @using (Html.BeginForm())
 {
+    <h4>@Html.ActionLink("< Back", "ClinicSchedules")</h4>
+    <br />
+    <br />
+    <div class="container" id="details">
+        <div class="col-lg-6" id="clinic">
+            <h2><b>Clinic: @Html.DisplayFor(model => model.ClinicModel.ClinicName)</b></h2>
+            <br />
+            <h4><b>Veterinarian:</b> @Html.DisplayFor(model => model.UserModel.FirstName) @Html.DisplayFor(model => model.UserModel.LastName)</h4>
+            <br />
+            <h4><span class="fa fa-envelope"></span> @Html.DisplayFor(model => model.UserModel.Email) </h4>
+            <br />
+            <h4><span class="fa fa-phone"></span> @Html.DisplayFor(model => model.UserModel.MobileNo)</h4>
+            <br />
+            <h4><span class="fa fa-location-dot"> </span> @Html.DisplayFor(model => model.ClinicModel.UnitHouseNo) @Html.DisplayFor(model => model.ClinicModel.Street), @Html.DisplayFor(model => model.ClinicModel.Baranggay), @Html.DisplayFor(model => model.ClinicModel.City)</h4>
+            <br />
 
-    <table>
-        <tr class="head">
-            <th>
-                Veterinarian
-            </th>
-            <th>
-                Contact Details
-            </th>
-            <th>
-                Clinic Name
-            </th>
-            <th>
-                Clinic Address
-            </th>
-        </tr>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <h4 style="text-align:center">Clinic Location</h4>
+                <div id="map"></div>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdKWIdIY9R5PNi_RYI3NU5TcF4KR4eLOE&callback=initMap&v=weekly&channel=2" async></script>
+            </div>
+        </div>
+        <div class="row">
+            <table>
+                <tr class="head">
+                    <th>
+                        Services Offered
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                </tr>
 
-        <tr class="body">
-            <td>
-                @Html.DisplayFor(model => model.UserModel.FirstName) @Html.DisplayFor(model => model.UserModel.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.UserModel.Email) @Html.DisplayFor(model => model.UserModel.MobileNo)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.ClinicModel.ClinicName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.ClinicModel.UnitHouseNo) @Html.DisplayFor(model => model.ClinicModel.Street), @Html.DisplayFor(model => model.ClinicModel.Baranggay), @Html.DisplayFor(model => model.ClinicModel.City)
-            </td>
-        </tr>
-
-    </table>
-    <div>
-        MAP
-        <div class="form-group">
-            <div>Clinic Location</div>
-            <div id="map"></div>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdKWIdIY9R5PNi_RYI3NU5TcF4KR4eLOE&callback=initMap&v=weekly&channel=2" async></script>
+                @foreach (var item in Model.ServiceTypeModels)
+                {
+                    <tr class="body">
+                        <td>
+                            @item.ServiceName
+                        </td>
+                        <td>
+                            @item.Price
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
     </div>
-    <table>
-        <tr class="head">
-            <th>
-                Services Offered
-            </th>
-            <th>
-                Price
-            </th>
-        </tr>
 
-        @foreach (var item in Model.ServiceTypeModels)
-        {
-            <tr class="body">
-                <td>
-                    @item.ServiceName
-                </td>
-                <td>
-                    @item.Price
-                </td>
-            </tr>
 
-        }
-    </table>
 
 }

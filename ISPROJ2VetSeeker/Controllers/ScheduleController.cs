@@ -169,7 +169,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 }
                 sqlCon.Close();
             }
-            return RedirectToAction("VetProfile", "Accounts");
+            return RedirectToAction("ViewSchedules", "Schedule");
         }
 
         public ActionResult CompleteSchedule(int id, string status)
@@ -365,7 +365,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 sqlCon.Close();
             }
 
-            return RedirectToAction("VetProfile", "Accounts");
+            return RedirectToAction("VetInvoices", "Invoice");
         }
 
         public ActionResult UpdateSchedule(int id)

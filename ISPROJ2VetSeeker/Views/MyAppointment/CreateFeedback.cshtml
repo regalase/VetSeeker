@@ -10,6 +10,9 @@
 
 @using (Html.BeginForm())
 {
+    <h4>@Html.ActionLink("< Back", "ViewAppointments")</h4>
+    <br />
+    <br />
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -22,7 +25,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Feedback, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Feedback, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                         @Html.ValidationMessageFor(model => model.Feedback, "", new { @class = "text-danger" })
                     </div>
                 </div>

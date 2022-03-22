@@ -6,6 +6,9 @@
 @Styles.Render("~/Content/StyleSheetPetRegister.css")
 @using (Html.BeginForm("UpdateSchedule", "Schedule", FormMethod.Post, new { enctype = "multipart/form-data", @name = "image" }))
 {
+    <h4>@Html.ActionLink("< Back", "ViewSchedules")</h4>
+    <br />
+    <br />
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">

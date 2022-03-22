@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Diagnostics;
+using CaptchaMvc.HtmlHelpers;
+using System.Security.Cryptography;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
@@ -92,39 +94,56 @@ namespace ISPROJ2VetSeeker.Controllers
         [HttpPost]
         public ActionResult Register(UserModel record, HttpPostedFileBase file)
         {
-            file.SaveAs(HttpContext.Server.MapPath("~/Images/") 
-                                                  + file.FileName);
-
-            record.ProfilePicture = file.FileName;
-
-            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            if (!this.IsCaptchaValid(""))
             {
-                sqlCon.Open();
-                string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified)"; 
-                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                ViewBag.error = "Invalid Captcha";
+                return RedirectToAction("Register", "User");
+            }
+            else
+            {
+                if (file != null)
+                {
+                    file.SaveAs(HttpContext.Server.MapPath("~/Images/") + file.FileName);
+                    record.ProfilePicture = file.FileName;
+                }
+                else
+                {
+                    record.ProfilePicture = "";
+                }
+
+
+                using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
                 {
                     
-                    sqlCmd.Parameters.AddWithValue("@typeID", record.TypeID);
-                    sqlCmd.Parameters.AddWithValue("@firstName", record.FirstName);
-                    sqlCmd.Parameters.AddWithValue("@lastName", record.LastName);
-                    sqlCmd.Parameters.AddWithValue("@mobileNo", record.MobileNo);
-                    sqlCmd.Parameters.AddWithValue("@email", record.Email);
-                    sqlCmd.Parameters.AddWithValue("@username", record.UserName);
-                    sqlCmd.Parameters.AddWithValue("@password", record.Password);
-                    sqlCmd.Parameters.AddWithValue("@gender", record.Gender);
-                    sqlCmd.Parameters.AddWithValue("@birthday", record.Birthday);
-                    sqlCmd.Parameters.AddWithValue("@city", record.City);
-                    sqlCmd.Parameters.AddWithValue("@unitHouseNo", record.UnitHouseNo);
-                    sqlCmd.Parameters.AddWithValue("@street", record.Street);
-                    sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
-                    sqlCmd.Parameters.AddWithValue("@profilePicture", record.ProfilePicture);
-                    sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
-                    sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
-                    sqlCmd.ExecuteNonQuery();
+                    sqlCon.Open();
+                    string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified)";
+                    using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                    {
 
-                    return RedirectToAction("Login", "Accounts");
+                        sqlCmd.Parameters.AddWithValue("@typeID", record.TypeID);
+                        sqlCmd.Parameters.AddWithValue("@firstName", record.FirstName);
+                        sqlCmd.Parameters.AddWithValue("@lastName", record.LastName);
+                        sqlCmd.Parameters.AddWithValue("@mobileNo", record.MobileNo);
+                        sqlCmd.Parameters.AddWithValue("@email", record.Email);
+                        sqlCmd.Parameters.AddWithValue("@username", record.UserName);
+                        string hashed = Helper.Hash(record.Password);
+                        sqlCmd.Parameters.AddWithValue("@password", hashed);
+                        sqlCmd.Parameters.AddWithValue("@gender", record.Gender);
+                        sqlCmd.Parameters.AddWithValue("@birthday", record.Birthday);
+                        sqlCmd.Parameters.AddWithValue("@city", record.City);
+                        sqlCmd.Parameters.AddWithValue("@unitHouseNo", record.UnitHouseNo);
+                        sqlCmd.Parameters.AddWithValue("@street", record.Street);
+                        sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
+                        sqlCmd.Parameters.AddWithValue("@profilePicture", record.ProfilePicture);
+                        sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
+                        sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
+                        sqlCmd.ExecuteNonQuery();
+                        return RedirectToAction("Login", "Accounts");
+                    }
+                    
                 }
             }
+
 
         }
 
@@ -286,7 +305,8 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@mobileNo", record.MobileNo);
                     sqlCmd.Parameters.AddWithValue("@email", record.Email);
                     sqlCmd.Parameters.AddWithValue("@username", record.UserName);
-                    sqlCmd.Parameters.AddWithValue("@password", record.Password);
+                    string hashed = Helper.Hash(record.Password);
+                    sqlCmd.Parameters.AddWithValue("@password", hashed);
                     sqlCmd.Parameters.AddWithValue("@gender", record.Gender);
                     sqlCmd.Parameters.AddWithValue("@birthday", record.Birthday);
                     sqlCmd.Parameters.AddWithValue("@city", record.City);

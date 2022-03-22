@@ -7,6 +7,20 @@
 @Styles.Render("~/Content/Table.css")
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+<style>
+    th, td {
+        text-align: center !important;
+    }
+
+    textarea {
+        height: 250px;
+        width: 100%;
+        border: 1px solid #dedede;
+        border-radius: 10px;
+        background-color: #dedede;
+        padding: 5px;
+    }
+</style>
 <script>
 
     function AddProfessionalFee(value) {
@@ -32,19 +46,22 @@
 
 @using (Html.BeginForm())
 {
+    <h4>@Html.ActionLink("< Back", "ViewSchedules")</h4>
+    <br />
+    <br />
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="Create">
+        <div class="Create" style="padding-top:30px;">
             <table>
                 <tr class="head">
-                    <th>
+                    <th style="text-align:left!important">
                         Date and Time
                     </th>
                 </tr>
                 <tr class="body">
-                    <td>
+                    <td style="text-align:left!important">
                         @Model.ScheduleModel.Date.ToString("MM/dd/yyyy hh:mm tt")
                     </td>
                 </tr>
@@ -119,7 +136,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Diagnosis, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Diagnosis, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.TextAreaFor(model => model.Diagnosis, new { htmlAttributes = new { @class = "form-control" } })
                     </div>
                 </div>
             </div>
@@ -129,7 +146,7 @@
             @Html.HiddenFor(model => model.MyAppointmentID, new { id = "MyAppointmentID", Value = Model.MyAppointmentID })
             @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "ScheduleID", Value = Model.ScheduleModel.ScheduleID })
             <div class="form-group">
-                <div class="col-md-offset-5 col-md-10">
+                <div class="col-md-offset-1 col-md-10" style="margin-top:40px">
                     <input type="submit" value="Complete" class="btn btn-default" />
                 </div>
             </div>

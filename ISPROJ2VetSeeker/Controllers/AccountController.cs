@@ -25,7 +25,8 @@ namespace ISPROJ2VetSeeker.Controllers
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@username", record.UserName);
-                    sqlCmd.Parameters.AddWithValue("@password", record.Password);
+                    string hashed = Helper.Hash(record.Password);
+                    sqlCmd.Parameters.AddWithValue("@password", hashed);
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         if (sqlDr.HasRows)
@@ -58,7 +59,7 @@ namespace ISPROJ2VetSeeker.Controllers
                         }
                         else
                         {
-                            ViewBag.Error = "<div class='alert alert-danger col-lg-4'>Invalid credentials</div>";
+                            ViewBag.Error = "<div class='alert text-danger col-lg-4'>Invalid credentials</div>";
                             return View(record);
                         }
                     }
