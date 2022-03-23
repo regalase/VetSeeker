@@ -2,43 +2,50 @@
 
 @{
     ViewBag.Title = "BookAppointment";
-}
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
 
-<h2>Book Appointment</h2>
+}
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+
 @using (Html.BeginForm())
 {
+    <h4>@Html.ActionLink("< Back", "ClinicSchedules")</h4>
+    <br />
+    <br />
+    <h2>Book Appointment</h2>
     @Html.AntiForgeryToken()
-<table>
-    <tr class="head">
-        <th width="20%">
-            Date and Time
-        </th>
-        <th width="20%">
-            Select Pet
-        </th>
-        <th width="30%">
-            Specific Problem
-        </th>
-        <th>
-        </th>
-    </tr>
-    <tr class="body">
-        <td>
-            @Model.BookedScheduleModel.Date.ToString("MM/dd/yyyy hh:mm tt")
-        </td>
-        <td>
-            @Html.DropDownListFor(model => model.SelectedPetId,
-                  new SelectList(@Model.PetsForBooking, "PetID", "PetName"),
-                  "Select Pet For Appointment", new { @class = "form-control" })
-            @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "SelectedScheduleID", Value = @Model.BookedScheduleModel.ScheduleID })
-        </td>
-        <td>
-            @Html.EditorFor(model => model.SpecificProblem, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.SpecificProblem, "", new { @class = "text-danger" })
-        </td>
-        <td style="padding-right:30px;">
-            <input type="submit" value="Book" class="btn btn-default" />
-        </td>
-    </tr>
-</table>
+    <table>
+        <tr class="head">
+            <th width="20%">
+                Date and Time
+            </th>
+            <th width="20%">
+                Select Pet
+            </th>
+            <th width="30%">
+                Specific Problem
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr class="body">
+            <td>
+                @Model.BookedScheduleModel.Date.ToString("MM/dd/yyyy hh:mm tt")
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.SelectedPetId,
+                      new SelectList(@Model.PetsForBooking, "PetID", "PetName"),
+                      "Select Pet For Appointment", new { @class = "form-control" })
+                @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "SelectedScheduleID", Value = @Model.BookedScheduleModel.ScheduleID })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.SpecificProblem, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SpecificProblem, "", new { @class = "text-danger" })
+            </td>
+            <td style="padding-right:30px;">
+                <input type="submit" value="Book" class="btn btn-default" />
+            </td>
+        </tr>
+    </table>
 }
