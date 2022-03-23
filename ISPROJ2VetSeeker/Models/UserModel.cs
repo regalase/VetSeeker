@@ -58,7 +58,7 @@ namespace ISPROJ2VetSeeker.Models
         [Required]
         [Display(Name = "Birthday")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
 
         [Display(Name = "City")]
