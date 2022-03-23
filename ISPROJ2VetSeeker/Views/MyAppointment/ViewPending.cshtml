@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ViewScheduleUIModel>
+@{
+    ViewBag.Title = "ViewPending";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+@using (Html.BeginForm())
+{
+
+
+    //render as table
+    <table>
+        <tr class="head">
+            <th class="col1">
+                @Html.DisplayNameFor(model => model.ClinicName)
+            </th>
+            <th class="col2">
+                Date
+            </th>
+            <th class="col3">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr class="body">
+                <td class="col1">
+                    @Html.DisplayFor(modelItem => item.ClinicName)
+                </td>
+                <td class="col2">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td class="col3">
+                    @if (item.Status == "1")
+                    {
+                        @Html.Raw("Pending");
+                    }
+                    else if (item.Status == "2")
+                    {
+                        @Html.Raw("Accepted");
+                    }
+                    else if (item.Status == "0")
+                    {
+                        @Html.Raw("Available");
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("View Details", "ViewVetDetails", new { id = item.ClinicId, ScheduleID = item.ScheduleId })
+                </td>
+            </tr>
+
+        }
+    </table>
+}

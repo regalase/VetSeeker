@@ -39,6 +39,7 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropdown">My Appointments <span class="fa fa-angle-down" style="color:white"></span></a>
                         <ul class="dropdown-menu">
+                            <li id="droplist">@Html.ActionLink("View Pending", "ViewPending", "MyAppointment", null, new { style = "color:#717171" })</li>
                             <li id="droplist">@Html.ActionLink("View Appointments", "ViewAppointments", "MyAppointment", null, new { style = "color:#717171" })</li>
                             <li id="droplist">@Html.ActionLink("Invoices", "Invoices", "Invoice", null, new { style = "color:#717171" })</li>
                         </ul>

@@ -160,8 +160,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                                 INNER JOIN Users u ON u.userID = s.userID 
                                                 INNER JOIN Clinic c ON c.clinicID = s.clinicID 
                                                 INNER JOIN Pet p ON s.petID = p.petID 
-                                                WHERE m.userID = @userID
-                                                ORDER BY m.myAppointmentID DESC";
+                                                WHERE m.userID = @userID AND s.status = 3 ";
                 using (SqlCommand sqlCmd = new SqlCommand(ViewAppointmentQuery, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -236,7 +235,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                  FROM Clinic c 
                                  INNER JOIN Users u ON u.userID=c.userID
                                  INNER JOIN Schedule s ON s.userID=u.userID
-                                 WHERE c.clinicID=@clinicID AND s.scheduleID=@scheduleID AND s.status = 0";
+                                 WHERE c.clinicID=@clinicID AND s.scheduleID=@scheduleID AND s.status != 3";
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
@@ -296,6 +295,43 @@ namespace ISPROJ2VetSeeker.Controllers
                     }
                 }
                 sqlCon.Close();
+            }
+
+            return View(record);
+        }
+
+        public ActionResult ViewPending()
+        {
+            var record = new List<ViewScheduleUIModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT clinicName, date, s.status, s.scheduleID, s.clinicID
+                                 FROM Schedule s 
+                                 INNER JOIN Clinic c ON c.clinicID = s.clinicID 
+                                 INNER JOIN MyAppointment ma ON ma.scheduleID = s.scheduleID 
+                                 WHERE ma.userID = @userID AND s.status = 1 OR s.status = 2 ";
+
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userId", Session[Helper.USER_ID_KEY]);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var viewScheduleUIModel = new ViewScheduleUIModel();
+                                viewScheduleUIModel.ClinicName = sqlDr["clinicName"].ToString();
+                                viewScheduleUIModel.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                viewScheduleUIModel.Status = sqlDr["status"].ToString();
+                                viewScheduleUIModel.ScheduleId = int.Parse(sqlDr["scheduleID"].ToString());
+                                viewScheduleUIModel.ClinicId = int.Parse(sqlDr["clinicID"].ToString());
+                                record.Add(viewScheduleUIModel);
+                            }
+                        }
+                    }
+                }
             }
 
             return View(record);

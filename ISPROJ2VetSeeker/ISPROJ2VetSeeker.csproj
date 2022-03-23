@@ -263,6 +263,7 @@
     <Content Include="Views\Service\UpdateService.cshtml" />
     <Content Include="Views\Schedule\ViewDetails.cshtml" />
     <Content Include="Views\MyAppointment\ViewVetDetails.cshtml" />
+    <Content Include="Views\MyAppointment\ViewPending.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
