@@ -213,7 +213,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                  FROM Feedback f 
                                  INNER JOIN MyAppointment ma ON f.myAppointmentID = ma.myAppointmentID 
                                  INNER JOIN Schedule s ON ma.scheduleID = s.scheduleID 
-                                 INNER JOIN Users u ON u.userID = s.userID";
+                                 INNER JOIN Users u ON u.userID = ma.userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())

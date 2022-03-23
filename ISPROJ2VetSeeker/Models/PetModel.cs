@@ -33,6 +33,7 @@ namespace ISPROJ2VetSeeker.Models
         [Display(Name = "Birthday")]
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
 
         [Display(Name = "Pet Chip Number")]

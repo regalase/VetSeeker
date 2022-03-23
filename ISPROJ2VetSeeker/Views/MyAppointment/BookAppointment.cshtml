@@ -1,7 +1,44 @@
-﻿
+﻿@model ISPROJ2VetSeeker.Models.ClientViewScheduleModel
+
 @{
     ViewBag.Title = "BookAppointment";
 }
 
-<h2>BookAppointment</h2>
-
+<h2>Book Appointment</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<table>
+    <tr class="head">
+        <th width="20%">
+            Date and Time
+        </th>
+        <th width="20%">
+            Select Pet
+        </th>
+        <th width="30%">
+            Specific Problem
+        </th>
+        <th>
+        </th>
+    </tr>
+    <tr class="body">
+        <td>
+            @Model.BookedScheduleModel.Date.ToString("MM/dd/yyyy hh:mm tt")
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.SelectedPetId,
+                  new SelectList(@Model.PetsForBooking, "PetID", "PetName"),
+                  "Select Pet For Appointment", new { @class = "form-control" })
+            @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "SelectedScheduleID", Value = @Model.BookedScheduleModel.ScheduleID })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.SpecificProblem, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SpecificProblem, "", new { @class = "text-danger" })
+        </td>
+        <td style="padding-right:30px;">
+            <input type="submit" value="Book" class="btn btn-default" />
+        </td>
+    </tr>
+</table>
+}

@@ -33,7 +33,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "UpdateService", new { id = Service.ServiceTypeID, record = Service })
-                | @Html.ActionLink("Delete", "DeleteService", new { id = Service.ServiceTypeID, record = Service })
+                | @Html.ActionLink("Delete", "DeleteService", new { id = Service.ServiceTypeID, record = Service }, new { onclick = "return confirm('Are you sure want to delete this?');" })
             </td>
         </tr>
     }

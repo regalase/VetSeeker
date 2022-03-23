@@ -154,7 +154,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.Birthday = DateTime.Parse(sqlDr["dateOfBirth"].ToString());
                                 record.PetChipNo = sqlDr["petChipNo"].ToString();
                                 record.Guardian = sqlDr["guardian"].ToString();
-                                //record.PetProfilePic = byte[].parse(sqlDr["petProfilePic"].ToString());
+                                record.PetProfilePic = sqlDr["petProfilePic"].ToString();
                                 record.DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString());
                                 record.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
                             }

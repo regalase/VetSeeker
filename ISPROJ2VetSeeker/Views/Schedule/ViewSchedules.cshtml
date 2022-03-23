@@ -77,7 +77,7 @@
                         @Html.ActionLink("Edit", "UpdateSchedule", new { id = item.ScheduleId })
                     </td>
                     <td>
-                        @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId })
+                        @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId }, new { onclick = "return confirm('Are you sure want to delete this?');" })
                     </td>
                     <td></td>
 
@@ -91,7 +91,7 @@
                         <!--<input type="button" value="Decline" class="btn-danger" />-->
                     </td>
                     <td>
-                        @Html.ActionLink("Decline", "DeclineSchedule", new { id = item.ScheduleId, status = 0 })
+                        @Html.ActionLink("Decline", "DeclineSchedule", new { id = item.ScheduleId, status = 0 }, new { onclick = "return confirm('Are you sure want to decline this?');" })
                     </td>
 
                 }

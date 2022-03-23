@@ -119,10 +119,69 @@ namespace ISPROJ2VetSeeker.Controllers
             return RedirectToAction("BookAppointment", record);
         }
 
+        public ActionResult BookAppointment(int SelectedScheduleID)
+        {
+            Debug.WriteLine("Selected ScheduleID: " + SelectedScheduleID);
+            var record = new ClientViewScheduleModel();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT s.scheduleID, s.userID, s.date, s.status, s.clinicID FROM Schedule s WHERE s.scheduleID=@scheduleID ";
+
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@scheduleID", SelectedScheduleID);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                record.BookedScheduleModel.ScheduleID = int.Parse(sqlDr["scheduleID"].ToString());
+                                record.BookedScheduleModel.ClinicID = int.Parse(sqlDr["clinicID"].ToString());
+                                record.BookedScheduleModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                record.BookedScheduleModel.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                record.BookedScheduleModel.Status = sqlDr["status"].ToString();
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+            }
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                //Change later with claculations to nearest clinic
+                string query = @"SELECT petID, userID, petName FROM Pet WHERE userID = @userID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var PetModel = new PetModel();
+                                PetModel.PetID = int.Parse(sqlDr["petID"].ToString());
+                                PetModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                PetModel.PetName = sqlDr["petName"].ToString();
+                                record.PetsForBooking.Add(PetModel);
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+            }
+            return View(record);
+        }
+
+        [HttpPost]
         public ActionResult BookAppointment(ClientViewScheduleModel record)
         {
             Debug.WriteLine("Selected PET: " + record.SelectedPetId);
             Debug.WriteLine("SELECTED SCHEDULE: " + record.SelectedScheduleID);
+            Debug.WriteLine("test: " + record.SpecificProblem);
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
@@ -145,7 +204,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 }
                 sqlCon.Close();
             }
-            return RedirectToAction("ViewAppointments", "MyAppointment");
+            return RedirectToAction("ViewPending", "MyAppointment");
         }
 
         public ActionResult ViewAppointments()
