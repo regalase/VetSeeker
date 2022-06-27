@@ -54,11 +54,12 @@ namespace ISPROJ2VetSeeker.Controllers
                 //Change later with claculations to nearest clinic
                 foreach (ClinicScheduleUIModel model in record.ClinicScheduleUIModels)
                 {
-                    string query = @"SELECT s.scheduleId, s.userID, s.date, s.status, s.clinicID FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.clinicID = @clinicID AND s.status = 0 ORDER BY s.date ASC";
+                    string query = @"SELECT s.scheduleId, s.userID, s.date, s.status, s.clinicID FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.clinicID = @clinicID AND s.status = 0  AND s.date >= @date ORDER BY s.date ASC";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                     {
                         //Add long lat params from gmaps
                         sqlCmd.Parameters.AddWithValue("@clinicID", model.ClinicID); //replace with user session
+                        sqlCmd.Parameters.AddWithValue("@date", DateTime.Today);
                         using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                         {
                             if (sqlDr.HasRows)

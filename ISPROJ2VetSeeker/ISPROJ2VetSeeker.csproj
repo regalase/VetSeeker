@@ -49,6 +49,9 @@
     <Reference Include="CaptchaMvc, Version=2.5.0.0, Culture=neutral, PublicKeyToken=fe46ad421dd3b0e6, processorArchitecture=MSIL">
       <HintPath>..\packages\CaptchaMvc.Mvc5.1.5.0\lib\net45-full\CaptchaMvc.dll</HintPath>
     </Reference>
+    <Reference Include="CDN, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CDN.2.0.0\lib\net40\CDN.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -193,6 +196,7 @@
     <Content Include="Content\Layout.css" />
     <Content Include="Content\MyProfile.css" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\Print.css" />
     <Content Include="Content\StyleSheetPetRegister.css" />
     <Content Include="Content\StyleSheetRegister.css" />
     <Content Include="Content\Table.css" />

@@ -25,8 +25,8 @@ namespace ISPROJ2VetSeeker.Controllers
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@username", record.UserName);
-                    string hashed = Helper.Hash(record.Password);
-                    sqlCmd.Parameters.AddWithValue("@password", hashed);
+                    //string hashed = Helper.Hash(record.Password);
+                    sqlCmd.Parameters.AddWithValue("@password", record.Password);
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         if (sqlDr.HasRows)
@@ -38,21 +38,24 @@ namespace ISPROJ2VetSeeker.Controllers
                                 Session[Helper.USER_CITY_KEY] = sqlDr[Helper.USER_CITY_KEY].ToString();
                             }
 
-                            if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null ) //user login already
+                            if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null) //user login already
                             {
                                 int AuditLogID = Helper.RecordUserSessionLogin(int.Parse(Session[Helper.USER_ID_KEY].ToString()), int.Parse(Session[Helper.TYPE_ID_KEY].ToString()));
                                 Session[Helper.AUDIT_ID_KEY] = AuditLogID.ToString();
                                 if (Session[Helper.TYPE_ID_KEY].ToString() == "1")
                                 {
                                     return RedirectToAction("ClinicSchedules", "MyAppointment");
-                                } else if (Session[Helper.TYPE_ID_KEY].ToString() == "2")
+                                }
+                                else if (Session[Helper.TYPE_ID_KEY].ToString() == "2")
                                 {
                                     return RedirectToAction("ViewSchedules", "Schedule");
-                                } else
+                                }
+                                else
                                 {
                                     return RedirectToAction("Dashboard", "Admin");
                                 }
-                            } else
+                            }
+                            else
                             {
                                 return RedirectToAction("Login", "Accounts");
                             }
@@ -85,7 +88,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 string query = @"SELECT userID, ut.typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, 
                 unitHouseNo, street, baranggay, profilePicture, dateAdded, dateModified from Users u INNER JOIN UserType ut ON u.typeID = ut.typeID WHERE userId = @UserID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
-                {  
+                {
                     sqlCmd.Parameters.AddWithValue("@UserID", Session[Helper.USER_ID_KEY].ToString());
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
@@ -104,7 +107,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 string dateTime = sqlDr["birthday"].ToString();
                                 record.Birthday = System.DateTime.Parse(dateTime);
                                 record.City = sqlDr["city"].ToString();
-                                record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
+                                record.UnitHouseNo = sqlDr["unitHouseNo"].ToString();
                                 record.Street = sqlDr["street"].ToString();
                                 record.Baranggay = sqlDr["baranggay"].ToString();
                                 record.ProfilePicture = sqlDr["profilePicture"].ToString();
@@ -156,7 +159,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.Gender = sqlDr["gender"].ToString();
                                 record.Birthday = DateTime.Parse(sqlDr["birthday"].ToString());
                                 record.City = sqlDr["city"].ToString();
-                                record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
+                                record.UnitHouseNo = sqlDr["unitHouseNo"].ToString();
                                 record.Street = sqlDr["street"].ToString();
                                 record.Baranggay = sqlDr["baranggay"].ToString();
                                 record.ProfilePicture = sqlDr["profilePicture"].ToString();
@@ -208,7 +211,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 string dateTime = sqlDr["birthday"].ToString();
                                 record.Birthday = System.DateTime.Parse(dateTime);
                                 record.City = sqlDr["city"].ToString();
-                                record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
+                                record.UnitHouseNo = sqlDr["unitHouseNo"].ToString();
                                 record.Street = sqlDr["street"].ToString();
                                 record.Baranggay = sqlDr["baranggay"].ToString();
                                 record.ProfilePicture = sqlDr["profilePicture"].ToString();

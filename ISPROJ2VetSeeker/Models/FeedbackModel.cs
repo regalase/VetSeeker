@@ -14,6 +14,8 @@ namespace ISPROJ2VetSeeker.Models
         public long MyAppointmentID { get; set; }
         /*DETAILS*/
 
+        [MinLength(3)]
+        [MaxLength(600)]
         [Display(Name = "Feedback")]
         [Required]
         public string Feedback { get; set; }

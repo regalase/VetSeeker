@@ -19,6 +19,7 @@ h2 {
     color: #717171;
 }
 
+
 h4 {
     color: #717171;
 }
@@ -39,4 +40,46 @@ span {
     color: #478185;
     font-weight: 800;
     font-size: 20px !important;
+}
+
+.btsn {
+    background: #32CD32;
+    position: relative;
+    left: 50px;
+    border-radius: 1000px;
+    padding: 0.5% 10%;
+    border: none;
+    width: 1000%;
+    color: #FFFFFF;
+    font-size: 110%;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s;
+}
+
+.btcn {
+    background: #32CD32;
+    position: relative;
+    left: 35px;
+    border-radius: 1000px;
+    padding: 0.5% 10%;
+    border: none;
+    width: 1000%;
+    color: #FFFFFF;
+    font-size: 110%;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s;
+}
+
+.btdn {
+    background: #FF0000;
+    position: relative;
+    left: 50px;
+    border-radius: 1000px;
+    padding: 0.5% 10%;
+    border: none;
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 110%;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s;
 }

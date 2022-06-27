@@ -15,8 +15,16 @@ namespace ISPROJ2VetSeeker.Controllers
 {
     public class ClinicController : Controller
     {
-        public ActionResult RegisterClinic()
+        public ActionResult RegisterClinic() //added code lines 20-27
         {
+            if (Session[Helper.TYPE_ID_KEY].ToString() == "1")
+            {
+                return RedirectToAction("ClinicSchedules", "MyAppointment");
+            }
+            else if (Session[Helper.TYPE_ID_KEY].ToString() == "0")
+            {
+                return RedirectToAction("Dashboard", "Admin");
+            }
             var record = new ClinicModel();
             return View(record);
         }
@@ -27,7 +35,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"INSERT INTO Clinic VALUES(@userID, @clinicname, @unitHouseNo, @street, @baranggay, @city, @latitude, @longitude)";
+                string query = @"INSERT INTO Clinic VALUES(@userID, @clinicname, @unitHouseNo, @street, @baranggay, @city, @clinicEmail, @clinicContactNo, @latitude, @longitude)";
 
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
@@ -38,6 +46,8 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@street", record.Street);
                     sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
                     sqlCmd.Parameters.AddWithValue("@city", record.City);
+                    sqlCmd.Parameters.AddWithValue("@clinicEmail", record.ClinicEmail);
+                    sqlCmd.Parameters.AddWithValue("@clinicContactNo", record.ClinicContactNo);
                     sqlCmd.Parameters.AddWithValue("@latitude", record.Latitude);
                     sqlCmd.Parameters.AddWithValue("@longitude", record.Longitude);
                     sqlCmd.ExecuteNonQuery();
@@ -50,7 +60,7 @@ namespace ISPROJ2VetSeeker.Controllers
         // GET: Users
         public ActionResult ListofClinics()
         {
-            if (Session[Helper.USER_ID_KEY] != null) 
+            if (Session[Helper.USER_ID_KEY] != null)
             {
                 if (Session[Helper.TYPE_ID_KEY].ToString() == "0")
                 {
@@ -61,7 +71,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, clinicname, unitHouseNo, street, baranggay, city, latitude, longitude, FROM clinic";
+                string query = @"SELECT userID, clinicname, unitHouseNo, street, baranggay, city, @clinicEmail, @clinicContactNo, latitude, longitude, FROM clinic";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     //sqlCmd.Parameters.AddWithValue("@status", "Active"); MIGHT NOT NEED
@@ -77,6 +87,8 @@ namespace ISPROJ2VetSeeker.Controllers
                                 Street = sqlDr["street"].ToString(),
                                 Baranggay = sqlDr["baranggay"].ToString(),
                                 City = sqlDr["city"].ToString(),
+                                ClinicEmail = sqlDr["clinicEmail"].ToString(),
+                                ClinicContactNo = sqlDr["clinicContactNo"].ToString(),
                                 Latitude = sqlDr["latitude"].ToString(),
                                 Longitude = sqlDr["longitude"].ToString()
                             });
@@ -95,7 +107,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT clinicID, userID, clinicname, unitHouseNo, street, baranggay, city FROM Clinic WHERE userID = @userID";
+                string query = @"SELECT clinicID, userID, clinicname, unitHouseNo, street, baranggay, city, clinicEmail, clinicContactNo FROM Clinic WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -113,6 +125,8 @@ namespace ISPROJ2VetSeeker.Controllers
                                 clinicModel.Street = sqlDr["street"].ToString();
                                 clinicModel.Baranggay = sqlDr["baranggay"].ToString();
                                 clinicModel.City = sqlDr["city"].ToString();
+                                clinicModel.ClinicEmail = sqlDr["clinicEmail"].ToString();
+                                clinicModel.ClinicContactNo = sqlDr["clinicContactNo"].ToString();
                                 userClinics.Add(clinicModel);
                             }
                         }
@@ -128,7 +142,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT clinicID, userID, clinicname, unitHouseNo, street, baranggay, city, latitude, longitude FROM Clinic WHERE userID = @userID AND clinicID = @clinicID";
+                string query = @"SELECT clinicID, userID, clinicname, unitHouseNo, street, baranggay, city, clinicEmail, clinicContactNo, latitude, longitude FROM Clinic WHERE userID = @userID AND clinicID = @clinicID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -146,6 +160,8 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.Street = sqlDr["street"].ToString();
                                 record.Baranggay = sqlDr["baranggay"].ToString();
                                 record.City = sqlDr["city"].ToString();
+                                record.ClinicEmail = sqlDr["clinicEmail"].ToString();
+                                record.ClinicContactNo = sqlDr["clinicContactNo"].ToString();
                                 record.Latitude = sqlDr["latitude"].ToString();
                                 record.Longitude = sqlDr["longitude"].ToString();
                             }
@@ -163,7 +179,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE Clinic SET clinicname=@clinicname, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, city=@city, latitude=@latitude, longitude=@longitude WHERE userID = @userID and clinicID = @clinicID";
+                string query = @"UPDATE Clinic SET clinicname=@clinicname, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, city=@city, clinicEmail=@clinicEmail, clinicContactNo=@clinicContactNo, latitude=@latitude, longitude=@longitude WHERE userID = @userID and clinicID = @clinicID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@clinicname", record.ClinicName);
@@ -171,6 +187,8 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@street", record.Street);
                     sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
                     sqlCmd.Parameters.AddWithValue("@city", record.City);
+                    sqlCmd.Parameters.AddWithValue("@clinicEmail", record.ClinicEmail);
+                    sqlCmd.Parameters.AddWithValue("@clinicContactNo", record.ClinicContactNo);
                     sqlCmd.Parameters.AddWithValue("@latitude", record.Latitude);
                     sqlCmd.Parameters.AddWithValue("@longitude", record.Longitude);
                     sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
@@ -190,7 +208,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, clinicname, unitHouseNo, street, baranggay, city, latitude, longitude, FROM clinic";
+                string query = @"SELECT userID, clinicname, unitHouseNo, street, baranggay, city, clinicEmail, clinicContactNo, latitude, longitude, FROM clinic";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     //sqlCmd.Parameters.AddWithValue("@UserID", id);
@@ -208,6 +226,8 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.Street = sqlDr["street"].ToString();
                                 record.Baranggay = sqlDr["baranggay"].ToString();
                                 record.City = sqlDr["city"].ToString();
+                                record.ClinicEmail = sqlDr["clinicEmail"].ToString();
+                                record.ClinicContactNo = sqlDr["clinicContactNo"].ToString();
                                 record.Longitude = sqlDr["longitude"].ToString();
                                 record.Latitude = sqlDr["latitude"].ToString();
                             }
@@ -229,7 +249,7 @@ namespace ISPROJ2VetSeeker.Controllers
             {
                 sqlCon.Open();
                 string query = @"UPDATE Clinic SET UserID=@UserID, clinicname=@clinicname, unitHouseNo=@UnitHouseNo, street=@Street, baranggay=@Baranggay, city=@City,
-                        latitude=@Latitude, longitude=@Longitude
+                        clinicEmail=@clinicEmial, clinicContactNo=@clinicContactNo, latitude=@Latitude, longitude=@Longitude
                         WHERE ClinicID=@ClinicID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
@@ -239,6 +259,8 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@Street", record.Street);
                     sqlCmd.Parameters.AddWithValue("@Baranggay", record.Baranggay);
                     sqlCmd.Parameters.AddWithValue("@City", record.City);
+                    sqlCmd.Parameters.AddWithValue("@ClinicEmail", record.ClinicEmail);
+                    sqlCmd.Parameters.AddWithValue("@ClinicContactNo", record.ClinicContactNo);
                     sqlCmd.Parameters.AddWithValue("@Latitude", record.Latitude);
                     sqlCmd.Parameters.AddWithValue("@Longitude", record.Longitude);
                     sqlCmd.ExecuteNonQuery();

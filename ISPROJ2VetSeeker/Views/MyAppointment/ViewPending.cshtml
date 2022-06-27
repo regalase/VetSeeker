@@ -4,59 +4,44 @@
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 @Styles.Render("~/Content/StyleSheetPetRegister.css")
-@Styles.Render("~/Content/Table.css")
+@Styles.Render("~/Content/View.css")
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
 
-
-    //render as table
-    <table>
-        <tr class="head">
-            <th class="col1">
-                @Html.DisplayNameFor(model => model.ClinicName)
-            </th>
-            <th class="col2">
-                Date
-            </th>
-            <th class="col3">
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr class="body">
-                <td class="col1">
-                    @Html.DisplayFor(modelItem => item.ClinicName)
-                </td>
-                <td class="col2">
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td class="col3">
-                    @if (item.Status == "1")
-                    {
-                        @Html.Raw("Pending");
-                    }
-                    else if (item.Status == "2")
-                    {
-                        @Html.Raw("Accepted");
-                    }
-                    else if (item.Status == "0")
-                    {
-                        @Html.Raw("Available");
-                    }
-                </td>
-                <td>
-                    @Html.ActionLink("View Details", "ViewVetDetails", new { id = item.ClinicId, ScheduleID = item.ScheduleId })
-                </td>
-                <td></td>
-            </tr>
-
-        }
-    </table>
+    foreach (var item in Model)
+    {
+        <div class="col-md-offset-0 col-md-3">
+            <h2></h2>
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4><b>@item.ClinicName</b></h4>
+                    <h4><b>Date and Time:</b> <span>@item.Date.ToString("MM/dd/yyyy hh:mm tt")</span></h4>
+                    <h4>
+                        <b>Status:</b> <span>
+                            @if (item.Status == "1")
+                            {
+                                <span style="background-color: #Ff314e; color: black ">@Html.Raw("Pending")</span>;
+                            }
+                            else if (item.Status == "2")
+                            {
+                                <span style="background-color: #52a81a; color: black">@Html.Raw("Accepted")</span>;
+                            }
+                            else if (item.Status == "0")
+                            {
+                                <span style="background-color: #C5e423; color: black">@Html.Raw("Available")</span>;
+                            }
+                            else if (item.Status == "3")
+                            {
+                                <span style="background-color: #2bf300; color: black ">@Html.Raw("Completed")</span>;
+                            }
+                    </span>
+                </h4>
+                <h4>@Html.ActionLink("View Details", "ViewVetDetails", new { id = item.ClinicId, ScheduleID = item.ScheduleId })</h4>
+            </div>
+        </div>
+    </div>
+}
 }

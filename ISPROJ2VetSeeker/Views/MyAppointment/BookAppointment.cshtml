@@ -10,10 +10,9 @@
 
 @using (Html.BeginForm())
 {
-    <h4>@Html.ActionLink("< Back", "ClinicSchedules")</h4>
-    <br />
-    <br />
     <h2>Book Appointment</h2>
+    <h4 style="color:red">If you have not yet added a pet, click the Add pet button</h4>
+    <h4>@Html.ActionLink("Add Pet", "PetRegister", "Pet", new { @class = "bton btn-primary" }, new { @class = "bton btn-success" })</h4>
     @Html.AntiForgeryToken()
     <table>
         <tr class="head">
@@ -36,11 +35,11 @@
             <td>
                 @Html.DropDownListFor(model => model.SelectedPetId,
                       new SelectList(@Model.PetsForBooking, "PetID", "PetName"),
-                      "Select Pet For Appointment", new { @class = "form-control" })
+                      "Select Pet For Appointment", new { @class = "form-control", required = "required" })
                 @Html.HiddenFor(model => model.SelectedScheduleID, new { id = "SelectedScheduleID", Value = @Model.BookedScheduleModel.ScheduleID })
             </td>
             <td>
-                @Html.EditorFor(model => model.SpecificProblem, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.SpecificProblem, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                 @Html.ValidationMessageFor(model => model.SpecificProblem, "", new { @class = "text-danger" })
             </td>
             <td style="padding-right:30px;">

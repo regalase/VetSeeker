@@ -11,6 +11,7 @@
 <style>
 
 
+
     #map {
         height: 600% !important;
         width: 85% !important;
@@ -75,7 +76,11 @@
     <br />
     <div class="container" id="details">
         <div class="col-lg-6" id="clinic">
-            <h2><b>Clinic: @Html.DisplayFor(model => model.ClinicModel.ClinicName)</b></h2>
+            <h2><b>Clinic Name: @Html.DisplayFor(model => model.ClinicModel.ClinicName)</b></h2>
+            <br />
+            <h4><b>Clinic Email:</b> @Html.DisplayFor(model => model.ClinicModel.ClinicEmail)</h4>
+            <br />
+            <h4><b>Clinic Contact No.:</b> @Html.DisplayFor(model => model.ClinicModel.ClinicContactNo)</h4>
             <br />
             <h4><b>Veterinarian:</b> @Html.DisplayFor(model => model.UserModel.FirstName) @Html.DisplayFor(model => model.UserModel.LastName)</h4>
             <br />
@@ -101,6 +106,9 @@
                         Services Offered
                     </th>
                     <th>
+                        Service Description
+                    </th>
+                    <th>
                         Price
                     </th>
                 </tr>
@@ -112,7 +120,10 @@
                             @item.ServiceName
                         </td>
                         <td>
-                            @item.Price
+                            @item.ServiceDescription
+                        </td>
+                        <td>
+                            ₱ @item.Price.ToString("#,##0.00")
                         </td>
                     </tr>
                 }

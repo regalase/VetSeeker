@@ -5,6 +5,20 @@
 
 @Styles.Render("~/Content/StyleSheetRegister.css")
 <link href="~/Content/StyleSheetRegister.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('select#TypeID').change(function () {
+            swal("If registering as a Veterinarian, please send us an image of your license of practice for verification to this EMAIL ADDRESS: VetSeeker@gmail.com");
+        });
+    });
+</script>
 
 @using (Html.BeginForm("Register", "User", FormMethod.Post, new { enctype = "multipart/form-data", @name = "image" }))
 {
@@ -22,16 +36,11 @@
                     @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.DropDownListFor(model => model.TypeID,
-                                                                            new SelectList(Model.Types, "TypeID", "Type"),
-                                                                            "Select from the list...", new { @class = "form-control" })
+                                        new SelectList(Model.Types, "TypeID", "Type"),
+                                        "Select from the list...", new { @class = "form-control" })
                         @if (Html.Captcha(5) != null)
                         {
-                            <script type="text/javascript">
-                                window.onload = function () {
-                                    alert("If registering as a Veterinarian, please send us an image of your license of practice for verification to this EMAIL ADDRESS: VetSeeker@gmail.com");
-                                }
-                            </script>
-}
+                        }
                     </div>
                 </div>
 
@@ -54,7 +63,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control",placeholder = "ex: 09179999999"} })
                         @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -81,6 +90,7 @@
                         @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
+
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.confirmPassword, htmlAttributes: new { @class = "control-label" })
@@ -98,6 +108,8 @@
                     <div class="col-md-10">
                         <input id="ProfilePicture" title="Upload a product image"
                                type="file" name="file" />
+                        <p style="text-align:left; font-size:13px; color:red">Accepted files are .jpg .jpeg .png</p>
+                        <p style="text-align: left; font-size: 13px; color: red">Max size: 5 MB</p>
                     </div>
                 </div>
 
@@ -113,16 +125,43 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Birthday, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                @type = "date",
+                                @Value = DateTime.Now.ToString("yyyy'-'MM'-'dd")
+                   }
+                        })
                         @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
+                    <!--Drop Down List for cities-->
+                    @{ List<SelectListItem> listItems = new List<SelectListItem>();
+                        listItems.Add(new SelectListItem { Text = "Makati" });
+                        listItems.Add(new SelectListItem { Text = "Manila" });
+                        listItems.Add(new SelectListItem { Text = "Quezon City" });
+                        listItems.Add(new SelectListItem { Text = "Caloocan" });
+                        listItems.Add(new SelectListItem { Text = "Pasay" });
+                        listItems.Add(new SelectListItem { Text = "Pasig" });
+                        listItems.Add(new SelectListItem { Text = "Taguig" });
+                        listItems.Add(new SelectListItem { Text = "Navotas" });
+                        listItems.Add(new SelectListItem { Text = "Muntinlupa" });
+                        listItems.Add(new SelectListItem { Text = "Mandaluyong" });
+                        listItems.Add(new SelectListItem { Text = "Valenzuela" });
+                        listItems.Add(new SelectListItem { Text = "Malabon" });
+                        listItems.Add(new SelectListItem { Text = "San Juan" });
+                        listItems.Add(new SelectListItem { Text = "Marikina" });
+                        listItems.Add(new SelectListItem { Text = "Pateros" });
+                        listItems.Add(new SelectListItem { Text = "Paranaque" });
+                        listItems.Add(new SelectListItem { Text = "Bonifacio Global City" }); }
                     @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    <div class="col-md-10" style="padding-top:8px">
+                        @Html.DropDownListFor(model => model.City, listItems, "Select a City", new { htmlAttributes = new { @class = "form-control" }, style = "width:225px;font-size:15px;float:left;", required = "required" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger", style = "float:left" })
                     </div>
                 </div>
 
@@ -167,10 +206,16 @@
                     {
                         <script type="text/javascript">
                             window.onsubmit = function () {
-                                alert("If you are redirected to login page, your account was CREATED SUCCESFULLY, if not, Please make sure that your CAPTCHA was inputted correctly");
+                                alert("If you are redirected to login page, your account was CREATED SUCCESFULLY, if not, Please make sure that your CAPTCHA was inputted correctly")
                             }
                         </script>
                     }
+                    <div class="privacy">
+                        <p>
+                            <input type="checkbox" value="Privacy Policy" required="required" />
+                            I have read and agree to the @Html.ActionLink("Terms of Service and Privacy Policy ", "Index", "Home", null, new { target = "_blank" })
+                        </p>
+                    </div>
                     <input type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>

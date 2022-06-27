@@ -23,7 +23,7 @@ namespace ISPROJ2VetSeeker.Controllers
             {
                 sqlCon.Open();
                 string query = @"SELECT userID, typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, 
-                unitHouseNo, street,barangay, profilePicture, dateAdded, dateModified  from User WHERE typeID = @type"; 
+                unitHouseNo, street,barangay, profilePicture, dateAdded, dateModified  from User WHERE typeID = @type";
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
@@ -44,7 +44,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 Gender = sqlDr["gender"].ToString(),
                                 Birthday = DateTime.Parse(sqlDr["Birthday"].ToString()),
                                 City = sqlDr["city"].ToString(),
-                                UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString()),
+                                UnitHouseNo = sqlDr["unitHouseNo"].ToString(),
                                 Street = sqlDr["street"].ToString(),
                                 Baranggay = sqlDr["baranggay"].ToString(),
                                 ProfilePicture = sqlDr["profilePicture"].ToString(),
@@ -72,7 +72,8 @@ namespace ISPROJ2VetSeeker.Controllers
                     {
                         while (sqlDr.Read())
                         {
-                            list.Add(new UserTypeModel {
+                            list.Add(new UserTypeModel
+                            {
                                 TypeID = int.Parse(sqlDr["typeId"].ToString()),
                                 Type = sqlDr["type"].ToString()
                             });
@@ -114,7 +115,6 @@ namespace ISPROJ2VetSeeker.Controllers
 
                 using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
                 {
-                    
                     sqlCon.Open();
                     string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified)";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
@@ -126,8 +126,8 @@ namespace ISPROJ2VetSeeker.Controllers
                         sqlCmd.Parameters.AddWithValue("@mobileNo", record.MobileNo);
                         sqlCmd.Parameters.AddWithValue("@email", record.Email);
                         sqlCmd.Parameters.AddWithValue("@username", record.UserName);
-                        string hashed = Helper.Hash(record.Password);
-                        sqlCmd.Parameters.AddWithValue("@password", hashed);
+                        //string hashed = Helper.Hash(record.Password);
+                        sqlCmd.Parameters.AddWithValue("@password", record.Password);
                         sqlCmd.Parameters.AddWithValue("@gender", record.Gender);
                         sqlCmd.Parameters.AddWithValue("@birthday", record.Birthday);
                         sqlCmd.Parameters.AddWithValue("@city", record.City);
@@ -140,7 +140,7 @@ namespace ISPROJ2VetSeeker.Controllers
                         sqlCmd.ExecuteNonQuery();
                         return RedirectToAction("Login", "Accounts");
                     }
-                    
+
                 }
             }
 
@@ -180,7 +180,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 Gender = sqlDr["gender"].ToString(),
                                 Birthday = DateTime.Parse(sqlDr["birthday"].ToString()),
                                 City = sqlDr["city"].ToString(),
-                                UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString()),
+                                UnitHouseNo = sqlDr["unitHouseNo"].ToString(),
                                 Street = sqlDr["street"].ToString(),
                                 Baranggay = sqlDr["baranggay"].ToString(),
                                 //ProfilePicture = byte[].Parse(sqlDr["profilePicture"].ToString()),
@@ -209,11 +209,13 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT u.username, f.feedback, f.rating, f.dateAdded, f.dateModified, ma.myAppointmentID
+                string query = @"SELECT u.username, f.feedback, f.rating, f.dateAdded, f.dateModified,f.myAppointmentID, ma.myAppointmentID, c.clinicID, f.clinicID
                                  FROM Feedback f 
                                  INNER JOIN MyAppointment ma ON f.myAppointmentID = ma.myAppointmentID 
                                  INNER JOIN Schedule s ON ma.scheduleID = s.scheduleID 
-                                 INNER JOIN Users u ON u.userID = ma.userID";
+                                 INNER JOIN Users u ON u.userID = ma.userID
+                                 INNER JOIN Clinic c ON c.clinicID = f.clinicID
+                                 WHERE c.clinicID = f.clinicID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
@@ -265,7 +267,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.Gender = sqlDr["gender"].ToString();
                                 record.Birthday = DateTime.Parse(sqlDr["birthday"].ToString());
                                 record.City = sqlDr["city"].ToString();
-                                record.UnitHouseNo = int.Parse(sqlDr["unitHouseNo"].ToString());
+                                record.UnitHouseNo = sqlDr["unitHouseNo"].ToString();
                                 record.Street = sqlDr["street"].ToString();
                                 record.Baranggay = sqlDr["baranggay"].ToString();
                                 record.ProfilePicture = sqlDr["profilePicture"].ToString();
@@ -292,21 +294,19 @@ namespace ISPROJ2VetSeeker.Controllers
             {
                 record.ProfilePicture = "";
             }
-            
+
 
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE Users SET firstName=@firstName, lastName=@lastName, mobileNo=@mobileNo, email=@email, username=@username, password=@password, gender=@gender, birthday=@birthday, city=@city, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, profilePicture=@profilePicture, dateModified=@dateModified WHERE userID = @userID";
+                string query = @"UPDATE Users SET mobileNo=@mobileNo, email=@email, username=@username, password=@password, gender=@gender, birthday=@birthday, city=@city, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, profilePicture=@profilePicture, dateModified=@dateModified WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
-                    sqlCmd.Parameters.AddWithValue("@firstName", record.FirstName);
-                    sqlCmd.Parameters.AddWithValue("@lastName", record.LastName);
                     sqlCmd.Parameters.AddWithValue("@mobileNo", record.MobileNo);
                     sqlCmd.Parameters.AddWithValue("@email", record.Email);
                     sqlCmd.Parameters.AddWithValue("@username", record.UserName);
-                    string hashed = Helper.Hash(record.Password);
-                    sqlCmd.Parameters.AddWithValue("@password", hashed);
+                    //string hashed = Helper.Hash(record.Password);
+                    sqlCmd.Parameters.AddWithValue("@password", record.Password);
                     sqlCmd.Parameters.AddWithValue("@gender", record.Gender);
                     sqlCmd.Parameters.AddWithValue("@birthday", record.Birthday);
                     sqlCmd.Parameters.AddWithValue("@city", record.City);
@@ -322,14 +322,14 @@ namespace ISPROJ2VetSeeker.Controllers
             }
 
             if (Session["TypeID"].ToString() == "1")
-                {
-                    return RedirectToAction("MyProfile", "Accounts");//HOMEPAGE
-                }
+            {
+                return RedirectToAction("MyProfile", "Accounts");//HOMEPAGE
+            }
             else
-                {
-                    return RedirectToAction("VetProfile", "Accounts");
-                }
-           
+            {
+                return RedirectToAction("VetProfile", "Accounts");
+            }
+
         }
     }
 }

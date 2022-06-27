@@ -18,6 +18,10 @@ namespace ISPROJ2VetSeeker.Models
         [Required]
         public string ServiceName { get; set; }
 
+        [Display(Name = "Service Description")]
+        [Required]
+        public string ServiceDescription { get; set; }
+
         [Display(Name = "Price")]
         [Required]
         public decimal Price { get; set; }

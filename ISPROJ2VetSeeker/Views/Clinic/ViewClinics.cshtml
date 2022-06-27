@@ -18,20 +18,26 @@
     @Html.AntiForgeryToken()
     <table>
         <tr class="head">
-            <th width="20%">
+            <th>
                 Clinic
             </th>
-            <th width="10%">
+            <th>
                 Unit/House #
             </th>
-            <th width="25%">
+            <th>
                 Street
             </th>
-            <th width="15%">
+            <th>
                 Barangay
             </th>
             <th>
                 City
+            </th>
+            <th>
+                Clinic Email
+            </th>
+            <th>
+                Clinic Contact No.
             </th>
             <th>
 
@@ -54,6 +60,12 @@
                 </td>
                 <td>
                     @ClinicModel.City
+                </td>
+                <td>
+                    @ClinicModel.ClinicEmail
+                </td>
+                <td>
+                    @ClinicModel.ClinicContactNo
                 </td>
                 <td>
                     @Html.ActionLink("Update Clinic", "UpdateClinic", new { clinicId = ClinicModel.ClinicID })

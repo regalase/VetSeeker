@@ -16,6 +16,9 @@
             Service
         </th>
         <th>
+            Service Description
+        </th>
+        <th>
             Price
         </th>
         <th>
@@ -29,7 +32,10 @@
                 @Service.ServiceName
             </td>
             <td>
-                @Service.Price
+                @Service.ServiceDescription
+            </td>
+            <td>
+                ₱ @Service.Price.ToString("#,##0.00")
             </td>
             <td>
                 @Html.ActionLink("Edit", "UpdateService", new { id = Service.ServiceTypeID, record = Service })

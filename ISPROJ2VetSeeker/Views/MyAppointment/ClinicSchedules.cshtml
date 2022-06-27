@@ -3,7 +3,7 @@
     ViewBag.Title = "ClinicSchedules";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
-@Styles.Render("~/Content/Table.css")
+@Styles.Render("~/Content/View.css")
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 @using (Html.BeginForm())
 {
@@ -13,36 +13,40 @@
     {
         if (item.ScheduleModels.Count > 0)
         {
-            <h3 style="color:black!important"><b>@item.ClinicName</b></h3>
-            <table>
-
-                <tr class="head">
-                    <th width="20%">
-                        Date and Time
-                    </th>
-                    <th>
-                    </th>
-                    <th>
-                    </th>
-                </tr>
-
-                @foreach (var schedule in item.ScheduleModels)
-                {
-                    <tr class="body">
-                        <td>
-                            @schedule.Date.ToString("MM/dd/yyyy hh:mm tt")
-                        </td>
-                        <td>
-                            @Html.ActionLink("View Details", "ViewVetDetails", new { id = item.ClinicID, ScheduleID = schedule.ScheduleID })
-                        </td>
-                        <td style="padding-right:30px;">
-                            @Html.ActionLink("Book", "BookAppointment", new { selectedScheduleId = schedule.ScheduleID })
-                        </td>
-                    </tr>
-                }
-            </table>
-            <br />
+            foreach (var schedule in item.ScheduleModels)
+            {
+                <div class="col-md-offset-0 col-md-3">
+                    <h2></h2>
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h4><b>@item.ClinicName</b></h4>
+                            <h4>Date and Time:<span> @schedule.Date.ToString("MM/dd/yyyy hh:mm tt") </span></h4>
+                            <h4>@Html.ActionLink("View Details", "ViewVetDetails", new { id = item.ClinicID, ScheduleID = schedule.ScheduleID }, new { @class = "btn btn-primary" })</h4>
+                            <h4>@Html.ActionLink("Book", "BookAppointment", new { selectedScheduleId = schedule.ScheduleID }, new { @class = "btn btn-primary" })</h4>
+                            <h4>
+                                <b>Status:</b> <span>
+                                    @if (schedule.Status == "1")
+                                    {
+                                        <span style="background-color: #Ff314e; color: black ">@Html.Raw("Pending")</span>;
+                                    }
+                                    else if (schedule.Status == "2")
+                                    {
+                                        <span style="background-color: #52a81a; color: black">@Html.Raw("Accepted")</span>;
+                                    }
+                                    else if (schedule.Status == "0")
+                                    {
+                                        <span style="background-color: #C5e423; color: black">@Html.Raw("Available")</span>;
+                                    }
+                                    else if (schedule.Status == "3")
+                                    {
+                                        <span style="background-color: #2bf300; color: black ">@Html.Raw("Completed")</span>;
+                                    }
+                            </span>
+                        </h4>
+                    </div>
+                </div>
+            </div>
         }
-
     }
+}
 }

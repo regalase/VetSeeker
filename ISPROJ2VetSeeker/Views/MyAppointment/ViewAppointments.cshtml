@@ -7,7 +7,7 @@
 }
 
 @Styles.Render("~/Content/StyleSheetPetRegister.css")
-@Styles.Render("~/Content/Table.css")
+@Styles.Render("~/Content/View.css")
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 <h2 style="margin-bottom:30px">View Appointments</h2>
@@ -17,63 +17,38 @@
 
     foreach (var item in Model)
     {
-        <br />
-        <h4><b>@item.ClinicName</b></h4>
-        <table>
+        <div class="col-md-offset-0 col-md-3">
+            <h2></h2>
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4><b>@item.ClinicName</b></h4>
+                    <h4><b>Date and Time:</b> <span>@item.Date.ToString("MM/dd/yyyy hh:mm tt")</span></h4>
+                    <h4><b>Veterinarian:</b> <span>@item.LastName, @item.FirstName</span></h4>
+                    <h4><b>Pet Name:</b> <span>@item.PetName</span></h4>
+                    <h4>
+                        <b>Status:</b> <span>
+                            @if (item.Status == "1")
+                            {
+                                <span style="background-color: #Ff314e; color: black ">@Html.Raw("Pending")</span>;
+                            }
+                            else if (item.Status == "2")
+                            {
+                                <<span style="background-color: #52a81a; color: black">@Html.Raw("Accepted")</span>;
+                            }
+                            else if (item.Status == "0")
+                            {
+                                <span style="background-color: #C5e423; color: black">@Html.Raw("Available")</span>;
+                            }
+                            else if (item.Status == "3")
+                            {
+                                <span style="background-color: #1ed804; color:black">@Html.Raw("Completed")</span>;
+                            }
+                    </span>
+                </h4>
+                <h4><span style="color: white"><button class="btn btn-primary"> @Html.ActionLink("Create Feedback", "CreateFeedback", "MyAppointment", new { id = item.MyAppointmentID }, null)</button></span></h4>
+            </div>
+        </div>
+    </div>
 
-            <tr class="head">
-                <th width="20%">
-                    Date and Time
-                </th>
-                <th>
-                    Veterinarian
-                </th>
-                <th>
-                    Pet Name
-                </th>
-                <th>
-                    Status
-                </th>
-                <th>
-                    Actions
-                </th>
-            </tr>
-            <tr class="body">
-                <td>
-                    @item.Date.ToString("MM/dd/yyyy hh:mm tt")
-                </td>
-                <td>
-                    @item.LastName, @item.FirstName
-                </td>
-                <td>
-                    @item.PetName
-                </td>
-                <td>
-                    @if (item.Status == "1")
-                    {
-                        @Html.Raw("Pending");
-                    }
-                    else if (item.Status == "2")
-                    {
-                        @Html.Raw("Accepted");
-                    }
-                    else if (item.Status == "0")
-                    {
-                        @Html.Raw("Available");
-                    }
-                    else if (item.Status == "3")
-                    {
-                        @Html.Raw("Completed");
-                    }
-                </td>
-                <td>
-                    @Html.ActionLink("Feedback", "CreateFeedback", "MyAppointment", new { id = item.MyAppointmentID }, null)
-                </td>
-            </tr>
-
-        </table>
-        <br />
-
-
-    }
+}
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CDN</name>
+    </assembly>
+    <members>
+        <member name="T:CDN">
+            <summary>
+            CDN Extensions, Plugins, Resources from cdnjs
+            </summary>
+        </member>
+        <member name="M:CDN.LoadCdn(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String)">
+            <summary>
+            <para>Generate a link from the cdnjs</para>
+            <para>//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js</para>
+            <para>//cdnjs.cloudflare.com/ajax/libs/{name}/{version}/{filename}</para>
+            </summary>
+            <param name="helper"></param>
+            <param name="name">Library name</param>
+            <param name="version">version of the file</param>
+            <param name="filename">file name</param>
+            <returns>MvcHtmlString</returns>
+        </member>
+        <member name="M:CDN.LoadCdn(System.String,System.String,System.String)">
+            <summary>
+            To generate a link from the cdnjs
+            //cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js
+            //cdnjs.cloudflare.com/ajax/libs/{name}/{version}/{filename}
+            </summary>
+            <param name="name">Library name</param>
+            <param name="version">version of the file</param>
+            <param name="filename">file name</param>
+            <returns>String</returns>
+        </member>
+        <member name="M:CDN.LoadCdn(System.Web.Mvc.HtmlHelper,System.String)">
+            <summary>
+            Set any cdn jquery, css, image path
+            </summary>
+            <param name="helper"></param>
+            <param name="cdnPath">//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js</param>
+            <returns>MvcHtmlString</returns>
+        </member>
+        <member name="M:CDN.LoadCdn(System.String)">
+            <summary>
+            Set any cdn jquery, css, image path
+            </summary>
+            <param name="cdnPath">//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js</param>
+            <returns>string</returns>
+        </member>
+    </members>
+</doc>

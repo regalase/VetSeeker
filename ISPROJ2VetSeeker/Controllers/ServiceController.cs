@@ -27,11 +27,12 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"INSERT INTO ServiceType VALUES(@userID, @serviceName, @price)";
+                string query = @"INSERT INTO ServiceType VALUES(@userID, @serviceName, @serviceDescription, @price)";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
                     sqlCmd.Parameters.AddWithValue("@serviceName", record.ServiceName);
+                    sqlCmd.Parameters.AddWithValue("@serviceDescription", record.ServiceDescription);
                     sqlCmd.Parameters.AddWithValue("@price", record.Price);
 
                     sqlCmd.ExecuteNonQuery();
@@ -47,7 +48,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT serviceTypeID, userID, serviceName, price FROM ServiceType WHERE userID = @userID";
+                string query = @"SELECT serviceTypeID, userID, serviceName, serviceDescription, price FROM ServiceType WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -60,6 +61,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 ServiceTypeID = int.Parse(sqlDr["serviceTypeID"].ToString()),
                                 UserID = int.Parse(sqlDr["userID"].ToString()),
                                 ServiceName = sqlDr["serviceName"].ToString(),
+                                ServiceDescription = sqlDr["serviceDescription"].ToString(),
                                 Price = decimal.Parse(sqlDr["price"].ToString())
                             });
                         }
@@ -79,7 +81,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, serviceName, price FROM ServiceType";
+                string query = @"SELECT userID, serviceName, serviceDescription, price FROM ServiceType";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
 
@@ -92,6 +94,7 @@ namespace ISPROJ2VetSeeker.Controllers
                             {
                                 record.UserID = int.Parse(sqlDr["userID"].ToString());
                                 record.ServiceName = sqlDr["serviceName"].ToString();
+                                record.ServiceDescription = sqlDr["serviceDescription"].ToString();
                                 record.Price = decimal.Parse(sqlDr["price"].ToString());
                             }
                             sqlCon.Close();
@@ -113,7 +116,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE ServiceType SET serviceName=@ServiceName, price=@Price
+                string query = @"UPDATE ServiceType SET serviceName=@ServiceName, serviceDescription=@ServiceDescription, price=@Price
                                 WHERE serviceTypeID=@ServiceTypeID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
@@ -121,6 +124,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     Debug.WriteLine("SCHED ID" + record.ServiceName);
                     Debug.WriteLine("Clinic ID" + record.Price);
                     sqlCmd.Parameters.AddWithValue("@serviceName", record.ServiceName);
+                    sqlCmd.Parameters.AddWithValue("@serviceDescription", record.ServiceDescription);
                     sqlCmd.Parameters.AddWithValue("@price", record.Price);
                     sqlCmd.Parameters.AddWithValue("@ServiceTypeID", id);
                     sqlCmd.ExecuteNonQuery();

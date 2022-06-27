@@ -27,7 +27,7 @@ else if (Model.TypeID == 2)
                 <div class="form-group">
                     @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label", style = "margin-right:65px" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.TextBoxFor(model => model.FirstName, new { disabled = "disabled" })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -35,7 +35,7 @@ else if (Model.TypeID == 2)
                 <div class="form-group">
                     @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label", style = "margin-right:65px" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.TextBoxFor(model => model.LastName, new { disabled = "disabled" })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </div>
                 </div>
