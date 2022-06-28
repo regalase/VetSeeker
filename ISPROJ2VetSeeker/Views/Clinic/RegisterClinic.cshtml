@@ -40,9 +40,19 @@
         "Bonifacio Global City": { "latitude": 14.5409, "longitude": 121.0503 }
 
     }
+    const PHILIPPINE_BOUNDS = {
+        north: 14.785616325499253,
+        south: 14.426811626582813,
+        west: 120.61145466065766,
+        east: 121.4766280005014
+    };
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 14.5547, lng: 121.0244 },
+            center: { lat: 14.6090537, lng: 121.02225650000003 },  //lat: 14.5547, lng: 121.0244 
+            restriction: {
+              latLngBounds: PHILIPPINE_BOUNDS,
+              strictBounds: false,
+            },
             zoom: 12,
             panControl: false,
             streetViewControl: false,
@@ -51,17 +61,46 @@
 
         marker = new google.maps.Marker({
             map: map,
-            position: { lat: 14.5547, lng: 121.0244 },
+            position: { lat: 14.6090537, lng: 121.02225650000003 },
             draggable: true
         });
+
         google.maps.event.addListener(marker, 'dragend', function () {
             map.setCenter(marker.getPosition());
-            document.getElementById("Latitude").value = marker.getPosition().lat();
-            document.getElementById("Longitude").value = marker.getPosition().lng();
-        })
+            const latitude = marker.getPosition().lat();
+            const longitude = marker.getPosition().lng();
+            document.getElementById("Latitude").value = latitude;
+            document.getElementById("Longitude").value = longitude;
+            var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+            var geocoder = new google.maps.Geocoder;
+            geocoder.geocode({'location': latlng}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        const place_id = results[1].place_id;
+                        geocoder.geocode({ placeId: place_id })
+                        .then(({ results }) => {
+                            if (results[0]) {
+                                console.log(results[0]);
+                                console.log(results[0].address_components[0].long_name, results[0].address_components[1].long_name);
+                                    document.getElementById("id").value = results[0].address_components[0].long_name;
+                                    document.getElementById("streetId").value = results[0].address_components[1].long_name;
+                                
+                            } else {
+                            window.alert("No results found");
+                            }
+                        }).catch((e) => window.alert("Geocoder failed due to: " + e));
+                    } 
+                    else {
+                        window.alert('No results found');
+                    }
+                } else {
+                     window.alert('Geocoder failed due to: ' + status);
+                }    
+            });
+        });
         google.maps.event.trigger(map, "resize");
 
-
+        
     }
 
     function changeMapMarker(value) {
@@ -73,6 +112,8 @@
         marker.setPosition(position)
         map.setCenter(position);
     }
+
+    
 
 </script>
 @using (Html.BeginForm())
@@ -98,7 +139,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.UnitHouseNo, htmlAttributes: new { @class = "control-label" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.UnitHouseNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.UnitHouseNo, new { htmlAttributes = new { @class = "form-control", id = "id" } })
                         @Html.ValidationMessageFor(model => model.UnitHouseNo, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -106,7 +147,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control", required = "required", id = "streetId" } })
                         @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
                     </div>
                 </div>

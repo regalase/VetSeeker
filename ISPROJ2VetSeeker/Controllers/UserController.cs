@@ -112,7 +112,12 @@ namespace ISPROJ2VetSeeker.Controllers
                     record.ProfilePicture = "";
                 }
 
-
+                var date = DateTime.Now.AddYears(-18);
+                if (record.Birthday > date)
+                {
+                    ViewBag.Error = "test";
+                    return RedirectToAction("Register", "User");
+                }
                 using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
                 {
                     sqlCon.Open();

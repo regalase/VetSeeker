@@ -135,6 +135,7 @@
                    }
                         })
                         @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                        <input type="hidden" id="custID" runat="server" name="custId">
                     </div>
                 </div>
 

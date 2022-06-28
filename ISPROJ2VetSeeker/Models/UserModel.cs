@@ -68,7 +68,7 @@ namespace ISPROJ2VetSeeker.Models
 
         //edit here to make birthday for 18-120 year olds
         [Required]
-        [CustomDate(ErrorMessage = "You must be 18+ to use this website")]
+        //[CustomDate(ErrorMessage = "You must be 18+ to use this website")]
         [Display(Name = "Birthday")]
         [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
