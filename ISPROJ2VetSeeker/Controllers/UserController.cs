@@ -11,9 +11,11 @@ using System.Data;
 using System.Diagnostics;
 using CaptchaMvc.HtmlHelpers;
 using System.Security.Cryptography;
+using static ISPROJ2VetSeeker.FilterConfig;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
+    [NoDirectAccess]
     public class UserController : Controller
     {
         public List<UserModel> GetUsersByType(long type)

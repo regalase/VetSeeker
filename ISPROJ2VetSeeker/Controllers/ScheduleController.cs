@@ -10,9 +10,11 @@ using System.Web.Mvc;
 using System.Data;
 using System.Diagnostics;
 using GMap;
+using static ISPROJ2VetSeeker.FilterConfig;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
+    [NoDirectAccess]
     public class ScheduleController : Controller
     {
         // GET: Schedule
@@ -75,7 +77,7 @@ namespace ISPROJ2VetSeeker.Controllers
             }
         }
 
-        public ActionResult ViewSchedules()
+        public ActionResult ViewSchedules(int status = 0)
         {
             var record = new List<ViewScheduleUIModel>();
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
@@ -83,7 +85,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 sqlCon.Open();
                 string query = @"SELECT scheduleID, s.userID, date, s.status, s.clinicID, clinicName FROM Schedule s 
                                  INNER JOIN Clinic c ON c.clinicID = s.clinicID 
-                                 WHERE s.userId = @userId";
+                                 WHERE s.userId = @userId AND s.status like '%" + status + "%'";
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
@@ -496,6 +498,40 @@ namespace ISPROJ2VetSeeker.Controllers
             return RedirectToAction("ViewSchedules", "Schedule");
         }
 
+        public ActionResult CompletedAppointment()
+        {
+            var record = new List<ViewScheduleUIModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT scheduleID, s.userID, date, s.status, s.clinicID, clinicName FROM Schedule s 
+                                 INNER JOIN Clinic c ON c.clinicID = s.clinicID 
+                                 WHERE s.userId = @userId AND s.status = 3";
 
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userId", Session[Helper.USER_ID_KEY]);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                var viewScheduleUIModel = new ViewScheduleUIModel();
+                                viewScheduleUIModel.ScheduleId = int.Parse(sqlDr["scheduleID"].ToString());
+                                viewScheduleUIModel.UserID = int.Parse(sqlDr["userID"].ToString());
+                                viewScheduleUIModel.Date = DateTime.Parse(sqlDr["date"].ToString());
+                                viewScheduleUIModel.Status = sqlDr["status"].ToString();
+                                viewScheduleUIModel.ClinicId = int.Parse(sqlDr["clinicID"].ToString());
+                                viewScheduleUIModel.ClinicName = sqlDr["clinicName"].ToString();
+                                record.Add(viewScheduleUIModel);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return View(record);
+        }
     }
 }

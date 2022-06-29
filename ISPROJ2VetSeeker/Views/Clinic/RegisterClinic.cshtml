@@ -84,7 +84,20 @@
                                 console.log(results[0].address_components[0].long_name, results[0].address_components[1].long_name);
                                     document.getElementById("id").value = results[0].address_components[0].long_name;
                                     document.getElementById("streetId").value = results[0].address_components[1].long_name;
-                                
+                                cityLongLatMap[results[0].address_components[2].long_name];
+                                //cityLongLatMap["Makati", "Manila", "Quezon City", "Caloocan", "Pasay", "Pasig", "Taguig", "Navotas", "Muntinlupa", "Mandaluyong", "Valenzuela", "Malabon", "San Juan", "Marikina", "Pateros", "Paranaque", "Bonifacio Global City"];
+                                const output1 = cityLongLatMap[results[0].address_components[1].long_name];
+                                const output2 = cityLongLatMap[results[0].address_components[2].long_name];
+                                const output3 = cityLongLatMap[results[0].address_components[3].long_name];
+                                //const output = cityLongLatMap[results[0].address_components['locality'].types];
+                                if (output1 == null && output2 == null && output3 == null) {
+                                    initMap();
+                                    document.getElementById("id").value = "";
+                                    document.getElementById("streetId").value = "";
+                                }
+                                console.log(cityLongLatMap);
+                                console.log(results[0].address_components[2].long_name);
+                                console.log(results[0].address_components[3].long_name);
                             } else {
                             window.alert("No results found");
                             }

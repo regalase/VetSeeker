@@ -9,13 +9,15 @@ using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
+using static ISPROJ2VetSeeker.FilterConfig;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
+    [NoDirectAccess]
     public class MyAppointmentController : Controller
     {
         // GET: MyAppointment
-        public ActionResult ClinicSchedules()
+        public ActionResult ClinicSchedules(string searchCity)
         {
             var record = new ClientViewScheduleModel();
             //query clinics by user logged in;
@@ -54,7 +56,7 @@ namespace ISPROJ2VetSeeker.Controllers
                 //Change later with claculations to nearest clinic
                 foreach (ClinicScheduleUIModel model in record.ClinicScheduleUIModels)
                 {
-                    string query = @"SELECT s.scheduleId, s.userID, s.date, s.status, s.clinicID FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE s.clinicID = @clinicID AND s.status = 0  AND s.date >= @date ORDER BY s.date ASC";
+                    string query = @"SELECT s.scheduleId, s.userID, s.date, s.status, s.clinicID, c.city FROM Schedule s INNER JOIN Clinic c ON c.clinicID = s.clinicID WHERE c.city like '%" + searchCity + "%' AND s.clinicID = @clinicID AND s.status = 0  AND s.date >= @date ORDER BY s.date ASC";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                     {
                         //Add long lat params from gmaps
@@ -71,6 +73,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                     schedule.UserID = int.Parse(sqlDr["userID"].ToString());
                                     schedule.Date = DateTime.Parse(sqlDr["date"].ToString());
                                     schedule.Status = sqlDr["status"].ToString();
+                                    schedule.City = sqlDr["city"].ToString();
                                     model.ScheduleModels.Add(schedule);
                                 }
                             }
@@ -395,6 +398,38 @@ namespace ISPROJ2VetSeeker.Controllers
             }
 
             return View(record);
+        }
+
+        public ActionResult ListofAllServices(string search)
+        {
+            var list = new List<ServiceTypeModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT s.serviceTypeID, s.userID, s.serviceName, s.serviceDescription, s.price, c.clinicName FROM ServiceType s
+                                    INNER JOIN Clinic c ON c.userID = s.userID WHERE s.serviceName like '%" + search + "%'";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        while (sqlDr.Read())
+                        {
+                            list.Add(new ServiceTypeModel
+                            {
+                                ServiceTypeID = int.Parse(sqlDr["serviceTypeID"].ToString()),
+                                UserID = int.Parse(sqlDr["userID"].ToString()),
+                                ServiceName = sqlDr["serviceName"].ToString(),
+                                ServiceDescription = sqlDr["serviceDescription"].ToString(),
+                                Price = decimal.Parse(sqlDr["price"].ToString()),
+                                ClinicName = sqlDr["clinicName"].ToString()
+                            });
+                        }
+                    }
+                }
+                sqlCon.Close();
+            }
+            return View(list);
+
         }
     }
 }

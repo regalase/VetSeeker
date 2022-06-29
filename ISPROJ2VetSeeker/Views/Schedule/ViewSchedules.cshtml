@@ -10,8 +10,19 @@
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 <h2>My Schedule</h2>
 <br />
-@using (Html.BeginForm())
+@using (Html.BeginForm("ViewSchedules", "Schedule", FormMethod.Get))
 {
+
+    <p>
+        <label for="status">Choose status:</label>
+
+        <select name="status">
+            <option value="0">Available</option>
+            <option value="1">Pending</option>
+            <option value="2">Accepted</option>
+        </select>
+        <input type="submit" value="Search" name="submit" />
+    </p>
 
     foreach (var item in Model)
     {
@@ -39,51 +50,51 @@
                             {
                                 <span style="background-color: #2bf300; color: black ">@Html.Raw("Completed")</span>;
                             }
-                    </span>
-                </h4>
-                <h4>
-                    @if (item.Status != "0")
-                    {
-                        @Html.ActionLink("View Details", "ViewDetails", new { id = item.ScheduleId }, new { @class = "btn btn-primary" })
-                    }
-            </h4>
-            <p>
-                @if (item.Status == "0")
-                {
+                        </span>
+                    </h4>
                     <h4>
-                        @Html.ActionLink("Edit", "UpdateSchedule", new { id = item.ScheduleId }, new { @class = "btn btn-primary" })
+                        @if (item.Status != "0")
+                        {
+                            @Html.ActionLink("View Details", "ViewDetails", new { id = item.ScheduleId }, new { @class = "btn btn-primary" })
+                        }
                     </h4>
-                    <h4 style="color:red">
-                        @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId }, new { onclick = "return confirm('Are you sure want to delete this?');", @class = "btdn btn-danger" })
-                    </h4>
-                }
+                    <p>
+                        @if (item.Status == "0")
+                        {
+                            <h4>
+                                @Html.ActionLink("Edit", "UpdateSchedule", new { id = item.ScheduleId }, new { @class = "btn btn-primary" })
+                            </h4>
+                            <h4 style="color:red">
+                                @Html.ActionLink("Delete", "DeleteSchedule", new { id = item.ScheduleId }, new { onclick = "return confirm('Are you sure want to delete this?');", @class = "btdn btn-danger" })
+                            </h4>
+                        }
 
-                else if (item.Status == "1")
-                {
-                    <h4>
-                        @Html.ActionLink("Accept", "ManageSchedules", new { id = item.ScheduleId, status = 2 }, new { @class = "btsn btn-primary" })
-                    </h4>
-                    <h4>
-                        @Html.ActionLink("Decline", "DeclineSchedule", new { id = item.ScheduleId, status = 0 }, new { onclick = "return confirm('Are you sure want to decline this?');", @class = "btdn btn-danger" })
-                    </h4>
-                }
+                        else if (item.Status == "1")
+                        {
+                            <h4>
+                                @Html.ActionLink("Accept", "ManageSchedules", new { id = item.ScheduleId, status = 2 }, new { @class = "btsn btn-primary" })
+                            </h4>
+                            <h4>
+                                @Html.ActionLink("Decline", "DeclineSchedule", new { id = item.ScheduleId, status = 0 }, new { onclick = "return confirm('Are you sure want to decline this?');", @class = "btdn btn-danger" })
+                            </h4>
+                        }
 
-                else if (item.Status == "2")
-                {
-                    <h4>
-                        @Html.ActionLink("Cancel", "DeclineSchedule", new { id = item.ScheduleId, status = 0 }, new { @class = "btdn btn-danger" })
-                    </h4>
-                    <h4>
-                        @Html.ActionLink("Complete", "CompleteSchedule", new { id = item.ScheduleId, status = 3 }, new { @class = "btcn btn-success" })
-                    </h4>
-                }
-                else
-                {
+                        else if (item.Status == "2")
+                        {
+                            <h4>
+                                @Html.ActionLink("Cancel", "DeclineSchedule", new { id = item.ScheduleId, status = 0 }, new { @class = "btdn btn-danger" })
+                            </h4>
+                            <h4>
+                                @Html.ActionLink("Complete", "CompleteSchedule", new { id = item.ScheduleId, status = 3 }, new { @class = "btcn btn-success" })
+                            </h4>
+                        }
+                        else
+                        {
 
-                }
-            </p>
+                        }
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-}
+    }
 }

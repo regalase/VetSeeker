@@ -25,6 +25,7 @@ namespace ISPROJ2VetSeeker.Models
         [Display(Name = "Price")]
         [Required]
         public decimal Price { get; set; }
+        public string ClinicName { get; set; }
 
         public string DropdownDisplayText { get; set; }
 

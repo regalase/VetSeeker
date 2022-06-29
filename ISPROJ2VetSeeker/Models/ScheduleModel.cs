@@ -30,6 +30,7 @@ namespace ISPROJ2VetSeeker.Models
         public DateTime Date { get; set; }
 
         public string Status { get; set; }
+        public string City { get; set; }
 
     }
     public class CustomSchedDateAttribute : RangeAttribute

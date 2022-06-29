@@ -3,11 +3,37 @@
     ViewBag.Title = "ClinicSchedules";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
-@Styles.Render("~/Content/View.css")
+@Styles.Render("~/Content/ClinicView.css")
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
-@using (Html.BeginForm())
+@using (Html.BeginForm("ClinicSchedules", "MyAppointment", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
+
+    <h4>@Html.ActionLink("Search a service", "ListofAllServices", "MyAppointment", null, new { @class = "btsn btn-primary" })</h4>
+
+    <p>
+        <label for="searchCity">Choose a City:</label>
+
+        <select name="searchCity">
+            <option value="Makati">Makati</option>
+            <option value="Manila">Manila</option>
+            <option value="Quezon City">Quezon City</option>
+            <option value="Pasay">Pasay</option>
+            <option value="Pasig">Pasig</option>
+            <option value="Taguig">Taguig</option>
+            <option value="Navotas">Navotas</option>
+            <option value="Muntinlupa">Muntinlupa</option>
+            <option value="Mandaluyong">Mandaluyong</option>
+            <option value="Valenzuela">Valenzuela</option>
+            <option value="Malabon">Malabon</option>
+            <option value="San Juan">San Juan</option>
+            <option value="Marikina">Marikina</option>
+            <option value="Pateros">Pateros</option>
+            <option value="Paranaque">Paranaque</option>
+            <option value="Bonifacio Global City">Bonifacio Global City</option>
+        </select>
+        <input type="submit" value="Search" name="submit" />
+    </p>
 
     foreach (var item in Model.ClinicScheduleUIModels)
     {
@@ -41,12 +67,12 @@
                                     {
                                         <span style="background-color: #2bf300; color: black ">@Html.Raw("Completed")</span>;
                                     }
-                            </span>
-                        </h4>
+                                </span>
+                            </h4>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
     }
-}
 }

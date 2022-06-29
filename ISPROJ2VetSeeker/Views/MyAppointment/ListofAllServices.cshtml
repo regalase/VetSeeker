@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ServiceTypeModel>
+@{ ViewBag.Title = "ListofAllServices";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml"; }
+@Styles.Render("~/Content/StyleSheetPetRegister.css")
+@Styles.Render("~/Content/Table.css")
+<link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
+
+@using (@Html.BeginForm("ListofAllServices", "MyAppointment", FormMethod.Get))
+{
+    <h2>Services</h2>
+    <p>
+        <label for="search">Search a service</label>
+        <input type="text" name="search" />
+        @*<br />
+            <label for="price">Select price range:</label>
+            <input type="range" min="100" max="9000" step="100" name="price" value="100" oninput="this.nextElementSibling.value = this.value" /> <output>100</output>*@
+        <input type="submit" value="Search" name="submit" />
+
+    </p>
+    <table>
+        <tr class="head">
+            <th>
+                Clinic name
+            </th>
+            <th>
+                Service
+            </th>
+            <th>
+                Service Description
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+        @foreach (var Service in Model)
+        {
+            <tr class="body">
+                <td>
+                    @Service.ClinicName
+                </td>
+                <td>
+                    @Service.ServiceName
+                </td>
+                <td>
+                    @Service.ServiceDescription
+                </td>
+                <td>
+                    ₱ @Service.Price.ToString("#,##0.00")
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+
+

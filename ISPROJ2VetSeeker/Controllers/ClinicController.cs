@@ -10,9 +10,11 @@ using System.Web.Mvc;
 using System.Data;
 using System.Diagnostics;
 using GMap;
+using static ISPROJ2VetSeeker.FilterConfig;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
+    [NoDirectAccess]
     public class ClinicController : Controller
     {
         public ActionResult RegisterClinic() //added code lines 20-27

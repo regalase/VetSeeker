@@ -9,9 +9,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Diagnostics;
+using static ISPROJ2VetSeeker.FilterConfig;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
+    [NoDirectAccess]
     public class ServiceController : Controller
     {
         public ActionResult CreateService()
