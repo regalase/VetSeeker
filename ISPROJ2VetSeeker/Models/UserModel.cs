@@ -1,6 +1,9 @@
-﻿using System;
+﻿using ISPROJ2VetSeeker.App_Code;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -41,6 +44,7 @@ namespace ISPROJ2VetSeeker.Models
 
         [Display(Name = "Email Address")]
         [Required]
+        [CheckEmailExist]
         [DataType(DataType.EmailAddress, ErrorMessage = "Invalid format.")]
         public string Email { get; set; }
 
@@ -114,4 +118,32 @@ namespace ISPROJ2VetSeeker.Models
                   DateTime.Now.AddYears(-18).ToShortDateString())
         { }
     }
+
+    public class CheckEmailExistAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value,
+            ValidationContext validationContext)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string checkEmail = "SELECT COUNT(*) FROM Users WHERE email = '"+ value.ToString()+"'";
+                SqlCommand Cmd = new SqlCommand(checkEmail, sqlCon);
+                Int32 count = Convert.ToInt32(Cmd.ExecuteScalar());
+                Debug.WriteLine(count);
+                Debug.WriteLine("HI");
+                if (count >= 1) 
+                {
+                    sqlCon.Close();
+                    return new ValidationResult("Email exists");
+                    
+                    
+                }
+                sqlCon.Close();
+                return ValidationResult.Success;
+
+            }
+        }
+    }
+
 }

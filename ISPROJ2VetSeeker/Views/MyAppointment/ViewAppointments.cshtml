@@ -43,12 +43,16 @@
                             {
                                 <span style="background-color: #1ed804; color:black">@Html.Raw("Completed")</span>;
                             }
-                    </span>
-                </h4>
-                <h4><span style="color: white"><button class="btn btn-primary"> @Html.ActionLink("Create Feedback", "CreateFeedback", "MyAppointment", new { id = item.MyAppointmentID }, null)</button></span></h4>
+                        </span>
+                    </h4>
+                    @if (item.Date.AddMonths(1) >= DateTime.Today)
+                    {
+                        <h4><span style="color: white"><button class="btn btn-primary"> @Html.ActionLink("Create Feedback", "CreateFeedback", "MyAppointment", new { id = item.MyAppointmentID }, null)</button></span></h4>
+                    }
+
+                </div>
             </div>
         </div>
-    </div>
 
-}
+    }
 }

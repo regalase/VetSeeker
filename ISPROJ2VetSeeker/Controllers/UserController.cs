@@ -123,6 +123,12 @@ namespace ISPROJ2VetSeeker.Controllers
                 using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
                 {
                     sqlCon.Open();
+                    /*string checkEmail = "SELECT COUNT(*) FROM Users WHERE email = @email";
+                    SqlCommand Cmd = new SqlCommand(checkEmail, sqlCon);
+                    Int32 count = Convert.ToInt32(Cmd.ExecuteScalar());
+                    if (count > 0) {
+                        ViewBag.Error = "Email is existing";
+                    }*/
                     string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified)";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                     {
@@ -147,11 +153,11 @@ namespace ISPROJ2VetSeeker.Controllers
                         sqlCmd.ExecuteNonQuery();
                         return RedirectToAction("Login", "Accounts");
                     }
-
                 }
+
             }
 
-
+            
         }
 
         public ActionResult ListofUsers()//For Admin
