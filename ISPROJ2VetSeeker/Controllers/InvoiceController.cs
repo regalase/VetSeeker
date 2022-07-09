@@ -51,7 +51,7 @@ namespace ISPROJ2VetSeeker.Controllers
             return View(Invoices);
         }
 
-        public ActionResult VetInvoices()
+        public ActionResult VetInvoices(DateTime? start, DateTime? end)
         {
             List<InvoiceModel> Invoices = new List<InvoiceModel>();
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
@@ -61,7 +61,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                              FROM Invoice i 
                                              INNER JOIN MyAppointment m on m.myAppointmentID = i.myAppointmentID 
                                              INNER JOIN Schedule s on s.scheduleID = m.scheduleID
-                                             WHERE s.userID = @userID";
+                                             WHERE s.userID = @userID AND i.date >= '" + start + "' AND i.date <= '" + end + "'";
                 using (SqlCommand sqlCmd = new SqlCommand(getVetInvoicesQuery, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());

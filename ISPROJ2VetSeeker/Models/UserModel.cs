@@ -44,12 +44,12 @@ namespace ISPROJ2VetSeeker.Models
 
         [Display(Name = "Email Address")]
         [Required]
-        [CheckEmailExist]
         [DataType(DataType.EmailAddress, ErrorMessage = "Invalid format.")]
         public string Email { get; set; }
 
         [RegularExpression(@"^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$", ErrorMessage = "Invalid Username, use 4-20 characters, and NO special characters")]
         [System.Web.Mvc.Remote(action: "VerifyUsername", controller: "UserController")]
+        [CheckEmailExist]
         [Display(Name = "Username")]
         [Required]
         public string UserName { get; set; } = null;
@@ -109,6 +109,8 @@ namespace ISPROJ2VetSeeker.Models
         [Display(Name = "Date Modified")]
         public DateTime? DateModified { get; set; }
 
+        public string EmailConfirmed { get; set; }
+
     }
     public class CustomDateAttribute : RangeAttribute
     {
@@ -127,6 +129,8 @@ namespace ISPROJ2VetSeeker.Models
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
+                Debug.WriteLine("Hi:" + value);
+                
                 string checkEmail = "SELECT COUNT(*) FROM Users WHERE email = '"+ value.ToString()+"'";
                 SqlCommand Cmd = new SqlCommand(checkEmail, sqlCon);
                 Int32 count = Convert.ToInt32(Cmd.ExecuteScalar());

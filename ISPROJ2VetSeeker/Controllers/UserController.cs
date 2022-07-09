@@ -12,6 +12,10 @@ using System.Diagnostics;
 using CaptchaMvc.HtmlHelpers;
 using System.Security.Cryptography;
 using static ISPROJ2VetSeeker.FilterConfig;
+using Microsoft.AspNet.Identity;
+using Microsoft.PowerBI.Api.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
@@ -129,7 +133,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     if (count > 0) {
                         ViewBag.Error = "Email is existing";
                     }*/
-                    string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified)";
+                    string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified, @emailConfirmed)";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                     {
 
@@ -150,14 +154,22 @@ namespace ISPROJ2VetSeeker.Controllers
                         sqlCmd.Parameters.AddWithValue("@profilePicture", record.ProfilePicture);
                         sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
                         sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
+                        sqlCmd.Parameters.AddWithValue("@emailConfirmed", "false");
+                        Helper.SendEmail(record.Email, "emailconfirm", "Hello! Please Confirm your email here https://mail.google.com/mail/u/1/#inbox");
                         sqlCmd.ExecuteNonQuery();
                         return RedirectToAction("Login", "Accounts");
                     }
                 }
+            }  
+        }
 
+        public ActionResult EmailConfirmation()
+        {
+            var list = new List<UserModel>();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
             }
-
-            
         }
 
         public ActionResult ListofUsers()//For Admin

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ISPROJ2VetSeeker.Models.InvoiceModel>
 @{
-    ViewBag.Title = "Invoices";
+    ViewBag.Title = "VetInvoices";
     Layout = "~/Views/Shared/_LayoutVet.cshtml";
 }
 
@@ -11,26 +11,37 @@
 <link href="~/Content/Print.css" rel="stylesheet" type="text/css" />
 <h2>My Invoices</h2>
 <button id="printPageButton" onClick="window.print();">Print</button>
-@foreach (var invoice in Model)
+@using (Html.BeginForm("VetInvoices", "Invoice", FormMethod.Get))
 {
-    <table style="margin-bottom: 50px; border: 2px solid #79B4B7; border-radius:inherit;">
-        <tr class="head">
-            <th style="padding-left: 20px; font-weight: 700">
-                Invoice ID: @invoice.InvoiceID-@invoice.MyAppointmentID-@invoice.MedicalHistoryID
-            </th>
-            <th style="text-align:right; padding-right:20px; font-size:15px;">
-                Date of Invoice: @invoice.Date.ToString("MM/dd/yyyy hh:mmtt")
-            </th>
-        </tr>
+    <p>
+        <label for="start">Start date:</label>
+        <input type="date" name="start" />
+        <label for="end">End date:</label>
+        <input type="date" name="end" />
+        <input type="submit" value="Search" name="submit" />
+    </p>
 
-        <tr class="body">
-            <td colspan="2" style="padding:25px 50px">
+    foreach (var invoice in Model)
+    {
+        <table style="margin-bottom: 50px; border: 2px solid #79B4B7; border-radius:inherit;">
+            <tr class="head">
+                <th style="padding-left: 20px; font-weight: 700">
+                    Invoice ID: @invoice.InvoiceID-@invoice.MyAppointmentID-@invoice.MedicalHistoryID
+                </th>
+                <th style="text-align:right; padding-right:20px; font-size:15px;">
+                    Date of Invoice: @invoice.Date.ToString("MM/dd/yyyy")
+                </th>
+            </tr>
 
-                Professional Fee: <article style="float:right">₱ @invoice.ProfessionalFee.ToString("#,##0.00")</article>
-                <br />
-                <hr style="background-color: #79B4B7; height:1px;" />
-                Total:  <article style="float:right">₱ @invoice.TotalPrice.ToString("#,##0.00")</article>
-            </td>
-        </tr>
-    </table>}
+            <tr class="body">
+                <td colspan="2" style="padding:25px 50px">
+
+                    Professional Fee: <article style="float:right">₱ @invoice.ProfessionalFee.ToString("#,##0.00")</article>
+                    <br />
+                    <hr style="background-color: #79B4B7; height:1px;" />
+                    Total:  <article style="float:right">₱ @invoice.TotalPrice.ToString("#,##0.00")</article>
+                </td>
+            </tr>
+        </table>}
+}
 

@@ -130,7 +130,7 @@ namespace ISPROJ2VetSeeker.App_Code
         public static void SendEmail(string email, string subject, string message)
         {
             MailMessage emailMessage = new MailMessage();
-            emailMessage.From = new MailAddress("benilde.web.development@gmail.com", "no-reply");
+            emailMessage.From = new MailAddress("seanernest.regala@benilde.edu.ph", "EmailConfirmation");
             emailMessage.To.Add(new MailAddress(email));
             emailMessage.Subject = subject;
             emailMessage.Body = message;
@@ -138,8 +138,9 @@ namespace ISPROJ2VetSeeker.App_Code
             emailMessage.Priority = MailPriority.Normal;
             SmtpClient MailClient = new SmtpClient("smtp.gmail.com", 587);
             MailClient.EnableSsl = true;
-            MailClient.Credentials = new System.Net.NetworkCredential("benilde.web.development@gmail.com", "!thisisalongpassword1234567890");
+            MailClient.Credentials = new System.Net.NetworkCredential("seanernest.regala@benilde.edu.ph", "regalasean27");
             MailClient.Send(emailMessage);
+            //("benilde.web.development@gmail.com", "!thisisalongpassword1234567890"
         }
 
         //favorite

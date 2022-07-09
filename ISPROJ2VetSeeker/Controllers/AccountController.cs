@@ -21,7 +21,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, typeID, city, firstName, lastName, email FROM Users WHERE username=@username AND password=@password";
+                string query = @"SELECT userID, typeID, city, firstName, lastName, email FROM Users WHERE username=@username OR email=@username AND password=@password";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@username", record.UserName);

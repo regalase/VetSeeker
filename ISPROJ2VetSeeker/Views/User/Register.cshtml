@@ -107,9 +107,38 @@
                     @Html.LabelFor(model => model.ProfilePicture, htmlAttributes: new { @class = "control-label", style = "margin-right:90px" })
                     <div class="col-md-10">
                         <input id="ProfilePicture" title="Upload a product image"
-                               type="file" name="file" />
-                        <p style="text-align:left; font-size:13px; color:red">Accepted files are .jpg .jpeg .png</p>
-                        <p style="text-align: left; font-size: 13px; color: red">Max size: 5 MB</p>
+                               type="file" name="file" accept="image/*" onchange="validateFileType()" />
+                        <script type="text/javascript">
+                            function validateFileType() {
+                                var ProfilePicture = document.getElementById("ProfilePicture").value;
+                                var idxDot = ProfilePicture.lastIndexOf(".") + 1;
+                                var extFile = ProfilePicture.substr(idxDot, ProfilePicture.length).toLowerCase();
+                                if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+                                    //TO DO
+                                } else {
+                                    swal("Only .JPG/JPEG and .PNG files are accepted");
+                                    document.getElementById("ProfilePicture").value = "";
+                                }
+                            }
+                        </script>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $('#ProfilePicture').on('change', function () {
+                                    for (var i = 0; i < $(this).get(0).files.length; ++i) {
+                                        var file1 = $(this).get(0).files[i].size;
+                                        if (file1) {
+                                            var file_size = $(this).get(0).files[i].size;
+                                            if (file_size > 1000000) {
+                                                swal("File size must not be larger than 1 MB");
+                                                document.getElementById("ProfilePicture").value = "";
+                                            } else {
+                                                $('#error-message').css("display", "none");
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
 
