@@ -70,7 +70,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"INSERT INTO Pet VALUES(@userID, @petName, @breed, @sex, @color, @dateOfBirth, @petChipNo, @guardian, @petProfilePic, @dateAdded, @dateModified)";
+                string query = @"INSERT INTO Pet VALUES(@userID, @petName, @breed, @sex, @color, @dateOfBirth, @petChipNo, @guardian, @petProfilePic, @remarks, @dateAdded, @dateModified)";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY]);
@@ -79,9 +79,10 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@sex", record.Sex);
                     sqlCmd.Parameters.AddWithValue("@color", record.Color);
                     sqlCmd.Parameters.AddWithValue("@dateOfBirth", record.Birthday);
-                    sqlCmd.Parameters.AddWithValue("@petChipNo", record.PetChipNo);
+                    sqlCmd.Parameters.AddWithValue("@petChipNo", record.PetChipNo != null ? record.PetChipNo : (object)DBNull.Value);
                     sqlCmd.Parameters.AddWithValue("@guardian", record.Guardian);
                     sqlCmd.Parameters.AddWithValue("@petProfilePic", record.PetProfilePic);
+                    sqlCmd.Parameters.AddWithValue("@remarks", record.Remarks != null ? record.Remarks : (object)DBNull.Value);
                     sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
                     sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
                     sqlCmd.ExecuteNonQuery();
@@ -95,10 +96,10 @@ namespace ISPROJ2VetSeeker.Controllers
         public ActionResult ViewPets()
         {
             var userPets = new List<PetModel>();
-            using ( SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT petID, userID, petName, breed, sex, color, dateOfBirth, petChipNo, guardian, petProfilePic, dateAdded, dateModified FROM Pet WHERE userID = @userID";
+                string query = @"SELECT petID, userID, petName, breed, sex, color, dateOfBirth, petChipNo, guardian, petProfilePic, remarks, dateAdded, dateModified FROM Pet WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -119,6 +120,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 petModel.PetChipNo = sqlDr["petChipNo"].ToString();
                                 petModel.Guardian = sqlDr["guardian"].ToString();
                                 petModel.PetProfilePic = sqlDr["petProfilePic"].ToString();
+                                petModel.Remarks = sqlDr["remarks"].ToString();
                                 petModel.DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString());
                                 petModel.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
                                 userPets.Add(petModel);
@@ -136,7 +138,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT petID, userID, petName, breed, sex, color, dateOfBirth, petChipNo, guardian, petProfilePic, dateAdded, dateModified FROM Pet WHERE userID = @userID AND petID = @petID";
+                string query = @"SELECT petID, userID, petName, breed, sex, color, dateOfBirth, petChipNo, guardian, petProfilePic, remarks, dateAdded, dateModified FROM Pet WHERE userID = @userID AND petID = @petID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -157,6 +159,7 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.PetChipNo = sqlDr["petChipNo"].ToString();
                                 record.Guardian = sqlDr["guardian"].ToString();
                                 record.PetProfilePic = sqlDr["petProfilePic"].ToString();
+                                record.Remarks = sqlDr["remarks"].ToString();
                                 record.DateAdded = DateTime.Parse(sqlDr["dateAdded"].ToString());
                                 record.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
                             }
@@ -184,17 +187,17 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE Pet SET petName=@petName, breed=@breed, sex=@sex, color=@color, dateOfBirth=@dateOfBirth, petChipNo=@petChipNo, guardian=@guardian, petProfilePic=@petProfilePic, dateModified=@dateModified WHERE userID = @userID and petID = @petID";
+                string query = @"UPDATE Pet SET petName=@petName, sex=@sex, color=@color, dateOfBirth=@dateOfBirth, petChipNo=@petChipNo, guardian=@guardian, petProfilePic=@petProfilePic, remarks=@remarks, dateModified=@dateModified WHERE userID = @userID and petID = @petID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@petName", record.PetName);
-                    sqlCmd.Parameters.AddWithValue("@breed", record.Breed);
                     sqlCmd.Parameters.AddWithValue("@sex", record.Sex);
                     sqlCmd.Parameters.AddWithValue("@color", record.Color);
                     sqlCmd.Parameters.AddWithValue("@dateOfBirth", record.Birthday);
-                    sqlCmd.Parameters.AddWithValue("@petChipNo", record.PetChipNo);
+                    sqlCmd.Parameters.AddWithValue("@petChipNo", record.PetChipNo != null ? record.PetChipNo : (object)DBNull.Value);
                     sqlCmd.Parameters.AddWithValue("@guardian", record.Guardian);
                     sqlCmd.Parameters.AddWithValue("@petProfilePic", record.PetProfilePic);
+                    sqlCmd.Parameters.AddWithValue("@remarks", record.Remarks != null ? record.Remarks : (object)DBNull.Value);
                     sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
                     sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
                     sqlCmd.Parameters.AddWithValue("@petID", record.PetID);

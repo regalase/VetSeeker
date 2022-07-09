@@ -8,6 +8,7 @@
 <link href="~/Content/StyleSheetPetRegister.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Table.css" rel="stylesheet" type="text/css" />
 <style>
+
     th, td {
         text-align: center !important;
     }
@@ -24,23 +25,28 @@
 <script>
 
     function AddProfessionalFee(value) {
-        var serviceList = document.getElementById("service-type-list");
-        var displayText = serviceList.options[serviceList.selectedIndex].text;
-        var serviceCost = displayText.split(":")[1];
-        var totalValue = +value + +serviceCost;
+        var currentTotalValue = document.getElementById("service-total").text;
+        var totalValue = +value + +currentTotalValue;
         document.getElementById("total-price-id").text = totalValue;
-        document.getElementById("total-price-id").value = totalValue;
+        document.getElementById("total-price-id").value = totalValue.toLocaleString(undefined, { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    function AddServiceFee(value) {
-        ///total-price-id
-        value.options[0].disabled = true;
-        var displayText = value.options[value.selectedIndex].text;
-        var serviceCost = displayText.split(":")[1];
-        var currentValue = document.getElementById("professional-fee-id").value;
-        var newValue = +serviceCost + +currentValue;
-        document.getElementById("total-price-id").text = newValue;
-        document.getElementById("total-price-id").value = newValue;
+    function AddServiceFee(checkbox) {
+        if (checkbox.checked == true) {
+            var professionalFee = document.getElementById("professional-fee-id").value;
+            var currentTotal = document.getElementById("total-price-id").value;
+            var newValue = +checkbox.value + +currentTotal;
+            document.getElementById("total-price-id").text = newValue;
+            document.getElementById("total-price-id").value = newValue.toLocaleString(undefined, { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById("service-total").text = newValue;
+        } else {
+            var professionalFee = document.getElementById("professional-fee-id").value;
+            var currentTotal = document.getElementById("total-price-id").value;
+            var newValue = +currentTotal - +checkbox.value;
+            document.getElementById("total-price-id").text = newValue;
+            document.getElementById("total-price-id").value = newValue.toLocaleString(undefined, { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById("service-total").text = newValue;
+        }
     }
 </script>
 
@@ -111,24 +117,32 @@
             <br />
             <div class="col-lg-6">
                 <div class="form-group">
-                    <span class="control-label col-md-2" style="font-weight:700">Service</span>
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.SelectedService.ServiceTypeID,
-                                         new SelectList(Model.ServiceTypeModels, "serviceTypeID", "DropdownDisplayText"),
-                                         "Select from the list...", new { @id = "service-type-list", @class = "form-control", @onchange = "AddServiceFee(this)" })
+                    <span class="control-label" style="font-weight: 700; float: left">Service</span>
+                    <div class="col-md-10" style="text-align:left">
+                        @foreach (var item in Model.ServiceTypeModels)
+                        {
+                            <input type="checkbox" id="service-total" onchange="AddServiceFee(this)" value="@item.Price" /> @item.ServiceName<span>:&nbsp; ₱</span>@item.Price.ToString("#,##0.00")
+                            <input type="hidden" value="@item.ServiceTypeID" />
+                            <br />
+                        }
                     </div>
                 </div>
                 <div class="form-group">
-                    <span class="control-label col-md-2" style="font-weight:700">Professional Fee</span>
-                    <div class="col-md-1" style="font-size: large; padding-top: 3px;">₱</div>
-                    <div class="col-md-10" style="padding-left:1%">
-                        @Html.EditorFor(model => model.ProfessionalFee, new { htmlAttributes = new { @id = "professional-fee-id", @class = "form-control", @onchange = "AddProfessionalFee(this.value)" } })
+                    <span class="control-label" style="font-weight:700; float:left">Professional Fee</span>
+                    <div class="col-md-12">
+                        <div class="col-md-1" style="font-size: large; padding-top: 3px;">₱</div>
+                        <div class="col-md-10" style="padding-left:1%">
+                            @Html.EditorFor(model => model.ProfessionalFee, new { htmlAttributes = new { @id = "professional-fee-id", @class = "form-control", @onchange = "AddProfessionalFee(this.value)" } })
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <span class="control-label col-md-2" style="font-weight:700">Total Price</span>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.TotalPrice, new { htmlAttributes = new { @id = "total-price-id", @class = "form-control", @disabled = "disabled" } })
+                    <span class="control-label" style="font-weight: 700; float: left">Total Price</span>
+                    <div class="col-md-12">
+                        <div class="col-md-1" style="font-size: large; padding-top: 3px;">₱</div>
+                        <div class="col-md-10" style="padding-left:1%">
+                            @Html.EditorFor(model => model.TotalPrice, new { htmlAttributes = new { @id = "total-price-id", @class = "form-control", @disabled = "disabled" } })
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,7 +150,6 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Diagnosis, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-1" style="font-size: large; padding-top: 3px;">₱</div>
                     <div class="col-md-10" style="padding-left:1%">
                         @Html.TextAreaFor(model => model.Diagnosis, new { htmlAttributes = new { @class = "form-control" } })
                     </div>

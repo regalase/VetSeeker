@@ -55,6 +55,9 @@ namespace ISPROJ2VetSeeker.Models
 
         public string PetProfilePic { get; set; }
 
+        [MaxLength(100)]
+        public string Remarks { get; set; }
+
         public DateTime DateAdded { get; set; }
 
         public DateTime DateModified { get; set; }

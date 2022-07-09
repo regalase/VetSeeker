@@ -29,13 +29,14 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"INSERT INTO ServiceType VALUES(@userID, @serviceName, @serviceDescription, @price)";
+                string query = @"INSERT INTO ServiceType VALUES(@userID, @serviceName, @serviceDescription, @price, @status)";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
                     sqlCmd.Parameters.AddWithValue("@serviceName", record.ServiceName);
                     sqlCmd.Parameters.AddWithValue("@serviceDescription", record.ServiceDescription);
                     sqlCmd.Parameters.AddWithValue("@price", record.Price);
+                    sqlCmd.Parameters.AddWithValue("@status", "Active");
 
                     sqlCmd.ExecuteNonQuery();
 
@@ -50,10 +51,11 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT serviceTypeID, userID, serviceName, serviceDescription, price FROM ServiceType WHERE userID = @userID";
+                string query = @"SELECT serviceTypeID, userID, serviceName, serviceDescription, price FROM ServiceType WHERE userID = @userID AND status != @status";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    sqlCmd.Parameters.AddWithValue("@status", "Inactive");
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         while (sqlDr.Read())
@@ -141,9 +143,11 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"DELETE FROM ServiceType WHERE serviceTypeID=@serviceTypeID";
+                string query = @"UPDATE ServiceType SET status = @Status
+                                WHERE serviceTypeID = @ServiceTypeID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
+                    sqlCmd.Parameters.AddWithValue("@status", "Inactive");
                     sqlCmd.Parameters.AddWithValue("@serviceTypeID", id);
                     sqlCmd.ExecuteNonQuery();
                 }

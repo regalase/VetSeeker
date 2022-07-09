@@ -9,6 +9,18 @@
 @Styles.Render("~/Content/UpdatePetProfile.css")
 <link href="~/Content/UpdatePetProfile.css" rel="stylesheet" type="text/css" />
 
+<style>
+
+    textarea {
+        height: 250px;
+        width: 100%;
+        border: 1px solid #dedede;
+        border-radius: 10px;
+        background-color: #f3f3f3;
+        padding: 5px;
+    }
+</style>
+
 @using (Html.BeginForm("UpdatePetProfile", "Pet", FormMethod.Post, new { enctype = "multipart/form-data", @name = "image" }))
 {
     <h4>@Html.ActionLink("< Back", "ViewPets")</h4>
@@ -44,7 +56,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Breed, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Breed, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.EditorFor(model => model.Breed, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         @Html.ValidationMessageFor(model => model.Breed, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -56,8 +68,6 @@
                         @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-5">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -69,10 +79,13 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-5">
+
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.PetChipNo, htmlAttributes: new { @class = "control-label col-md-12" })
@@ -87,6 +100,13 @@
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Guardian, new { htmlAttributes = new { @class = "form-control", required = "required" } })
                         @Html.ValidationMessageFor(model => model.Guardian, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 @Html.HiddenFor(model => model.UserID)

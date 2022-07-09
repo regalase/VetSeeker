@@ -163,14 +163,14 @@ namespace ISPROJ2VetSeeker.Controllers
             }  
         }
 
-        public ActionResult EmailConfirmation()
-        {
-            var list = new List<UserModel>();
-            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
-            {
-                sqlCon.Open();
-            }
-        }
+        //public ActionResult EmailConfirmation()
+        //{
+        //    var list = new List<UserModel>();
+        //    using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+        //    {
+        //        sqlCon.Open();
+        //    }
+        //}
 
         public ActionResult ListofUsers()//For Admin
         {

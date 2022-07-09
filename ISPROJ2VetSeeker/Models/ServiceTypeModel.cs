@@ -28,6 +28,7 @@ namespace ISPROJ2VetSeeker.Models
         public string ClinicName { get; set; }
 
         public string DropdownDisplayText { get; set; }
+        public string Status { get; set; }
 
     }
 }
