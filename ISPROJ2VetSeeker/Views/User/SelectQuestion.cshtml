@@ -1,0 +1,47 @@
+﻿@model ISPROJ2VetSeeker.Models.UserModel
+
+@{ ViewBag.Title = "SecurityQuestion"; }
+
+@*@{ Layout = ""; }*@
+<head>
+    <meta charset="utf-8" />
+    <title>VetSeeker - @ViewBag.Title</title>
+    @Styles.Render("~/Content/Table.css")
+    <link href="~/Style/Login.css" rel="stylesheet" type="text/css" />
+</head>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="login container">
+        <div class="form-horizontal">
+            <div class="col-md-offset-2">
+                <div class="form-group" style="visibility:hidden">
+                    @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SecurityQuestion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SecurityQuestion, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SecurityAnswer, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SecurityAnswer, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.SecurityAnswer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="submit" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>}

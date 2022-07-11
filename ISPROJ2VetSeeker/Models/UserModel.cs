@@ -111,6 +111,14 @@ namespace ISPROJ2VetSeeker.Models
 
         public string EmailConfirmed { get; set; }
 
+        [Display(Name = "Security Question")]
+        [Required]
+        public string SecurityQuestion { get; set; }
+
+        [Display(Name = "Answer")]
+        [Required]
+        public string SecurityAnswer { get; set; }
+
     }
     public class CustomDateAttribute : RangeAttribute
     {

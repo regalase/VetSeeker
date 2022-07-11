@@ -220,7 +220,6 @@
     <Compile Include="Models\CompleteScheduleModel.cs" />
     <Compile Include="Models\CreateScheduleUIModel.cs" />
     <Compile Include="Models\FeedbackModel.cs" />
-    <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\InvoiceModel.cs" />
     <Compile Include="Models\MedicalHistoryModel.cs" />
     <Compile Include="Models\MyAppointmentModel.cs" />
@@ -327,7 +326,9 @@
     <Content Include="Views\User\VetEmail.cshtml" />
     <Content Include="Views\User\VerifyEmail.cshtml" />
     <Content Include="Views\User\EmailVerified.cshtml" />
-    <Content Include="Views\Accounts\ForgotPassword.cshtml" />
+    <Content Include="Views\User\ForgotPassword.cshtml" />
+    <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\User\SelectQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

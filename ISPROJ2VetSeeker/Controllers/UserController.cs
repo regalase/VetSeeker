@@ -133,7 +133,7 @@ namespace ISPROJ2VetSeeker.Controllers
                     if (count > 0) {
                         ViewBag.Error = "Email is existing";
                     }*/
-                    string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified, @emailConfirmed)";
+                    string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified, @emailConfirmed, @securityQuestion, @securityAnswer)";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                     {
 
@@ -145,6 +145,8 @@ namespace ISPROJ2VetSeeker.Controllers
                         sqlCmd.Parameters.AddWithValue("@username", record.UserName);
                         //string hashed = Helper.Hash(record.Password);
                         sqlCmd.Parameters.AddWithValue("@password", record.Password);
+                        sqlCmd.Parameters.AddWithValue("@securityQuestion", record.SecurityQuestion);
+                        sqlCmd.Parameters.AddWithValue("@securityAnswer", record.SecurityAnswer);
                         sqlCmd.Parameters.AddWithValue("@gender", record.Gender);
                         sqlCmd.Parameters.AddWithValue("@birthday", record.Birthday);
                         sqlCmd.Parameters.AddWithValue("@city", record.City);
@@ -213,6 +215,114 @@ namespace ISPROJ2VetSeeker.Controllers
                 }
             }
             return View(record);
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ForgotPassword(UserModel record)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT userID, typeID, email FROM Users WHERE email=@email";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@email", record.Email);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                Session[Helper.USER_ID_KEY] = sqlDr[Helper.USER_ID_KEY].ToString();
+                                Session[Helper.TYPE_ID_KEY] = sqlDr[Helper.TYPE_ID_KEY].ToString();
+                                Debug.WriteLine("Email: " + record.Email);
+                            }
+
+                            if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null) //user login already
+                            {
+                                if (Session[Helper.TYPE_ID_KEY].ToString() != "0")
+                                {
+                                    return RedirectToAction("SelectQuestion", "User");
+                                }
+                                else
+                                {
+                                    return RedirectToAction("ForgotPassword", "User");
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.Error = "<div class='alert text-danger col-lg-4'>Invalid credentials</div>";
+
+                            }
+                        }
+                    }
+                }
+            }
+            return View(record);
+        }
+
+        public ActionResult SelectQuestion()
+        {
+            var record = new UserModel();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string getSecurityQuestionQuery = @"SELECT userID, securityQuestion FROM Users WHERE userID = @userID";
+                using (SqlCommand sqlCmd = new SqlCommand(getSecurityQuestionQuery, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                Debug.WriteLine("Question: " + sqlDr["securityQuestion"].ToString());
+                                record.SecurityQuestion = sqlDr["securityQuestion"].ToString();
+                                record.UserID = int.Parse(sqlDr["userID"].ToString());
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+                return View(record);
+            }
+        }
+
+        //[HttpPost]
+        //public ActionResult SelectQuestion(UserModel record)
+        //{ }
+            public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(UserModel record)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"UPDATE Users SET password = @password WHERE userID = @userID";
+                {
+                    using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                    {
+                        Debug.WriteLine("user id:" + record.UserID);
+                        sqlCmd.Parameters.AddWithValue("@password", record.Password);
+                        sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
+                        sqlCmd.ExecuteNonQuery();
+                    }
+                    sqlCon.Close();
+                }
+            }
+
+            return RedirectToAction("EmailVerified", "User");
+
         }
         public ActionResult VetEmail()
         {
@@ -376,7 +486,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, unitHouseNo, street, baranggay, profilePicture, dateModified FROM Users WHERE userID = @userID";
+                string query = @"SELECT userID, typeID, firstName, lastName, mobileNo, email, username, password, gender, birthday, city, unitHouseNo, street, baranggay, profilePicture, dateModified, securityQuestion, securityAnswer FROM Users WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
@@ -402,6 +512,8 @@ namespace ISPROJ2VetSeeker.Controllers
                                 record.Baranggay = sqlDr["baranggay"].ToString();
                                 record.ProfilePicture = sqlDr["profilePicture"].ToString();
                                 record.DateModified = DateTime.Parse(sqlDr["dateModified"].ToString());
+                                record.SecurityQuestion = sqlDr["securityQuestion"].ToString();
+                                record.SecurityAnswer = sqlDr["securityAnswer"].ToString();
                             }
                         }
                     }
@@ -429,7 +541,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"UPDATE Users SET mobileNo=@mobileNo, email=@email, username=@username, password=@password, gender=@gender, birthday=@birthday, city=@city, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, profilePicture=@profilePicture, dateModified=@dateModified WHERE userID = @userID";
+                string query = @"UPDATE Users SET mobileNo=@mobileNo, email=@email, username=@username, password=@password, gender=@gender, birthday=@birthday, city=@city, unitHouseNo=@unitHouseNo, street=@street, baranggay=@baranggay, profilePicture=@profilePicture, dateModified=@dateModified, securityQuestion=@securityQuestion, securityAnswer=@securityAnswer WHERE userID = @userID";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@mobileNo", record.MobileNo);
@@ -445,6 +557,8 @@ namespace ISPROJ2VetSeeker.Controllers
                     sqlCmd.Parameters.AddWithValue("@baranggay", record.Baranggay);
                     sqlCmd.Parameters.AddWithValue("@profilePicture", record.ProfilePicture);
                     sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
+                    sqlCmd.Parameters.AddWithValue("@securityQuestion", record.SecurityQuestion);
+                    sqlCmd.Parameters.AddWithValue("@securityAnswer", record.SecurityAnswer);
                     sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
                     sqlCmd.ExecuteNonQuery();
                 }

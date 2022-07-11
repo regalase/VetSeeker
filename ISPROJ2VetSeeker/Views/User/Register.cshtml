@@ -63,7 +63,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control",placeholder = "ex: 09179999999"} })
+                        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", placeholder = "ex: 09179999999" } })
                         @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -97,6 +97,29 @@
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.confirmPassword, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <!--Drop Down List for cities-->
+                    @{ List<SelectListItem> listQuestions = new List<SelectListItem>();
+                        listQuestions.Add(new SelectListItem { Text = "Where were you born?" });
+                        listQuestions.Add(new SelectListItem { Text = "What is the name of your first pet?" });
+                        listQuestions.Add(new SelectListItem { Text = "Where did you go to highschool?" });
+                        listQuestions.Add(new SelectListItem { Text = "What is your mother's maiden name?" });
+                        listQuestions.Add(new SelectListItem { Text = "What is your favorite restaurant?" }); }
+                    @Html.LabelFor(model => model.SecurityQuestion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10" style="padding-top:8px">
+                        @Html.DropDownListFor(model => model.SecurityQuestion, listQuestions, "Select a Question", new { htmlAttributes = new { @class = "form-control" }, style = "width:225px;font-size:15px;float:left;", required = "required" })
+                        @Html.ValidationMessageFor(model => model.SecurityQuestion, "", new { @class = "text-danger", style = "float:left" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SecurityAnswer, htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SecurityAnswer, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SecurityAnswer, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

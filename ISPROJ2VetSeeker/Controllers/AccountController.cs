@@ -77,7 +77,6 @@ namespace ISPROJ2VetSeeker.Controllers
             //Step 4: If not match, display error
         }
 
-
         public ActionResult MyProfile()
         {
 
