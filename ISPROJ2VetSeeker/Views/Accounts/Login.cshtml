@@ -39,14 +39,10 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    Remember Me
-                    <input type="checkbox" id="ChkMe" name="CheckBox" value="true">
-                </div>
-
             </div>
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-default" />
+                <h5>@Html.ActionLink("Forget Password?", "ForgotPassword", "Accounts")</h5>
                 <div class="register ">
                     Don't have an account? @Html.ActionLink("Register here", "Register", "User", null, new { @class = "reg" })
                 </div>

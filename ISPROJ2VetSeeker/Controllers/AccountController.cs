@@ -21,7 +21,7 @@ namespace ISPROJ2VetSeeker.Controllers
             using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
             {
                 sqlCon.Open();
-                string query = @"SELECT userID, typeID, city, firstName, lastName, email FROM Users WHERE username=@username OR email=@username AND password=@password";
+                string query = @"SELECT userID, typeID, city, firstName, lastName, email, emailConfirmed FROM Users WHERE username=@username OR email=@username AND password=@password";
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@username", record.UserName);
@@ -31,14 +31,16 @@ namespace ISPROJ2VetSeeker.Controllers
                     {
                         if (sqlDr.HasRows)
                         {
+                            Debug.WriteLine("Sean1: " + record.EmailConfirmed);
                             while (sqlDr.Read())
                             {
                                 Session[Helper.USER_ID_KEY] = sqlDr[Helper.USER_ID_KEY].ToString();
                                 Session[Helper.TYPE_ID_KEY] = sqlDr[Helper.TYPE_ID_KEY].ToString();
                                 Session[Helper.USER_CITY_KEY] = sqlDr[Helper.USER_CITY_KEY].ToString();
+                                record.EmailConfirmed = sqlDr["emailConfirmed"].ToString();
                             }
 
-                            if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null) //user login already
+                            if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null && record.EmailConfirmed == "true") //user login already
                             {
                                 int AuditLogID = Helper.RecordUserSessionLogin(int.Parse(Session[Helper.USER_ID_KEY].ToString()), int.Parse(Session[Helper.TYPE_ID_KEY].ToString()));
                                 Session[Helper.AUDIT_ID_KEY] = AuditLogID.ToString();
@@ -57,7 +59,9 @@ namespace ISPROJ2VetSeeker.Controllers
                             }
                             else
                             {
-                                return RedirectToAction("Login", "Accounts");
+                                ViewBag.Error = "<div class='alert text-danger col-lg-4'>Account not verified</div>";
+                                return View(record);
+                                //return RedirectToAction("Login", "Accounts");
                             }
                         }
                         else
@@ -72,6 +76,7 @@ namespace ISPROJ2VetSeeker.Controllers
             //Step 3: If match, proceed to main page
             //Step 4: If not match, display error
         }
+
 
         public ActionResult MyProfile()
         {

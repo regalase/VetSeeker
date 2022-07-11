@@ -49,7 +49,7 @@ namespace ISPROJ2VetSeeker.Models
 
         [RegularExpression(@"^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$", ErrorMessage = "Invalid Username, use 4-20 characters, and NO special characters")]
         [System.Web.Mvc.Remote(action: "VerifyUsername", controller: "UserController")]
-        [CheckEmailExist]
+        //[CheckEmailExist]
         [Display(Name = "Username")]
         [Required]
         public string UserName { get; set; } = null;

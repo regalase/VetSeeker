@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISPROJ2VetSeeker.Controllers
 {
-    [NoDirectAccess]
+    //[NoDirectAccess]
     public class UserController : Controller
     {
         public List<UserModel> GetUsersByType(long type)
@@ -163,14 +163,119 @@ namespace ISPROJ2VetSeeker.Controllers
             }  
         }
 
-        //public ActionResult EmailConfirmation()
-        //{
-        //    var list = new List<UserModel>();
-        //    using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
-        //    {
-        //        sqlCon.Open();
-        //    }
-        //}
+        public ActionResult EmailConfirmation()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EmailConfirmation(UserModel record)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT userID, typeID, city, firstName, lastName, email FROM Users WHERE username=@username OR email=@username AND password=@password";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@username", record.UserName);
+                    //string hashed = Helper.Hash(record.Password);
+                    sqlCmd.Parameters.AddWithValue("@password", record.Password);
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                Session[Helper.USER_ID_KEY] = sqlDr[Helper.USER_ID_KEY].ToString();
+                                Session[Helper.TYPE_ID_KEY] = sqlDr[Helper.TYPE_ID_KEY].ToString();
+                                Session[Helper.USER_CITY_KEY] = sqlDr[Helper.USER_CITY_KEY].ToString();
+                            }
+
+                            if (Session[Helper.TYPE_ID_KEY] != null && Session[Helper.USER_ID_KEY] != null) //user login already
+                            {
+                                int AuditLogID = Helper.RecordUserSessionLogin(int.Parse(Session[Helper.USER_ID_KEY].ToString()), int.Parse(Session[Helper.TYPE_ID_KEY].ToString()));
+                                Session[Helper.AUDIT_ID_KEY] = AuditLogID.ToString();
+                                if (Session[Helper.TYPE_ID_KEY].ToString() == "1")
+                                {
+                                    return RedirectToAction("VerifyEmail", "User");
+                                }
+                                else
+                                {
+                                    return RedirectToAction("VetEmail", "User");
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.Error = "<div class='alert text-danger col-lg-4'>Invalid credentials</div>";
+
+                            }
+                        }
+                    }
+                }
+            }
+            return View(record);
+        }
+        public ActionResult VetEmail()
+        {
+            return View();
+        }
+
+        public ActionResult VerifyEmail()
+        {
+            var record = new UserModel();
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"SELECT userID, emailConfirmed FROM Users WHERE userID = @userID";
+                using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                {
+                    sqlCmd.Parameters.AddWithValue("@userID", Session[Helper.USER_ID_KEY].ToString());
+                    using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
+                    {
+                        if (sqlDr.HasRows)
+                        {
+                            while (sqlDr.Read())
+                            {
+                                Debug.WriteLine("user id:" + sqlDr["userID"].ToString());
+
+                                record.UserID = int.Parse(sqlDr["userID"].ToString());
+                                record.EmailConfirmed = sqlDr["emailConfirmed"].ToString();
+                            }
+                        }
+                    }
+                }
+                sqlCon.Close();
+                return View(record);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult VerifyEmail(UserModel record)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
+            {
+                sqlCon.Open();
+                string query = @"UPDATE Users SET emailConfirmed = @emailConfirmed WHERE userID = @userID";
+                {
+                    using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
+                    {
+                        Debug.WriteLine("user id:" + record.UserID);
+                        sqlCmd.Parameters.AddWithValue("@emailConfirmed", "true");
+                        sqlCmd.Parameters.AddWithValue("@userID", record.UserID);
+                        sqlCmd.ExecuteNonQuery();
+                    }
+                    sqlCon.Close();
+                }
+            }
+
+            return RedirectToAction("EmailVerified", "User");
+
+        }
+
+        public ActionResult EmailVerified()
+        {
+            return View();
+        }
 
         public ActionResult ListofUsers()//For Admin
         {

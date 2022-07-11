@@ -1,0 +1,54 @@
+﻿@model ISPROJ2VetSeeker.Models.UserModel
+
+@{ ViewBag.Title = "EmailConfirmation"; }
+
+@{ Layout = ""; }
+<head>
+    <meta charset="utf-8" />
+    <title>VetSeeker - @ViewBag.Title</title>
+    @Styles.Render("~/Content/Login.css")
+    <link href="~/Style/Login.css" rel="stylesheet" type="text/css" />
+</head>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="login container">
+        <div class="form-horizontal">
+            <h1>Verify Email</h1>
+            <div class="col-md-offset-2">
+
+                <span style="text-align:center; color:red">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.Raw(ViewBag.Error)
+                </span>
+                <div class="form-group">
+
+                    <div class="control-label col-md-2">Email</div>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", required = "required", name = "email" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group" style="visibility:hidden">
+                @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Verify" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
