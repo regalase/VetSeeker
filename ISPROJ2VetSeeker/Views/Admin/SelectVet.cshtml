@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.UserModel>
+@{
+    ViewBag.Title = "SelectVet";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Styles.Render("~/Content/Table.css")
+<h2>List Of Users</h2>
+<table>
+    <tr class="head">
+        <th>User ID</th>
+        <th>Type ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Email Confirmed</th>
+        <th> </th>
+    </tr>
+    @foreach (var UserModel in Model)
+    {
+        <tr class="body">
+            <td>@UserModel.UserID</td>
+            <td>@UserModel.TypeID</td>
+            <td>@UserModel.FirstName</td>
+            <td>@UserModel.LastName</td>
+            <td>@UserModel.Email</td>
+            <td>@UserModel.EmailConfirmed</td>
+            <td>@Html.ActionLink("Verify", "UpdateVet", new { id = UserModel.UserID, record = UserModel })</td>
+        </tr>
+    }
+</table>

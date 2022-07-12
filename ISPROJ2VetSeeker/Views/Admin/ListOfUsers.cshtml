@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.UserModel>
+@{
+    ViewBag.Title = "ListOfUsers";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Styles.Render("~/Content/Table.css")
+
+<h2>List Of Users</h2>
+<table>
+    <tr class="head">
+        <th>User ID</th>
+        <th>Type ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Mobile Number</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Gender</th>
+        <th>Birthday</th>
+        <th>City</th>
+        <th>Unit House No.</th>
+        <th>Street</th>
+        <th>Barangay</th>
+        <th>Email Confirmed</th>
+        <th>Security Question</th>
+        <th>Security Answer</th>
+    </tr>
+    @foreach (var UserModel in Model)
+    {
+        <tr class="body">
+            <td>@UserModel.UserID</td>
+            <td>@UserModel.TypeID</td>
+            <td>@UserModel.FirstName</td>
+            <td>@UserModel.LastName</td>
+            <td>@UserModel.MobileNo</td>
+            <td>@UserModel.Email</td>
+            <td>@UserModel.UserName</td>
+            <td>@UserModel.Gender</td>
+            <td>@UserModel.Birthday</td>
+            <td>@UserModel.City</td>
+            <td>@UserModel.UnitHouseNo</td>
+            <td>@UserModel.Street</td>
+            <td>@UserModel.Baranggay</td>
+            <td>@UserModel.EmailConfirmed</td>
+            <td>@UserModel.SecurityQuestion</td>
+            <td>@UserModel.SecurityAnswer</td>
+        </tr>
+    }
+</table>

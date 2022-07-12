@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.ClinicModel>
+@{
+    ViewBag.Title = "ListOfClinics";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Styles.Render("~/Content/Table.css")
+
+<h2>List Of Clinics</h2>
+<table>
+    <tr class="head">
+        <th>Clinic ID</th>
+        <th>User ID</th>
+        <th>Clinic name</th>
+        <th>Unit House No.</th>
+        <th>Street</th>
+        <th>Barangay</th>
+        <th>City</th>
+        <th>Clinic Email</th>
+        <th>Clinic Contact No.</th>
+    </tr>
+    @foreach (var ClinicModel in Model)
+    {
+        <tr class="body">
+            <td>@ClinicModel.ClinicID</td>
+            <td>@ClinicModel.UserID</td>
+            <td>@ClinicModel.ClinicName</td>
+            <td>@ClinicModel.UnitHouseNo</td>
+            <td>@ClinicModel.Street</td>
+            <td>@ClinicModel.Baranggay</td>
+            <td>@ClinicModel.City</td>
+            <td>@ClinicModel.ClinicEmail</td>
+            <td>@ClinicModel.ClinicContactNo</td>
+        </tr>
+    }
+</table>

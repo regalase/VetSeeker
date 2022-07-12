@@ -203,6 +203,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ClinicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\ClientViewScheduleModel.cs" />
     <Compile Include="Models\ClinicScheduleUIModel.cs" />
     <Compile Include="Models\ClinicModel.cs" />
@@ -329,6 +331,13 @@
     <Content Include="Views\User\ForgotPassword.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\User\SelectQuestion.cshtml" />
+    <Content Include="Views\Admin\AuditLog.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\ListOfClinics.cshtml" />
+    <Content Include="Views\Admin\ListOfUsers.cshtml" />
+    <Content Include="Views\Admin\SelectVet.cshtml" />
+    <Content Include="Views\Admin\UpdateVet.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ISPROJ2VetSeeker.Models.AdminModel>
+@{
+    ViewBag.Title = "AuditLog";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Styles.Render("~/Content/Table.css")
+
+<h2>List Of Users</h2>
+<table>
+    <tr class="head">
+        <th>Audit Log ID</th>
+        <th>User ID</th>
+        <th>Type ID</th>
+        <th>Date of Login</th>
+        <th>Date of Logout</th>
+    </tr>
+    @foreach (var AdminModel in Model)
+    {
+        <tr class="body">
+            <td>@AdminModel.AuditLogID</td>
+            <td>@AdminModel.UserID</td>
+            <td>@AdminModel.TypeID</td>
+            <td>@AdminModel.DateOfLogin.ToString("MM/dd/yyyy hh:mm tt")</td>
+            <td>@AdminModel.DateOfLogout.ToString("MM/dd/yyyy hh:mm tt")</td>
+        </tr>
+    }
+</table>
