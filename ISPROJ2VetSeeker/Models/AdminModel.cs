@@ -11,14 +11,8 @@ namespace ISPROJ2VetSeeker.Models
         public long AuditLogID { get; set; }
         public int UserID { get; set; }
         public int TypeID { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm}")]
-        public DateTime DateOfLogin { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm}")]
-        public DateTime DateOfLogout { get; set; }
+        public string DateOfLogin { get; set; }
+        public string DateOfLogout { get; set; }
 
     }
 }

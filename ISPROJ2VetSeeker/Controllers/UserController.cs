@@ -118,21 +118,15 @@ namespace ISPROJ2VetSeeker.Controllers
                     record.ProfilePicture = "";
                 }
 
-                var date = DateTime.Now.AddYears(-18);
-                if (record.Birthday > date)
-                {
-                    ViewBag.Error = "test";
-                    return RedirectToAction("Register", "User");
-                }
+                //var date = DateTime.Now.AddYears(-18);
+                //if (record.Birthday > date)
+                //{
+                //    ViewBag.Error = "test";
+                //    return RedirectToAction("Register", "User");
+                //}
                 using (SqlConnection sqlCon = new SqlConnection(Helper.GetCon()))
                 {
                     sqlCon.Open();
-                    /*string checkEmail = "SELECT COUNT(*) FROM Users WHERE email = @email";
-                    SqlCommand Cmd = new SqlCommand(checkEmail, sqlCon);
-                    Int32 count = Convert.ToInt32(Cmd.ExecuteScalar());
-                    if (count > 0) {
-                        ViewBag.Error = "Email is existing";
-                    }*/
                     string query = @"INSERT INTO Users VALUES(@typeId, @firstName, @lastName, @mobileNo, @email, @username, @password, @gender, @birthday, @city, @unitHouseNo, @street, @baranggay, @profilePicture, @dateAdded, @dateModified, @emailConfirmed, @securityQuestion, @securityAnswer)";
                     using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                     {
@@ -157,13 +151,14 @@ namespace ISPROJ2VetSeeker.Controllers
                         sqlCmd.Parameters.AddWithValue("@dateAdded", DateTime.Now);
                         sqlCmd.Parameters.AddWithValue("@dateModified", DateTime.Now);
                         sqlCmd.Parameters.AddWithValue("@emailConfirmed", "false");
-                        Helper.SendEmail(record.Email, "emailconfirm", "Hello! Please Confirm your email here https://mail.google.com/mail/u/1/#inbox");
+                        Helper.SendEmail(record.Email, "emailconfirm", "Hello! Please Confirm your email here https://localhost:44376/User/EmailConfirmation");
                         sqlCmd.ExecuteNonQuery();
                         return RedirectToAction("Login", "Accounts");
                     }
                 }
             }  
         }
+
 
         public ActionResult EmailConfirmation()
         {

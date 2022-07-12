@@ -44,12 +44,13 @@ namespace ISPROJ2VetSeeker.Models
 
         [Display(Name = "Email Address")]
         [Required]
+        [CheckEmailExist(ErrorMessage = "Already Exist")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Invalid format.")]
         public string Email { get; set; }
 
         [RegularExpression(@"^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$", ErrorMessage = "Invalid Username, use 4-20 characters, and NO special characters")]
         [System.Web.Mvc.Remote(action: "VerifyUsername", controller: "UserController")]
-        //[CheckEmailExist]
+        //[CheckEmailExist(ErrorMessage = "Already Exist")]
         [Display(Name = "Username")]
         [Required]
         public string UserName { get; set; } = null;
@@ -138,18 +139,18 @@ namespace ISPROJ2VetSeeker.Models
             {
                 sqlCon.Open();
                 Debug.WriteLine("Hi:" + value);
-                
-                string checkEmail = "SELECT COUNT(*) FROM Users WHERE email = '"+ value.ToString()+"'";
+
+                string checkEmail = "SELECT COUNT(*) FROM Users WHERE email = '" + value.ToString() + "'";
                 SqlCommand Cmd = new SqlCommand(checkEmail, sqlCon);
                 Int32 count = Convert.ToInt32(Cmd.ExecuteScalar());
                 Debug.WriteLine(count);
                 Debug.WriteLine("HI");
-                if (count >= 1) 
+                if (count >= 1)
                 {
                     sqlCon.Close();
                     return new ValidationResult("Email exists");
-                    
-                    
+
+
                 }
                 sqlCon.Close();
                 return ValidationResult.Success;

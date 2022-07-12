@@ -89,8 +89,8 @@ namespace ISPROJ2VetSeeker.Controllers
                                 AuditLogID = long.Parse(sqlDr["auditLogID"].ToString()),
                                 UserID = int.Parse(sqlDr["userID"].ToString()),
                                 TypeID = int.Parse(sqlDr["typeID"].ToString()),
-                                DateOfLogin = DateTime.Parse(sqlDr["dateOfLogin"].ToString()),
-                                DateOfLogout = DateTime.Parse(sqlDr["dateOfLogout"].ToString())
+                                DateOfLogin = sqlDr["dateOfLogin"].ToString(),
+                                DateOfLogout = sqlDr["dateOfLogout"].ToString()
                             });
                         }
                     }

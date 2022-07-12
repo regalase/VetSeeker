@@ -259,17 +259,33 @@
                     {
                         <script type="text/javascript">
                             window.onsubmit = function () {
-                                alert("If you are redirected to login page, your account was CREATED SUCCESFULLY, if not, Please make sure that your CAPTCHA was inputted correctly")
+                                alert("If you are redirected to login page, your account was CREATED SUCCESFULLY, if not, your email already EXISTS or your CAPTCHA was inputted incorrectly")
                             }
                         </script>
                     }
                     <div class="privacy">
-                        <p>
-                            <input type="checkbox" value="Privacy Policy" required="required" />
-                            I have read and agree to the @Html.ActionLink("Terms of Service and Privacy Policy ", "Index", "Home", null, new { target = "_blank" })
-                        </p>
-                    </div>
-                    <input type="submit" value="Create" class="btn btn-default" />
+                            <p>
+                                <input type="checkbox" id="policy" value="Privacy Policy" required="required" onclick="ageChecker()" />
+                                I have read and agree to the @Html.ActionLink("Terms of Service and Privacy Policy ", "Index", "Home", null, new { target = "_blank" })
+                            <p id="ageCheck" style="display:none; color:red;">Please note if you are below 18, consent for visiting the Clinic alone from a parent/guardian is strongly advised.</p>
+                            <script>
+                                function ageChecker() {
+                                    // Get the checkbox
+                                    var checkBox = document.getElementById("policy");
+                                    // Get the output text
+                                    var text = document.getElementById("ageCheck");
+
+                                    // If the checkbox is checked, display the output text
+                                    if (checkBox.checked == true) {
+                                        text.style.display = "block";
+                                    } else {
+                                        text.style.display = "none";
+                                    }
+                                }
+                            </script>
+                            </p>
+                        </div>
+                    <input name="register" type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
         </div>

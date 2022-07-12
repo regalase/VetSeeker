@@ -85,11 +85,12 @@ namespace ISPROJ2VetSeeker.Controllers
                 sqlCon.Open();
                 string query = @"SELECT scheduleID, s.userID, date, s.status, s.clinicID, clinicName FROM Schedule s 
                                  INNER JOIN Clinic c ON c.clinicID = s.clinicID 
-                                 WHERE s.userId = @userId AND s.status like '%" + status + "%'";
+                                 WHERE s.userId = @userId AND date > @date AND s.status like '%" + status + "%'";
 
                 using (SqlCommand sqlCmd = new SqlCommand(query, sqlCon))
                 {
                     sqlCmd.Parameters.AddWithValue("@userId", Session[Helper.USER_ID_KEY]);
+                    sqlCmd.Parameters.AddWithValue("@date", DateTime.Today);
                     using (SqlDataReader sqlDr = sqlCmd.ExecuteReader())
                     {
                         if (sqlDr.HasRows)
